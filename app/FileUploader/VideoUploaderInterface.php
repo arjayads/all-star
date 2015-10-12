@@ -1,9 +1,9 @@
 <?php namespace App\FileUploader;
 
-use App\Http\Requests\CreateVidoeRequest;
+use App\Http\Requests\CreateVideoRequest;
 
 interface VideoUploaderInterface {
 
-    public function pushFile($id, CreateVidoeRequest $request);
+    public function pushFile($id, CreateVideoRequest $request);
 
 }

@@ -1,6 +1,6 @@
 <?php namespace App\FileUploader;
 
-use App\Http\Requests\CreateVidoeRequest;
+use App\Http\Requests\CreateVideoRequest;
 use Illuminate\Support\Facades\File;
 
 class FileUploaderPublisher implements VideoUploaderInterface
@@ -14,10 +14,10 @@ class FileUploaderPublisher implements VideoUploaderInterface
      */
     public function __construct()
     {
-        $this->path = '/public/files/videos/';
+        $this->path = env('FILE_UPLOAD_PATH');
     }
 
-    public function pushFile($id, CreateVidoeRequest $request)
+    public function pushFile($id, CreateVideoRequest $request)
     {
         if($request->file('filename')) {
             $this->fileName = $id . '.' . $request->file('filename')->getClientOriginalExtension();

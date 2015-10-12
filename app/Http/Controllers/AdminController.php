@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\services\Video;
-use App\Http\Requests\CreateVidoeRequest;
+use App\Http\Requests\CreateVideoRequest;
 use Auth;
 
 class AdminController extends Controller
@@ -23,7 +23,7 @@ class AdminController extends Controller
     public function __construct(FileUploaderPublisher $uploader)
     {
         $this->uploader = $uploader;    
-        $this->middleware('auth');
+//        $this->middleware('auth');
     }
 
     /**
@@ -51,10 +51,10 @@ class AdminController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  CreateVidoeRequest  $request
+     * @param  CreateVideoRequest  $request
      * @return Response
      */
-    public function store(CreateVidoeRequest $request)
+    public function store(CreateVideoRequest $request)
     {
         $video= Video::create($request->all());
         $this->uploader->pushFile($video->id, $request);
@@ -82,7 +82,7 @@ class AdminController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(CreateVidoeRequest $request, $id)
+    public function update(CreateVideoRequest $request, $id)
     {
         $video = Video::findOrFail($id);
         $video->update($request->all());
