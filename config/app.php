@@ -145,8 +145,10 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        \App\Providers\FileUploadServiceProvider::class,
 
+        \App\Providers\FileUploadServiceProvider::class,
+        \App\Providers\FileUploadServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class
     ],
 
     /*
@@ -198,6 +200,7 @@ return [
         'Html'      => Illuminate\Html\HtmlFacade::class,
         'Form'      => Illuminate\Html\FormFacade::class,
 
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];
