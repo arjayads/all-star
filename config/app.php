@@ -147,7 +147,6 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         \App\Providers\FileUploadServiceProvider::class,
-        \App\Providers\FileUploadServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class
     ],
 
