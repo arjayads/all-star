@@ -23,10 +23,16 @@ class CreateVideoRequest extends Request
      */
     public function rules()
     {
+        $segment = $this->segment(2) . $this->segment(3);
         $rules = [
             'title' => 'required|min:3',
-            'video' => 'required'
+            'type'  => 'required|in:Public,Private',
         ];
+
+        if ($segment != 'videosupdate') {
+            $rules['video'] = 'required';
+        }
+
         return $rules;
     }
 }

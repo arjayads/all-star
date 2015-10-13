@@ -61,12 +61,9 @@ class AdminController extends Controller
         $params = $request->except(['video', '_token']);
         $vid = $request->file('video');
 
-        $params['mime_type'] = $vid->getClientMimeType();
-        $params['original_filename'] = $vid->getClientOriginalName();
-        $params['upload_filename'] = md5($vid->getClientOriginalName()) . '.' . $vid->getClientOriginalExtension();
-
+        $params = $this->setVideoParams($params, $vid);
         $video= Video::create($params);
-        $this->uploader->pushFile($video->id, $params['upload_filename'], $request);
+        $this->uploader->pushFile($vid, $video->id, $params['original_filename'], $params['upload_filename']);
         return redirect('admin/videos');
     }
 
@@ -93,9 +90,21 @@ class AdminController extends Controller
      */
     public function update(CreateVideoRequest $request, $id)
     {
+        $params = $request->except(['video', '_token']);
+        $vid = $request->file('video');
+
+        if ($vid) {
+            $params = $this->setVideoParams($params, $vid);
+        }
         $video = Video::findOrFail($id);
-        $video->update($request->all());
-//        $this->uploader->pushFile($id, $request);
+
+        if ($video) {
+            $video->update($params);
+
+            if ($vid) {
+                $this->uploader->pushFile($vid, $video->id, $params['original_filename'], $params['upload_filename']);
+            }
+        }
 
         return redirect('admin/videos');
     }
@@ -125,5 +134,13 @@ class AdminController extends Controller
         $file = File::get($path);
 
         return (new Response($file, 200))->header('Content-Type', File::mimeType($path));
+    }
+
+    private function setVideoParams($params, $vid) {
+        $params['mime_type'] = $vid->getClientMimeType();
+        $params['original_filename'] = $vid->getClientOriginalName();
+        $params['upload_filename'] = md5($vid->getClientOriginalName()) . '.' . $vid->getClientOriginalExtension();
+
+        return $params;
     }
 }

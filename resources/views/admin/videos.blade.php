@@ -1,9 +1,7 @@
 @extends('app')
 
 @section('content')
-  
-   
-<div class="container-fluid top-buffer">
+    <div class="container-fluid top-buffer">
     <div class="row">
         <div class="col-md-7 col-md-offset-2">      
             @foreach($videos as $video)

@@ -15,14 +15,14 @@ class FileUploaderPublisher implements VideoUploaderInterface
         $this->path = env('FILE_UPLOAD_PATH');
     }
 
-    public function pushFile($id, $filename, CreateVideoRequest $request)
+    public function pushFile($videoFile, $videoId, $originalFilename, $newFilename)
     {
-        if($request->file('video')) {
+        if($videoFile) {
 
             try {
-                $localFilename = $id . '~' . $filename;
-                $this->deleteFile($this->getPath() . $localFilename);
-                $request->file('video')->move($this->getPath(), $localFilename);
+                $finalFn = $videoId . '~' . $newFilename;
+                $this->deleteFile($this->getPath() . $finalFn);
+                $videoFile->move($this->getPath(), $finalFn);
 
             } catch (\Exception $x) {
                 throw new \RuntimeException($x);
