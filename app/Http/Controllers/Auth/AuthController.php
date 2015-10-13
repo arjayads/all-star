@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Listeners\AuthenticateUserListener;
+use App\Models\AuthenticateUser;
 use App\User;
+use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
-class AuthController extends Controller
+class AuthController extends Controller implements AuthenticateUserListener
 {
     /*
     |--------------------------------------------------------------------------
@@ -63,5 +66,33 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+
+
+    /**
+     * @param AuthenticateUser $authenticateUser
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function login(AuthenticateUser $authenticateUser, Request $request)
+    {
+        $hasCode = $request->has('code');
+        return $authenticateUser->execute($hasCode, $this);
+    }
+
+    public function loginRedirect(Request $request)
+    {
+        $hasCode = $request->has('code');
+        dd($hasCode);
+    }
+
+    /**
+     * @param $user
+     * @return mixed
+     */
+    public function userHasLoggedIn($user)
+    {
+        return redirect('/');
     }
 }

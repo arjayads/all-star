@@ -11,10 +11,8 @@
 |
 */
 
-Route::controllers([
-    'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController'
-]);
+Route::get('auth/login', 'Auth\AuthController@login');
+Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
 Route::get('/', 'VideosController@index');
 Route::get('videos', 'VideosController@index');
