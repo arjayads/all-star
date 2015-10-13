@@ -8,7 +8,9 @@ class Video extends Model
 {
     protected $fillable = [
         'title',
-        'video',
+        'upload_filename',
+        'original_filename',
+        'mime_type',
         'type'
     ];
 }

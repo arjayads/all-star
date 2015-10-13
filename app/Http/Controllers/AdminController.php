@@ -6,9 +6,11 @@ use App\FileUploader\FileUploaderPublisher;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\services\Video;
+use App\Models\Video;
 use App\Http\Requests\CreateVideoRequest;
 use Auth;
+use Illuminate\Support\Facades\File;
+use \Illuminate\Http\Response;
 
 class AdminController extends Controller
 {
@@ -56,8 +58,15 @@ class AdminController extends Controller
      */
     public function store(CreateVideoRequest $request)
     {
-        $video= Video::create($request->all());
-        $this->uploader->pushFile($video->id, $request);
+        $params = $request->except(['video', '_token']);
+        $vid = $request->file('video');
+
+        $params['mime_type'] = $vid->getClientMimeType();
+        $params['original_filename'] = $vid->getClientOriginalName();
+        $params['upload_filename'] = md5($vid->getClientOriginalName()) . '.' . $vid->getClientOriginalExtension();
+
+        $video= Video::create($params);
+        $this->uploader->pushFile($video->id, $params['upload_filename'], $request);
         return redirect('admin/videos');
     }
 
@@ -86,7 +95,7 @@ class AdminController extends Controller
     {
         $video = Video::findOrFail($id);
         $video->update($request->all());
-        $this->uploader->pushFile($id, $request);
+//        $this->uploader->pushFile($id, $request);
 
         return redirect('admin/videos');
     }
@@ -99,7 +108,22 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-
         Video::deleted($id);
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
+        $vid = Video::findOrFail($id);
+        $path = env('FILE_UPLOAD_PATH') . '/' . $vid->id . '~' . $vid->upload_filename;
+        $file = File::get($path);
+
+        return (new Response($file, 200))->header('Content-Type', File::mimeType($path));
     }
 }

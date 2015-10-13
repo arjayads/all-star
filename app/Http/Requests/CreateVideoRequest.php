@@ -24,13 +24,9 @@ class CreateVideoRequest extends Request
     public function rules()
     {
         $rules = [
-            'title' => 'required|min:3'
+            'title' => 'required|min:3',
+            'video' => 'required'
         ];
-
-        if($this->segment('/admin/videos/create')){
-            $rules['video'] = 'required';
-        }
-
         return $rules;
     }
 }

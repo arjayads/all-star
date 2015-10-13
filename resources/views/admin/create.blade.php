@@ -6,38 +6,40 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-7 col-md-offset-2">
-
-                {!! Form::open(['enctype' => 'multipart/form-data', 'files' => true, 'action' => ['AdminController@store']]) !!}
-
-                <div class="form-group ">
-                    {!! Form::label('title','Video title:') !!}
-                    {!! Form::text('title', null, ['class' => 'form-control']) !!}
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('type','Type:') !!}
-                    {!! Form::select('type', ['public' => 'Public', 'private' => 'Private'],  'Public', ['class' => 'form-control col-xs-3' ]) !!}
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('filename','Video:') !!}
-                    {!! Form::file('filename') !!}
-                </div>
-
-                <div class="form-group">
-                    {!! Form::submit('Upload', ['class' => 'btn btn-default btn-lg btn-primary']) !!}
-                </div>
-
-                {!! Form::close() !!}
-
                 @if($errors->any())
-                    <ul class="alert-danger">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                    <div class="alert-danger alert">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
 
+                <form method="POST" enctype="multipart/form-data" action="/admin/videos">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <div class="form-group ">
+                        <label for="title">Video title:</label>
+                        <input class="form-control" name="title" type="text" id="title">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type">Type:</label>
+                        <select class="form-control col-xs-3" id="type" name="type">
+                            <option value="Public">Public</option>
+                            <option value="Private">Private</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="filename">Video:</label>
+                        <input name="video" type="file" id="filename">
+                    </div>
+
+                    <div class="form-group">
+                        <input class="btn btn-default btn-lg btn-primary" type="submit" value="Upload">
+                    </div>
+                </form>
             </div>
         </div>
     </div>

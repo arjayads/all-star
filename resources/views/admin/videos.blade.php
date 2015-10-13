@@ -12,7 +12,7 @@
 
                     <div align="center" class="embed-responsive embed-responsive-4by3">
                         <video controls class="embed-responsive-item">
-                            <source src="{!! URL::to('/files/videos/'. $video->id ) !!}.mp4" type="video/mp4">
+                            <source src="/admin/videos/1" type="video/mp4">
                         </video>                    
                     </div>
                     <div>

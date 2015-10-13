@@ -4,6 +4,6 @@ use App\Http\Requests\CreateVideoRequest;
 
 interface VideoUploaderInterface {
 
-    public function pushFile($id, CreateVideoRequest $request);
+    public function pushFile($id, $filename, CreateVideoRequest $request);
 
 }

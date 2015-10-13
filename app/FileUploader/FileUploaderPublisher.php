@@ -7,8 +7,6 @@ class FileUploaderPublisher implements VideoUploaderInterface
 {
     private $path;
 
-    private $fileName;
-
     /**
      * Set the default path.
      */
@@ -17,16 +15,18 @@ class FileUploaderPublisher implements VideoUploaderInterface
         $this->path = env('FILE_UPLOAD_PATH');
     }
 
-    public function pushFile($id, CreateVideoRequest $request)
+    public function pushFile($id, $filename, CreateVideoRequest $request)
     {
-        if($request->file('filename')) {
-            $this->fileName = $id . '.' . $request->file('filename')->getClientOriginalExtension();
+        if($request->file('video')) {
 
-            $this->deleteFile(base_path() . $this->getPath() . $this->fileName);
+            try {
+                $localFilename = $id . '~' . $filename;
+                $this->deleteFile($this->getPath() . $localFilename);
+                $request->file('video')->move($this->getPath(), $localFilename);
 
-            $request->file('filename')->move(
-                base_path() . $this->getPath(), $this->fileName
-            );
+            } catch (\Exception $x) {
+                throw new \RuntimeException($x);
+            }
         }
     }
 

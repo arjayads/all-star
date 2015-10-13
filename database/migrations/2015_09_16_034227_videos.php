@@ -15,11 +15,12 @@ class Videos extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('video');
-            $table->string('type');
-            $table->timestamp('published_at');
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
+            $table->string('upload_filename');
+            $table->string('original_filename');
+            $table->enum('type', ['Public', 'Private']);
+            $table->string('mime_type');
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }
 
