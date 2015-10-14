@@ -63,7 +63,7 @@ class AdminController extends Controller
 
         $params = $this->setVideoParams($params, $vid);
         $video= Video::create($params);
-        $this->uploader->pushFile($vid, $video->id, $params['original_filename'], $params['upload_filename']);
+        $this->uploader->pushFile($vid, $video, $params['original_filename'], $params['upload_filename']);
         return redirect('admin/videos');
     }
 
@@ -91,18 +91,21 @@ class AdminController extends Controller
     public function update(CreateVideoRequest $request, $id)
     {
         $params = $request->except(['video', '_token']);
-        $vid = $request->file('video');
+        $newVideo = $request->file('video');
 
-        if ($vid) {
-            $params = $this->setVideoParams($params, $vid);
+        if ($newVideo) {
+            $params = $this->setVideoParams($params, $newVideo);
         }
-        $video = Video::findOrFail($id);
+        $existingVideo = Video::findOrFail($id);
 
-        if ($video) {
-            $video->update($params);
+        if ($existingVideo) {
+            if ($newVideo) {
+                $formerFile = $existingVideo->upload_filename; //to be deleted
+            }
+            $existingVideo->update($params);
 
-            if ($vid) {
-                $this->uploader->pushFile($vid, $video->id, $params['original_filename'], $params['upload_filename']);
+            if ($newVideo) {
+                $this->uploader->pushFile($newVideo, $existingVideo, $params['original_filename'], $params['upload_filename'], $formerFile);
             }
         }
 
