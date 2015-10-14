@@ -1,56 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Test</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>All Star</title>
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 
+    <!-- Fonts -->
+    <link href='{{ asset('/css/css.htm?family=Roboto:400,300') }}' rel='stylesheet' type='text/css'>
 
-    <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="{{ asset('/js/html5shiv.min.js') }}"></script>
+    <script src="{{ asset('/js/html5shiv.min.js') }}"></script>
+    <![endif]-->
 
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-
-
+    @yield('css')
 </head>
 <body>
-    <nav role="navigation" class="navbar">
-        <div class="container">
-            <div class="col-sm-6">
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7 col-md-offset-2">
                 <div class="navbar-header">
-                    <a href="/" class="navbar-brand"><img border="0" height="50" alt="logo" src="{!! URL::to('/images/allstar.jpg') !!}" alt="AllStar Innovators" title="AllStar Innovators"></a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">Allstar</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (Auth::guest())
+                            <li><a href="{{ url('/auth/login') }}">Login</a></li>
+                        @else
+                            @if(Auth::user()->type == 'admin')
+                                <li><a href="{{ url('/admin/videos') }}">All Videos</a></li>
+                                <li><a href="{{ url('/admin/videos/create') }}">Upload Video</a></li>
+                            @endif
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <img src="{{ Auth::user()->avatar }}" class="avatar img-circle" width="48" height="48"><span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="">Profile</a></li>
+                                    <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
+                                </ul>
+                            </li>
+                        @endif
+                    </ul>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <ul class="nav navbar-nav" style="float:right;">
-                    @if (Auth::check())
-                        @if($user->type == 'admin')
-                            <li><a href="{!! URL::to('/admin/videos/create') !!}">Upload video</a></li>
-                            <li><a href="#">Admin</a></li>
-                        @else
-                            <li><a href="#">{!! $user->name !!}</a></li>
-                        @endif
-                        <li><a href="{!! URL::to('/user/logout') !!}">Logout</a></li>
-                    @else
-                        <li><a href="{!! URL::to('/user/register') !!}">Register</a></li>
-                        <li><a href="{!! URL::to('/user/login') !!}">Login</a></li>
-                    @endif
-
-
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div id="body">
-        <div class="container" >
-            @yield('content')
         </div>
     </div>
+</nav>
 
+@yield('content')
+<br><br><br><br>
+
+<!-- Scripts -->
+<script src="{{ asset('/js/jquery.min.js') }}"></script>
+<script src="{{ asset('/js/bootstrap.min.js') }}"></script>
+
+<!--Footer -->
+<div class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7 col-md-offset-2">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">© Allstar Innovators <?=(date('Y'))?>.</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@yield('js')
 </body>
 </html>

@@ -20,6 +20,7 @@ Route::get('videos', 'VideosController@index');
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::group(['prefix' => 'videos'], function () {
         Route::post('update/{id}', 'AdminController@update');
+        Route::post('delete/{id}', 'AdminController@destroy');
     });
 });
 

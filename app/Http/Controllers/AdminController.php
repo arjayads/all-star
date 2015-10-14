@@ -25,7 +25,7 @@ class AdminController extends Controller
     public function __construct(FileUploaderPublisher $uploader)
     {
         $this->uploader = $uploader;    
-//        $this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -120,7 +120,17 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        Video::deleted($id);
+        $v = Video::find($id);
+        if ($v) {
+            $res = $v->delete();
+            if ($res) {
+                return ['error' => false, 'message' => 'Video successfully deleted!'];
+            } else {
+                return ['error' => true, 'message' => 'Failed to delete!'];
+            }
+        } else {
+            return ['error' => true, 'message' => 'Video not available!'];
+        }
     }
 
 
