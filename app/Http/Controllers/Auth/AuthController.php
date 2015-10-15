@@ -6,6 +6,7 @@ use App\Listeners\AuthenticateUserListener;
 use App\Models\AuthenticateUser;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -69,22 +70,15 @@ class AuthController extends Controller implements AuthenticateUserListener
     }
 
 
-
     /**
      * @param AuthenticateUser $authenticateUser
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function login(AuthenticateUser $authenticateUser, Request $request)
+    public function login($provider, AuthenticateUser $authenticateUser, Request $request)
     {
         $hasCode = $request->has('code');
-        return $authenticateUser->execute($hasCode, $this);
-    }
-
-    public function loginRedirect(Request $request)
-    {
-        $hasCode = $request->has('code');
-        dd($hasCode);
+        return $authenticateUser->execute($hasCode, $provider, $this);
     }
 
     /**
