@@ -62,8 +62,6 @@
 </nav>
 
 @yield('content')
-<br><br><br><br>
-
 <!-- Scripts -->
 <script src="{{ asset('/js/jquery.min.js') }}"></script>
 <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
