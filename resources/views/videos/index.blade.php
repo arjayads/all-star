@@ -19,9 +19,9 @@
 						<div><h5 for="{{$video->title}}"> {{$video->title}}</h5></div>
 
 						<div align="center" class="embed-responsive embed-responsive-4by3">
-							<video controls class="embed-responsive-item">
-								<source src="{!! URL::to('/files/videos/'. $video->id ) !!}.mp4" type="video/mp4">
-							</video>
+                            <video controls class="embed-responsive-item">
+                                <source src="/admin/videos/{{$video->id}}" type="{{$video->mime_type}}" type="video/*">
+                            </video>
 						</div>
 
 					</div>
