@@ -48,7 +48,7 @@ class AuthenticateUser {
         $this->provider = $provider;
         if ( ! $hasCode) return $this->getAuthorizationFirst();
 
-        $user = $this->users->findByUsernameOrCreate($this->getSocialUser());
+        $user = $this->users->findByUsernameOrCreate($this->getSocialUser(), $this->provider);
         $this->auth->login($user, true);
         return $listener->userHasLoggedIn($user);
     }

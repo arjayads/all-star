@@ -18,8 +18,9 @@ class CreateUsersTable extends Migration
             $table->string('type');
             $table->string('code');
             $table->text('avatar')->nullable();
-            $table->integer('social_id');
-            $table->string('email')->unique();
+            $table->string('social_id')->index();
+            $table->string('provider')->index();
+            $table->string('email');
             $table->string('password', 60);
             $table->rememberToken();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

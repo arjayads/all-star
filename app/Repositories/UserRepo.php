@@ -10,12 +10,13 @@ class UserRepo {
      * @param $userData
      * @return static
      */
-    public function findByUsernameOrCreate($userData)
+    public function findByUsernameOrCreate($userData, $provider)
     {
-        if ($authUser = User::where('social_id', $userData->id)->first()) {
+        if ($authUser = User::where('social_id', $userData->id)->where('provider', $provider)->first()) {
             $authUser->email =  $userData->email;
             $authUser->name =  $userData->name;
-            $authUser->avatar =  $userData->avatar;
+            $authUser->avatar =  $userData->avatar;            
+            $authUser->provider = $provider;
             $authUser->save();
 
             return $authUser;
@@ -25,7 +26,8 @@ class UserRepo {
             'email' => $userData->email,
             'name' => $userData->name,
             'social_id' => $userData->id,
-            'avatar' => $userData->avatar
+            'avatar' => $userData->avatar,
+            'provider' => $provider
         ]);
     }
 
