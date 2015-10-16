@@ -11,8 +11,13 @@ namespace App\Models;
 
 use App\Listeners\AuthenticateUserListener;
 use App\Repositories\UserRepo;
+use Facebook\Facebook;
+use Facebook\FacebookApp;
+use Facebook\FacebookRequest;
+use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\Contracts\Factory as Socialite;
 use Illuminate\Contracts\Auth\Guard as Authenticator;
+use Laravel\Socialite\Two\FacebookProvider;
 
 class AuthenticateUser {
     /**
@@ -48,15 +53,23 @@ class AuthenticateUser {
         $this->provider = $provider;
         if ( ! $hasCode) return $this->getAuthorizationFirst();
 
-        $user = $this->users->findByUsernameOrCreate($this->getSocialUser(), $this->provider);
-        $this->auth->login($user, true);
-        return $listener->userHasLoggedIn($user);
+        $result = $this->getSocialUser();
+        if ($result['success']) {
+            $user = $this->users->findByUsernameOrCreate($result['user'], $this->provider);
+            $this->auth->login($user, true);
+            return $listener->userHasLoggedIn($user);
+        } else {
+            return $listener->userLoggedInFailed($result);
+        }
     }
     /**
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     private function getAuthorizationFirst()
     {
+        if ($this->provider == 'facebook') {
+            return $this->socialite->driver($this->provider)->scopes(['user_friends', 'public_profile', 'email'])->redirect();
+        }
         return $this->socialite->driver($this->provider)->redirect();
     }
     /**
@@ -64,6 +77,28 @@ class AuthenticateUser {
      */
     private function getSocialUser()
     {
-        return $this->socialite->driver($this->provider)->user();
+        $user = $this->socialite->driver($this->provider)->user();
+
+        // check how many fb friends
+        if ($this->provider == 'facebook') {
+            $friendCount = 0;
+            try {
+                $data = file_get_contents("https://graph.facebook.com/v2.5/me/friends?access_token=" . $user->token);
+                if ($data) {
+                    $dataArr = json_decode($data);
+                    if(isset($dataArr->summary)) {
+                        $friendCount = $dataArr->summary->total_count;
+                    }
+                }
+            } catch (\Exception $e) {
+                throw new \RuntimeException($e->getMessage());
+            }
+
+            if ($friendCount <= 0) {
+                return ['user' => $user, 'success' => false, 'message' => 'Facebook account must have at least 10 friends!'];
+            }
+        }
+
+        return ['user' => $user, 'success' => true];
     }
 }

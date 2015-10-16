@@ -89,4 +89,10 @@ class AuthController extends Controller implements AuthenticateUserListener
     {
         return redirect('/');
     }
+
+    public function userLoggedInFailed($data)
+    {
+        $message = $data['message'] . " You may go to https://www.facebook.com/settings?tab=applications and remove allstarinnovators.";
+        throw new \RuntimeException($message);
+    }
 }

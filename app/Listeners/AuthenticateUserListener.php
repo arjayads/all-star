@@ -14,4 +14,5 @@ interface AuthenticateUserListener {
      * @return mixed
      */
     public function userHasLoggedIn($user);
+    public function userLoggedInFailed($data);
 }
