@@ -95,6 +95,18 @@
         </div>
     </div>
 </div>
+
+<script>
+    $( "#search" ).autocomplete({
+        source: "/ajax/find/members",
+        minLength: 2,
+        select: function( event, ui ) {
+            if (ui.item) {
+                window.location = '/member/profile?id='+ui.item.id;
+            }
+        }
+    });
+</script>
 @yield('js')
 </body>
 </html>

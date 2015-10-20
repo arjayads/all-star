@@ -32,17 +32,3 @@
 
 	<div style="margin-bottom:100px"></div>
 @stop
-
-@section('js')
-    <script>
-        $( "#search" ).autocomplete({
-            source: "/ajax/find/members",
-            minLength: 2,
-            select: function( event, ui ) {
-                if (ui.item) {
-                    window.location = '/member/profile?id='+ui.item.id;
-                }
-            }
-        });
-    </script>
-@stop
