@@ -7,6 +7,9 @@
     <title>All Star</title>
 
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('/plugins/jquery-ui-1.11.4.custom/jquery-ui.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/plugins/jquery-ui-1.11.4.custom/jquery-ui.structure.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/plugins/jquery-ui-1.11.4.custom/jquery-ui.theme.min.css') }}" rel="stylesheet">
 
     <!-- Fonts -->
     <link href='{{ asset('/css/css.htm?family=Roboto:400,300') }}' rel='stylesheet' type='text/css'>
@@ -41,7 +44,7 @@
                         @if (!Auth::guest())
                             <form class="navbar-form navbar-left" role="search">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search">
+                                    <input id="search" type="text" class="form-control" placeholder="Search members">
                                 </div>
                             </form>
                         @endif
@@ -72,7 +75,8 @@
 
 @yield('content')
 <!-- Scripts -->
-<script src="{{ asset('/js/jquery.min.js') }}"></script>
+<script src="{{ asset('/plugins/jquery-ui-1.11.4.custom/external/jquery/jquery.js') }}"></script>
+<script src="{{ asset('/plugins/jquery-ui-1.11.4.custom/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
 
 <!--Footer -->

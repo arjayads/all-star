@@ -24,5 +24,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     });
 });
 
+Route::group(['prefix' => 'ajax', 'middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'find'], function () {
+        Route::get('members', 'MembersController@find');
+    });
+});
+
+Route::group(['prefix' => 'member', 'middleware' => 'auth'], function () {
+        Route::get('profile', 'MembersController@profile');
+});
+
 Route::resource('admin/videos', 'AdminController');
 
