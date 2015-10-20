@@ -20,6 +20,13 @@ class MembersController extends Controller
     }
 
     function profile() {
-        return view('member.others-profile');
+
+        $id = Input::get('id');
+        $user = User::find($id);
+        if ($user) {
+            return view('member.others-profile')->with('member', $user);
+        } else {
+            return view('member.others-profile')->with('notFound', true);
+        }
     }
 }
