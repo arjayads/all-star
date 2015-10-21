@@ -9,18 +9,11 @@
                         Member you are looking for is not available!
                     </div>
                 @else
-                    <h3>Member Profile</h3>
+                    <h3>My Profile</h3>
                 <hr/>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-md-9" style="padding-top: 7px !important;">
-                                    <div><h3 class="panel-title">Basic Information</h3></div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="pull-right"><button id="add" class="btn btn-success">Add</button></div>
-                                </div>
-                            </div>
+                            <h3 class="panel-title">Basic Information</h3>
                         </div>
                         <div class="panel-body">
                             <p>
@@ -28,6 +21,24 @@
                                 <b>Name:</b> {{$member->name}} <br/>
                                 <b>Email:</b> {{$member->email}}
                             </p>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">My Network</h3>
+                        </div>
+                        <div class="panel-body">
+                            My connected members
+                        </div>
+                    </div>
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Requests</h3>
+                        </div>
+                        <div class="panel-body">
+                            Pending requests here!
                         </div>
                     </div>
                 @endif
@@ -42,7 +53,7 @@
     var $userId = '{{$member->id}}';
     $('#add').on('click', function() {
         $.post( "/member/requestAdd", { userId: $userId, '_token': '{{csrf_token()}}'}).done(function( data ) {
-            $('#add').removeClass('btn-success').addClass('btn-warning').text('Request sent');
+            console.log( "Data Loaded: " + data );
         });
     });
 </script>

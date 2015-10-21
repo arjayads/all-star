@@ -15,6 +15,8 @@ Route::get('auth/login/{provider}', 'Auth\AuthController@login');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
 Route::get('/', 'VideosController@index');
+Route::get('/profile', 'MembersController@myProfile');
+
 Route::get('videos', 'VideosController@index');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {

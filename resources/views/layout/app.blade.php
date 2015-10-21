@@ -63,7 +63,7 @@
                                     <img src="{{ Auth::user()->avatar }}" class="avatar img-circle" width="26" height="26">
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="/">Profile</a></li>
+                                    <li><a href="/profile">Profile</a></li>
                                     <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
                                 </ul>
                             </li>

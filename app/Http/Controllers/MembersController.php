@@ -37,19 +37,32 @@ class MembersController extends Controller
         if ($userId) {
             $user = User::find($userId);
             if ($user) {
-                $request = AddRequest::create(
-                    [
-                        'requested_by_user_id' => Auth::user()->id,
-                        'recipient_user_id' => $userId,
-                    ]
-                );
+                $pr = AddRequest::where('requested_by_user_id', Auth::user()->id)->where('recipient_user_id', $userId)->first();
+                if (!$pr) {
+                    $request = AddRequest::create(
+                        [
+                            'requested_by_user_id' => Auth::user()->id,
+                            'recipient_user_id' => $userId,
+                        ]
+                    );
 
-                if ($request) {
-                    return ['success' => true, 'message' => 'Request successfully sent!'];
+                    if ($request) {
+                        return ['success' => true, 'message' => 'Request successfully sent!'];
+                    }
                 }
             }
         }
 
         return ['success' => false, 'message' => 'Something went wrong!'];
+    }
+
+    function myProfile() {
+
+        $user = User::find(Auth::user()->id);
+        if ($user) {
+            return view('member.my-profile')->with('member', $user);
+        } else {
+            return redirect('/');
+        }
     }
 }
