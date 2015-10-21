@@ -22,6 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('provider')->index();
             $table->string('email');
             $table->string('password', 60);
+            $table->unsignedInteger('parent_user_id')->nullable();
+            $table->timestamp('approved_at')->nullable();
             $table->rememberToken();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

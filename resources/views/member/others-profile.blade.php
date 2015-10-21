@@ -17,9 +17,21 @@
                         <b>Email:</b> {{$member->email}}
                     </p>
                     <div style="margin-top: 30px;"></div>
-                    <button class="btn btn-success">Add</button>
+                    <button id="add" class="btn btn-success">Add</button>
                 @endif
             </div>
         </div>
     </div>
+@stop
+
+
+@section('js')
+<script>
+    var $userId = '{{$member->id}}';
+    $('#add').on('click', function() {
+        $.post( "/member/requestAdd", { userId: $userId, '_token': '{{csrf_token()}}'}).done(function( data ) {
+            console.log( "Data Loaded: " + data );
+        });
+    });
+</script>
 @stop

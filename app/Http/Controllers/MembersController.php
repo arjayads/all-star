@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AddRequest;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
 class MembersController extends Controller
@@ -28,5 +30,26 @@ class MembersController extends Controller
         } else {
             return view('member.others-profile')->with('notFound', true);
         }
+    }
+
+    function requestAdd() {
+        $userId = Input::get('userId');
+        if ($userId) {
+            $user = User::find($userId);
+            if ($user) {
+                $request = AddRequest::create(
+                    [
+                        'requested_by_user_id' => Auth::user()->id,
+                        'recipient_user_id' => $userId,
+                    ]
+                );
+
+                if ($request) {
+                    return ['success' => true, 'message' => 'Request successfully sent!'];
+                }
+            }
+        }
+
+        return ['success' => false, 'message' => 'Something went wrong!'];
     }
 }
