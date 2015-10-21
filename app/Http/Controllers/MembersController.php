@@ -66,14 +66,17 @@ class MembersController extends Controller
 
     function myProfile() {
 
-        $user = User::find(Auth::user()->id);
-        if ($user) {
-            // get pending request
-            $requests = $this->addRequestRepo->findByRecipientUserId($user->id);
-            return view('member.my-profile')->with('member', $user)->with('requests', $requests);
-        } else {
-            return redirect('/');
+        if (Auth::check()) {
+            $user = User::find(Auth::user()->id);
+            if ($user) {
+                // get pending request
+                $requests = $this->addRequestRepo->findByRecipientUserId($user->id);
+                return view('member.my-profile')->with('member', $user)->with('requests', $requests);
+            } else {
+                return redirect('/');
+            }
         }
+
     }
 
     function requestProcess() {
