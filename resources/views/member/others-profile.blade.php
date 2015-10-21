@@ -18,7 +18,11 @@
                                     <div><h3 class="panel-title">Basic Information</h3></div>
                                 </div>
                                 <div class="col-md-3">
-                                    <div class="pull-right"><button id="add" class="btn btn-success">Add</button></div>
+                                    @if (isset($request))
+                                        <div class="pull-right"><button id="cancel" class="btn btn-success">Cancel request</button></div>
+                                    @else
+                                        <div class="pull-right"><button id="add" class="btn btn-default">Add</button></div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -43,7 +47,15 @@
     $('#add').on('click', function() {
         $.post( "/member/requestAdd", { userId: $userId, '_token': '{{csrf_token()}}'}).done(function( data ) {
             if (data.success) {
-                $('#add').removeClass('btn-success').addClass('btn-warning').text('Request sent');
+                window.location.reload();
+            }
+        });
+    });
+
+    $('#cancel').on('click', function() {
+        $.post( "/member/requestCancel", { userId: $userId, '_token': '{{csrf_token()}}'}).done(function( data ) {
+            if (data.success) {
+                window.location.reload();
             }
         });
     });

@@ -31,7 +31,14 @@ class MembersController extends Controller
         $id = Input::get('id');
         $user = User::find($id);
         if ($user) {
-            return view('member.others-profile')->with('member', $user);
+            $data = ['member' => $user];
+
+            $request = AddRequest::where('requested_by_user_id', Auth::user()->id)->where('recipient_user_id', $user->id)->first();
+            if ($request) {
+                $data['request'] = $request;
+            }
+
+            return view('member.others-profile', $data);
         } else {
             return view('member.others-profile')->with('notFound', true);
         }
@@ -90,27 +97,62 @@ class MembersController extends Controller
                 $requester = User::find($requesterUserId);
                 $me = User::find(Auth::user()->id);
                 if ($requester && $me) {
-                    if ($command == 'Approve') {
-                        $me->parent_user_id = $requester->id;
-                        $me->approved_at = date("Y-m-d H:i:s");
-                        $newMe = $me->save();
-                        if ($newMe) {
-                            $pr = AddRequest::where('requested_by_user_id', $requesterUserId)->where('recipient_user_id', $me->id)->first();
-                            if ($pr) {
-                                $pr->delete();
-                            }
+                    // check if request exisit
+                    $request = AddRequest::where('requested_by_user_id', $requesterUserId)->where('recipient_user_id', $me->id)->first();
+                    if ($request) {
+                        if ($command == 'Approve') {
+                            $me->parent_user_id = $requester->id;
+                            $me->approved_at = date("Y-m-d H:i:s");
+                            $newMe = $me->save();
+                            if ($newMe) {
+                                if ($request) {
+                                    $request->delete();
+                                }
 
-                            return ['success' => true, 'message' => 'Request successfully approved!'];
+                                return ['success' => true, 'message' => 'Request successfully approved!'];
 
-                        }
-                    } else if ($command == 'Disapprove') {
-                        $pr = AddRequest::where('requested_by_user_id', $requesterUserId)->where('recipient_user_id', $me->id)->first();
-                        if ($pr) {
-                            $deleted = $pr->delete();
-                            if ($deleted) {
-                                return ['success' => true, 'message' => 'Request successfully disapproved!'];
+                            }
+                        } else if ($command == 'Disapprove') {
+                            $request = AddRequest::where('requested_by_user_id', $requesterUserId)->where('recipient_user_id', $me->id)->first();
+                            if ($request) {
+                                $deleted = $request->delete();
+                                if ($deleted) {
+                                    return ['success' => true, 'message' => 'Request successfully disapproved!'];
+                                }
                             }
                         }
+                    } else {
+                        return ['success' => false, 'message' => 'Request has been cancelled!'];
+                    }
+                }
+            }
+
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
+
+        return ['success' => false, 'message' => 'Something went wrong!'];
+    }
+
+
+    function requestCancel() {
+
+        $userId = Input::get('userId');
+
+        try {
+
+            if ($userId) {
+                $user = User::find($userId);
+                if ($user) {
+                    $pr = AddRequest::where('requested_by_user_id', Auth::user()->id)->where('recipient_user_id', $userId)->first();
+                    if ($pr) {
+                        $deleted = $pr->delete();
+                        if ($deleted) {
+                            return ['success' => true, 'message' => 'Request successfully cancelled!'];
+                        }
+                    } else {
+                        // it actually does nothing
+                        return ['success' => true, 'message' => 'Request successfully cancelled!'];
                     }
                 }
             }
