@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AddRequest;
+use App\Repositories\AddRequestRepo;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -12,6 +13,10 @@ use Illuminate\Support\Facades\Input;
 
 class MembersController extends Controller
 {
+    function __construct(AddRequestRepo $addRequestRepo) {
+        $this->addRequestRepo = $addRequestRepo;
+    }
+
     function find() {
         $query = Input::get('term');
         if($query) {
@@ -60,7 +65,9 @@ class MembersController extends Controller
 
         $user = User::find(Auth::user()->id);
         if ($user) {
-            return view('member.my-profile')->with('member', $user);
+            // get pending request
+            $requests = $this->addRequestRepo->findByRecipientUserId($user->id);
+            return view('member.my-profile')->with('member', $user)->with('requests', $requests);
         } else {
             return redirect('/');
         }

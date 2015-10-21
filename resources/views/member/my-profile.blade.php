@@ -38,7 +38,30 @@
                             <h3 class="panel-title">Requests</h3>
                         </div>
                         <div class="panel-body">
-                            Pending requests here!
+                            @if($requests)
+                                <table class="table table-responsive table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <td>Requested by</td>
+                                        <td width="30%">Action</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($requests as $request)
+                                        <tr>
+                                            <td>{{$request->name}}</td>
+                                            <td>
+                                                <a data-userId="{{$request->requested_by_user_id}}" class="response" style="cursor: pointer">Approve</a> |
+                                                <a data-userId="{{$request->requested_by_user_id}}" class="response" style="cursor: pointer">Disapprove</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                    </tbody>
+                                </table>
+                            @else
+                                No pending requests!
+                            @endif
                         </div>
                     </div>
                 @endif
@@ -50,10 +73,16 @@
 
 @section('js')
 <script>
-    var $userId = '{{$member->id}}';
-    $('#add').on('click', function() {
-        $.post( "/member/requestAdd", { userId: $userId, '_token': '{{csrf_token()}}'}).done(function( data ) {
-            console.log( "Data Loaded: " + data );
+
+    $('.response').on('click', function(e) {
+        e.preventDefault();
+
+        var command = $(this).text();
+        var $userId = $(this).data('userid');
+
+
+        $.post( "/member/requestProcess", {command: command, userId: $userId, '_token': '{{csrf_token()}}'}).done(function( data ) {
+            
         });
     });
 </script>
