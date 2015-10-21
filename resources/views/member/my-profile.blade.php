@@ -82,7 +82,10 @@
 
 
         $.post( "/member/requestProcess", {command: command, userId: $userId, '_token': '{{csrf_token()}}'}).done(function( data ) {
-            
+            console.log(data);
+            if (data.success) {
+                
+            }
         });
     });
 </script>

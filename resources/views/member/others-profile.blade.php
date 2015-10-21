@@ -42,7 +42,9 @@
     var $userId = '{{$member->id}}';
     $('#add').on('click', function() {
         $.post( "/member/requestAdd", { userId: $userId, '_token': '{{csrf_token()}}'}).done(function( data ) {
-            $('#add').removeClass('btn-success').addClass('btn-warning').text('Request sent');
+            if (data.success) {
+                $('#add').removeClass('btn-success').addClass('btn-warning').text('Request sent');
+            }
         });
     });
 </script>

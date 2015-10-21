@@ -54,6 +54,9 @@ class MembersController extends Controller
                     if ($request) {
                         return ['success' => true, 'message' => 'Request successfully sent!'];
                     }
+                } else {
+                    // it actually does nothing
+                    return ['success' => true, 'message' => 'Request successfully sent!'];
                 }
             }
         }
@@ -71,5 +74,48 @@ class MembersController extends Controller
         } else {
             return redirect('/');
         }
+    }
+
+    function requestProcess() {
+
+        try {
+
+            $command = Input::get('command');
+            $requesterUserId = Input::get('userId');
+
+            if ($command && $requesterUserId) {
+                $requester = User::find($requesterUserId);
+                $me = User::find(Auth::user()->id);
+                if ($requester && $me) {
+                    if ($command == 'Approve') {
+                        $me->parent_user_id = $requester->id;
+                        $me->approved_at = date("Y-m-d H:i:s");
+                        $newMe = $me->save();
+                        if ($newMe) {
+                            $pr = AddRequest::where('requested_by_user_id', $requesterUserId)->where('recipient_user_id', $me->id)->first();
+                            if ($pr) {
+                                $pr->delete();
+                            }
+
+                            return ['success' => true, 'message' => 'Request successfully approved!'];
+
+                        }
+                    } else if ($command == 'Disapprove') {
+                        $pr = AddRequest::where('requested_by_user_id', $requesterUserId)->where('recipient_user_id', $me->id)->first();
+                        if ($pr) {
+                            $deleted = $pr->delete();
+                            if ($deleted) {
+                                return ['success' => true, 'message' => 'Request successfully disapproved!'];
+                            }
+                        }
+                    }
+                }
+            }
+
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
+
+        return ['success' => false, 'message' => 'Something went wrong!'];
     }
 }

@@ -35,6 +35,7 @@ Route::group(['prefix' => 'ajax', 'middleware' => 'auth'], function () {
 Route::group(['prefix' => 'member', 'middleware' => 'auth'], function () {
         Route::get('profile', 'MembersController@profile');
         Route::post('requestAdd', 'MembersController@requestAdd');
+        Route::post('requestProcess', 'MembersController@requestProcess');
 });
 
 Route::resource('admin/videos', 'AdminController');
