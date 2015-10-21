@@ -82,6 +82,7 @@
 <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
 
 <!--Footer -->
+<div style="margin-top: 100px;"></div>
 <div class="navbar navbar-default navbar-fixed-bottom">
     <div class="container-fluid">
         <div class="row">
