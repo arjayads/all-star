@@ -4,9 +4,6 @@
     <div class="container-fluid  top-buffer">
         <div class="row">
             <div class="col-md-7 col-md-offset-2">
-                <div id="notif" class="hidden">
-                    Notifs here!
-                </div>
                 <h3>My Profile</h3>
                 <hr/>
                 <div class="panel panel-primary">
@@ -37,7 +34,11 @@
                     </div>
                     <div class="panel-body">
                         @if($requests)
-                            <table class="table table-responsive table-bordered table-striped">
+                            <div id="notif-request" class="hidden">
+                                Notifs here!
+                            </div>
+
+                            <table id="requests-table" class="table table-responsive table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <td>Requested by</td>
@@ -74,19 +75,21 @@
     $('.response').on('click', function(e) {
         e.preventDefault();
 
+        var row = $(this).closest('tr');
         var command = $(this).text();
         var $userId = $(this).data('userid');
 
 
         $.post( "/member/requestProcess", {command: command, userId: $userId, '_token': '{{csrf_token()}}'}).done(function( data ) {
-            $('#notif').removeClass();
-            $('#notif').addClass('alert');
-            $('#notif').text(data.message);
+            $('#notif-request').removeClass();
+            $('#notif-request').addClass('alert');
+            $('#notif-request').text(data.message);
 
             if (data.success) {
-                $('#notif').addClass('alert-success');
+                $('#notif-request').addClass('alert-success');
+                row.remove();
             } else {
-                $('#notif').addClass('alert-danger');
+                $('#notif-request').addClass('alert-danger');
             }
         });
     });
