@@ -31,9 +31,9 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        @if($team)
-                            <div id="notif-request" class="hidden">
-                                No team members yet!
+                        @if($team && count($team) > 0)
+                            <div id="notif-team" class="hidden">
+                                notif-team
                             </div>
 
                             <table id="requests-table" class="table table-responsive table-bordered table-striped">
@@ -48,7 +48,7 @@
                                     <tr>
                                         <td><img src="{{$person->avatar}}" alt=""  class="avatar img-rounded" width="36" height="36"> {{$person->name}}</td>
                                         <td style="padding-top: 15px;">
-                                            <a href="member/profile?id={{$person->id}}" style="cursor: pointer">View</a> |
+                                            <a href="/member/profile?id={{$person->id}}" style="cursor: pointer">View</a> |
                                             <a data-userid="{{$person->id}}" class="remove-member" style="cursor: pointer">Remove</a>
                                         </td>
                                     </tr>
@@ -57,7 +57,7 @@
                                 </tbody>
                             </table>
                         @else
-                            No pending requests!
+                            No team members yet!
                         @endif
                     </div>
                 </div>
@@ -127,5 +127,26 @@
             }
         });
     });
+
+    $('.remove-member').on('click', function(e) {
+        e.preventDefault();
+
+        var row = $(this).closest('tr');
+        var $userId = $(this).data('userid');
+
+        $.post( "/member/removeTeamMember", {userId: $userId, '_token': '{{csrf_token()}}'}).done(function( data ) {
+            $('#notif-team').removeClass();
+            $('#notif-team').addClass('alert');
+            $('#notif-team').text(data.message);
+
+            if (data.success) {
+                $('#notif-team').addClass('alert-success');
+                row.remove();
+            } else {
+                $('#notif-team').addClass('alert-danger');
+            }
+        });
+    });
+
 </script>
 @stop

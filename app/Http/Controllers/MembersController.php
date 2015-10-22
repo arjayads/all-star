@@ -193,4 +193,28 @@ class MembersController extends Controller
         }
         return ['success' => false, 'message' => 'Failed to add team member'];
     }
+
+    function removeTeamMember() {
+        $userId = Input::get('userId');
+
+        try {
+
+            if ($userId) {
+                $user = User::find($userId);
+                if ($user) {
+                    $user->parent_user_id = null;
+                    $user->approved_at = null;
+                    $saved = $user->save();
+                    if ($saved) {
+                        return ['success' => true, 'message' => 'Member successfully removed!'];
+                    }
+                }
+            }
+
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
+
+        return ['success' => false, 'message' => 'Something went wrong!'];
+    }
 }

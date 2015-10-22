@@ -32,6 +32,7 @@
                         </div>
                         <div class="col-md-5">
                             <button class="btn btn-primary" type="submit">Add</button>
+                            <a class="btn btn-default" href="/profile">Cancel</a>
                         </div>
                     </div>
                 </form>

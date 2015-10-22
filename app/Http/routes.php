@@ -40,6 +40,7 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth'], function () {
 
         Route::get('addToTeam', 'MembersController@addToTeamView');
         Route::post('addToTeam', 'MembersController@addToTeam');
+        Route::post('removeTeamMember', 'MembersController@removeTeamMember');
 });
 
 Route::resource('admin/videos', 'AdminController');
