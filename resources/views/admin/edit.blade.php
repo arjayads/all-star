@@ -6,7 +6,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-7 col-md-offset-2">
+            <div class="col-md-8 col-md-offset-2">
 
                 <h2>Updating {{$video->title}}</h2>
                 @if($errors->any())

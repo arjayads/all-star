@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid  top-buffer">
         <div class="row">
-            <div class="col-md-7 col-md-offset-2">
+            <div class="col-md-8 col-md-offset-2">
                 <h3>My Profile</h3>
                 <hr/>
                 <div class="panel panel-primary">
@@ -21,7 +21,14 @@
 
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">My Network</h3>
+                        <div class="row">
+                            <div class="col-md-9" style="padding-top: 7px !important;">
+                                <div><h3 class="panel-title">My Team</h3></div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="pull-right"><button id="add" class="btn btn-success">Add member</button></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="panel-body">
                         My connected members

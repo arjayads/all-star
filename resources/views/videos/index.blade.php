@@ -13,7 +13,7 @@
 
     <div class="container-fluid  top-buffer">
 		<div class="row">
-			<div class="col-md-7 col-md-offset-2">
+			<div class="col-md-8 col-md-offset-2 no-padding">
 				@foreach($videos as $video)
 					<div class="col-md-4">
 						<div><h5 for="{{$video->title}}"> {{$video->title}}</h5></div>

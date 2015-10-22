@@ -6268,3 +6268,7 @@ label,
     position: relative;
     text-align: center;
 }
+
+.no-padding {
+    padding: 0 !important;
+}
