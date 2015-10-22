@@ -20,7 +20,7 @@
                                 <div class="col-md-3">
                                     @if (isset($request))
                                         <div class="pull-right"><button id="cancel" class="btn btn-success">Cancel request</button></div>
-                                    @else
+                                    @elseif (isset($available) && $available)
                                         <div class="pull-right"><button id="add" class="btn btn-default">Add</button></div>
                                     @endif
                                 </div>

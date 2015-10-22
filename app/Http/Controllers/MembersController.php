@@ -39,6 +39,12 @@ class MembersController extends Controller
             if ($request) {
                 $data['request'] = $request;
             }
+            // check if a member available for the new team
+            $xu = User::whereRaw('parent_user_id IS NULL')->where('id', $user->id)->get();
+            if ($xu && count($xu) > 0) {
+                $data['available'] = true;
+            }
+
 
             return view('member.others-profile', $data);
         } else {
