@@ -6272,3 +6272,11 @@ label,
 .no-padding {
     padding: 0 !important;
 }
+
+.red {
+    color: red;
+}
+
+.input-label {
+    padding-top: 5px;
+}

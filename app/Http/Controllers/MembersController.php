@@ -167,4 +167,26 @@ class MembersController extends Controller
     function  addToTeamView() {
         return view('member.add-to-team');
     }
+
+    function addToTeam() {
+        $name = Input::get('name');
+        $email = Input::get('email');
+        if($name) {
+            $adderUserId = Auth::user()->id;
+
+            $newUser = User::create([
+                'name' => $name,
+                'email' => $email,
+                'parent_user_id' => $adderUserId,
+                'approved_at' => date("Y-m-d H:i:s")
+            ]);
+
+            if ($newUser) {
+                return ['success' => true, 'message' => 'New team member successfully added!'];
+            }
+        } else {
+            return ['success' => false, 'message' => 'Please enter name'];
+        }
+        return ['success' => false, 'message' => 'Failed to add team member'];
+    }
 }
