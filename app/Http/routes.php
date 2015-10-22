@@ -37,6 +37,9 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth'], function () {
         Route::post('requestAdd', 'MembersController@requestAdd');
         Route::post('requestCancel', 'MembersController@requestCancel');
         Route::post('requestProcess', 'MembersController@requestProcess');
+
+        Route::get('addToTeam', 'MembersController@addToTeamView');
+        Route::post('addToTeam', 'MembersController@addToTeam');
 });
 
 Route::resource('admin/videos', 'AdminController');

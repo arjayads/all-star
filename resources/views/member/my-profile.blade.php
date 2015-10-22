@@ -26,7 +26,7 @@
                                 <div><h3 class="panel-title">My Team</h3></div>
                             </div>
                             <div class="col-md-3">
-                                <div class="pull-right"><button id="add" class="btn btn-success">Add member</button></div>
+                                <div class="pull-right"><a href="/member/addToTeam" class="btn btn-success">Add member</a></div>
                             </div>
                         </div>
                     </div>
