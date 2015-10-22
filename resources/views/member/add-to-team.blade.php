@@ -6,6 +6,9 @@
             <div class="col-md-8 col-md-offset-2">
                 <h3>Add team member</h3>
                 <hr/>
+                <div class="alert alert-info">
+                    <p>You are about to add a member that is not registered to this site! Use the search function if intended to add registered members!</p>
+                </div>
                 <form method="post" action="/member/addToTeam">
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <div class="row">
