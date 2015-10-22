@@ -31,4 +31,8 @@ class UserRepo {
         ]);
     }
 
+    public function findByParentUserId($parentUserId) {
+        return User::where('parent_user_id', $parentUserId)->get();
+    }
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AddRequest;
 use App\Repositories\AddRequestRepo;
+use App\Repositories\UserRepo;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -13,8 +14,9 @@ use Illuminate\Support\Facades\Input;
 
 class MembersController extends Controller
 {
-    function __construct(AddRequestRepo $addRequestRepo) {
+    function __construct(AddRequestRepo $addRequestRepo, UserRepo $userRepo) {
         $this->addRequestRepo = $addRequestRepo;
+        $this->userRepo = $userRepo;
     }
 
     function find() {
@@ -78,7 +80,9 @@ class MembersController extends Controller
             if ($user) {
                 // get pending request
                 $requests = $this->addRequestRepo->findByRecipientUserId($user->id);
-                return view('member.my-profile')->with('member', $user)->with('requests', $requests);
+                // team members
+                $team = $this->userRepo->findByParentUserId($user->id);
+                return view('member.my-profile')->with('member', $user)->with('requests', $requests)->with('team', $team);
             } else {
                 return redirect('/');
             }

@@ -31,7 +31,34 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        My connected members
+                        @if($team)
+                            <div id="notif-request" class="hidden">
+                                No team members yet!
+                            </div>
+
+                            <table id="requests-table" class="table table-responsive table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td width="15%"></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach ($team as $person)
+                                    <tr>
+                                        <td><img src="{{$person->avatar}}" alt=""  class="avatar img-rounded" width="36" height="36"> {{$person->name}}</td>
+                                        <td style="padding-top: 15px;">
+                                            <a href="member/profile?id={{$person->id}}" style="cursor: pointer">View</a> |
+                                            <a data-userid="{{$person->id}}" class="remove-member" style="cursor: pointer">Remove</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        @else
+                            No pending requests!
+                        @endif
                     </div>
                 </div>
 
