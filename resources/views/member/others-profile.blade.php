@@ -47,7 +47,11 @@
     $('#add').on('click', function() {
         $.post( "/member/requestAdd", { userId: $userId, '_token': '{{csrf_token()}}'}).done(function( data ) {
             if (data.success) {
-                window.location.reload();
+                if (data.isFbMember) {
+                    window.location.reload();
+                } else {
+                    window.location = "/profile";
+                }
             }
         });
     });

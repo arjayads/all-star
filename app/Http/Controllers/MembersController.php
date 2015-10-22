@@ -51,6 +51,19 @@ class MembersController extends Controller
         if ($userId) {
             $user = User::find($userId);
             if ($user) {
+
+                if ($user->social_id == "" || is_null($user->social_id)) {  // not member via facebook, no approval required
+                    $user->parent_user_id = Auth::user()->id;
+                    $user->approved_at = date("Y-m-d H:i:s");
+                    $added = $user->save();
+                    if ($added) {
+                        return ['success' => true, 'message' => 'New team member successfully added!', 'isFbMember' => false];
+                    } else {
+
+                        return ['success' => false, 'message' => 'Failed to add new team member!'];
+                    }
+                }
+
                 $pr = AddRequest::where('requested_by_user_id', Auth::user()->id)->where('recipient_user_id', $userId)->first();
                 if (!$pr) {
                     $request = AddRequest::create(
@@ -61,7 +74,7 @@ class MembersController extends Controller
                     );
 
                     if ($request) {
-                        return ['success' => true, 'message' => 'Request successfully sent!'];
+                        return ['success' => true, 'message' => 'Request successfully sent!', 'isFbMember' => true];
                     }
                 } else {
                     // it actually does nothing
@@ -101,7 +114,7 @@ class MembersController extends Controller
                 $requester = User::find($requesterUserId);
                 $me = User::find(Auth::user()->id);
                 if ($requester && $me) {
-                    // check if request exisit
+                    // check if request exist
                     $request = AddRequest::where('requested_by_user_id', $requesterUserId)->where('recipient_user_id', $me->id)->first();
                     if ($request) {
                         if ($command == 'Approve') {
