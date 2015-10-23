@@ -6294,7 +6294,8 @@ label,
     height: 60px !important;
 }
 
-.google-visualization-orgchart-node {
-    background: -webkit-gradient(linear, left top, left bottom, from(#FFCCCC), to(#FF9999)) !important;
+.google-visualization-orgchart-node-red {
     border-color: #FF9999 !important;
+    background: -moz-linear-gradient(top,  #FFCCCC,  #FF9999);
+    background: -webkit-gradient(linear, left top, left bottom, from(#FFCCCC), to(#FF9999)) !important;
 }
