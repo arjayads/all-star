@@ -239,7 +239,7 @@ class MembersController extends Controller
     function downlines() {
         $parentUserId = Input::get('parentUserId');
         if($parentUserId) {
-            return $this->userRepo->findByParentUserId($parentUserId, ["name", "email", "id"]);
+            return $this->userRepo->findByParentUserId($parentUserId, ["name", "email", "id", "social_id"]);
         } else {
             return [];
         }

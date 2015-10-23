@@ -96,10 +96,10 @@
                 $('#chart_div').addClass('alert alert-info').text("No team members yet!");
             } else {
                 var rows = [
-                    [{v:$myUserId, f:$nyMame + '<div style="color:blue; font-style:italic">' + $nyEmail + '</div>'}, '']
+                    [{v:$myUserId, f:$nyMame + '<div class="member" style="color:blue; font-style:italic">' + $nyEmail + '</div>'}, '']
                 ];
                 for(var idx=0; idx<d.length; idx++) {
-                    var member = [{v: d[idx].name, f: d[idx].name + '<div style="color:blue; font-style:italic">' +  d[idx].email +'</div>'}, $myUserId]
+                    var member = [{v: d[idx].name, f: d[idx].name + '<div class="' + (d[idx].social_id != '' ? 'member' : '') +'" style="color:blue; font-style:italic">' +  d[idx].email +'</div>'}, $myUserId]
                     rows.push(member);
                 }
 
@@ -114,8 +114,9 @@
                 if (rows.length <= 3) {
                     $('.google-visualization-orgchart-table').css('max-width', "50%");
                 }
-            }
 
+                $('.member').closest('td').removeClass('google-visualization-orgchart-node').addClass('google-visualization-orgchart-node-red');
+            }
         });
     }
 
