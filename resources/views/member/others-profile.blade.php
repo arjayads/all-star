@@ -83,25 +83,30 @@
 
 
         $.get( "/ajax/find/downlines?parentUserId="+$userId).done(function( d ) {
-            var rows = [
-                [{v:$userId, f:$nyMame + '<div style="color:red; font-style:italic">' + $nyEmail + '</div>'}, '']
-            ];
-            for(var idx=0; idx<d.length; idx++) {
-                var member = [{v: d[idx].name, f: d[idx].name + '<div style="color:red; font-style:italic">' +  d[idx].email +'</div>'}, $userId]
-                rows.push(member);
-            } 
+            if (d.length == 0) {
+                $('#chart_div').addClass('alert alert-info').text("No team members yet!");
+            } else {
+                var rows = [
+                    [{v:$userId, f:$nyMame + '<div style="color:blue; font-style:italic">' + $nyEmail + '</div>'}, '']
+                ];
+                for(var idx=0; idx<d.length; idx++) {
+                    var member = [{v: d[idx].name, f: d[idx].name + '<div style="color:blue; font-style:italic">' +  d[idx].email +'</div>'}, $userId]
+                    rows.push(member);
+                }
 
-            data.addRows(rows);
-            var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
-            chart.draw(data, {allowHtml:true});
+                data.addRows(rows);
+                var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+                chart.draw(data, {allowHtml:true});
 
 
-            if (rows.length <= 2) {
-                $('.google-visualization-orgchart-table').css('max-width', "30%");
-            } else
-            if (rows.length <= 3) {
-                $('.google-visualization-orgchart-table').css('max-width', "50%");
+                if (rows.length <= 2) {
+                    $('.google-visualization-orgchart-table').css('max-width', "30%");
+                } else
+                if (rows.length <= 3) {
+                    $('.google-visualization-orgchart-table').css('max-width', "50%");
+                }
             }
+
         });
     }
 
