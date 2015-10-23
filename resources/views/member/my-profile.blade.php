@@ -80,6 +80,47 @@
 @section('js')
 <script>
 
+    var $myUserId = '{{$member->id}}';
+    var $nyMame = '{{$member->name}}';
+    var $nyEmail = '{{$member->email}}';
+
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Name');
+        data.addColumn('string', 'Upline');
+
+
+        $.get( "/ajax/find/downlines?parentUserId="+$myUserId).done(function( d ) {
+            if (d.length == 0) {
+                $('#chart_div').addClass('alert alert-info').text("No team members yet!");
+            } else {
+                var rows = [
+                    [{v:$myUserId, f:$nyMame + '<div style="color:blue; font-style:italic">' + $nyEmail + '</div>'}, '']
+                ];
+                for(var idx=0; idx<d.length; idx++) {
+                    var member = [{v: d[idx].name, f: d[idx].name + '<div style="color:blue; font-style:italic">' +  d[idx].email +'</div>'}, $myUserId]
+                    rows.push(member);
+                }
+
+                data.addRows(rows);
+                var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+                chart.draw(data, {allowHtml:true});
+
+
+                if (rows.length <= 2) {
+                    $('.google-visualization-orgchart-table').css('max-width', "30%");
+                } else
+                if (rows.length <= 3) {
+                    $('.google-visualization-orgchart-table').css('max-width', "50%");
+                }
+            }
+
+        });
+    }
+
+
+
     $('.response').on('click', function(e) {
         e.preventDefault();
 

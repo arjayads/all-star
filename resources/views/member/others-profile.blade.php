@@ -1,20 +1,6 @@
 @extends('layout.app')
 
 @section('css')
-    <style>
-        .google-visualization-orgchart-table {
-            border-collapse: inherit !important;
-            width: 100% !important;
-        }
-
-        .google-visualization-orgchart-connrow-medium {
-            height: 25px !important;
-        }
-
-        .google-visualization-orgchart-noderow-medium {
-            height: 60px !important;
-        }
-    </style>
 @stop
 
 @section('content')

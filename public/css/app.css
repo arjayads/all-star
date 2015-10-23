@@ -6280,3 +6280,16 @@ label,
 .input-label {
     padding-top: 5px;
 }
+
+ .google-visualization-orgchart-table {
+     border-collapse: inherit !important;
+     width: 100% !important;
+ }
+
+.google-visualization-orgchart-connrow-medium {
+    height: 25px !important;
+}
+
+.google-visualization-orgchart-noderow-medium {
+    height: 60px !important;
+}
