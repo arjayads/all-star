@@ -157,7 +157,6 @@ class MembersController extends Controller
         return ['success' => false, 'message' => 'Something went wrong!'];
     }
 
-
     function requestCancel() {
 
         $userId = Input::get('userId');
@@ -235,5 +234,14 @@ class MembersController extends Controller
         }
 
         return ['success' => false, 'message' => 'Something went wrong!'];
+    }
+
+    function downlines() {
+        $parentUserId = Input::get('parentUserId');
+        if($parentUserId) {
+            return $this->userRepo->findByParentUserId($parentUserId, ["name", "email", "id"]);
+        } else {
+            return [];
+        }
     }
 }

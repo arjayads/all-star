@@ -10,6 +10,10 @@
         .google-visualization-orgchart-connrow-medium {
             height: 25px !important;
         }
+
+        .google-visualization-orgchart-noderow-medium {
+            height: 60px !important;
+        }
     </style>
 @stop
 
@@ -67,35 +71,40 @@
 @section('js')
 <script>
 
+    var $userId = '{{$member->id}}';
+    var $nyMame = '{{$member->name}}';
+    var $nyEmail = '{{$member->email}}';
+
     google.setOnLoadCallback(drawChart);
     function drawChart() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Name');
-        data.addColumn('string', 'Manager');
-        data.addColumn('string', 'ToolTip');
+        data.addColumn('string', 'Upline');
 
 
-        var array = [
-            [{v:'Mike', f:'Mike<div style="color:red; font-style:italic">President</div>'}, '', 'The President'],
-            [{v:'Jim', f:'Jim<div style="color:red; font-style:italic">Vice President</div>'}, 'Mike', 'VP'],
-            [{v:'Jim1', f:'Jim<div style="color:red; font-style:italic">Vice President</div>'}, 'Mike', 'VP'],
-            [{v:'Jim2', f:'Jim<div style="color:red; font-style:italic">Vice President</div>'}, 'Mike', 'VP']
-        ];
+        $.get( "/ajax/find/downlines?parentUserId="+$userId).done(function( d ) {
+            var rows = [
+                [{v:$userId, f:$nyMame + '<div style="color:red; font-style:italic">' + $nyEmail + '</div>'}, '']
+            ];
+            for(var idx=0; idx<d.length; idx++) {
+                var member = [{v: d[idx].name, f: d[idx].name + '<div style="color:red; font-style:italic">' +  d[idx].email +'</div>'}, $userId]
+                rows.push(member);
+            } 
 
-        data.addRows(array);
-        var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
-        chart.draw(data, {allowHtml:true});
+            data.addRows(rows);
+            var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+            chart.draw(data, {allowHtml:true});
 
 
-        if (array.length <= 2) {
-            $('.google-visualization-orgchart-table').css('max-width', "30%");
-        } else
-        if (array.length <= 3) {
-            $('.google-visualization-orgchart-table').css('max-width', "50%");
-        }
+            if (rows.length <= 2) {
+                $('.google-visualization-orgchart-table').css('max-width', "30%");
+            } else
+            if (rows.length <= 3) {
+                $('.google-visualization-orgchart-table').css('max-width', "50%");
+            }
+        });
     }
 
-    var $userId = '{{$member->id}}';
     $('#add').on('click', function() {
         $.post( "/member/requestAdd", { userId: $userId, '_token': '{{csrf_token()}}'}).done(function( data ) {
             if (data.success) {

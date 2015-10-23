@@ -29,6 +29,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 Route::group(['prefix' => 'ajax', 'middleware' => 'auth'], function () {
     Route::group(['prefix' => 'find'], function () {
         Route::get('members', 'MembersController@find');
+        Route::get('downlines', 'MembersController@downlines');
     });
 });
 
