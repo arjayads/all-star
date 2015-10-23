@@ -6293,12 +6293,15 @@ label,
 .google-visualization-orgchart-noderow-medium {
     height: 60px !important;
 }
+.google-visualization-orgchart-node {
+    cursor: pointer !important;
+}
 
 .google-visualization-orgchart-node-red {
     text-align: center;
     vertical-align: middle;
     font-family: arial,helvetica;
-    cursor: default;
+    cursor: pointer;
     border: 2px solid #b5d9ea;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
