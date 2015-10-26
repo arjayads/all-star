@@ -31,6 +31,11 @@ class MembersController extends Controller
     function profile() {
 
         $id = Input::get('id');
+
+        if ( Auth::user()->id == $id) {
+            return redirect("/profile");
+        }
+
         $user = User::find($id);
         if ($user) {
             $data = ['member' => $user];
