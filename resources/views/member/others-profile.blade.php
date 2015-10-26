@@ -76,7 +76,7 @@
                     [{v:$userId, f:$nyMame + '<div class="member" style="font-style:italic">' + $nyEmail + '</div>'}, '']
                 ];
                 for(var idx=0; idx<d.length; idx++) {
-                    var member = [{v: d[idx].name, f: d[idx].name + '<div class="' + (d[idx].social_id != '' ? 'member' : 'non-member') +'" style="font-style:italic">' +  d[idx].email +'</div>'}, $userId]
+                    var member = [{v: d[idx].id, f: d[idx].name + '<div class="' + (d[idx].social_id != '' ? 'member' : 'non-member') +'" style="font-style:italic">' +  d[idx].email +'</div>'}, $userId]
                     rows.push(member);
                 }
 
@@ -94,6 +94,17 @@
 
                 $('.member').closest('td').removeClass('google-visualization-orgchart-node').addClass('google-visualization-orgchart-node-red');
                 $('.non-member').closest('td').removeClass('google-visualization-orgchart-node').addClass('google-visualization-orgchart-node-blue');
+
+                google.visualization.events.addListener(chart, 'select', selectHandler);
+
+                function selectHandler(e) {
+                    var selectedItem = chart.getSelection()[0];
+
+                    if (selectedItem && selectedItem.row > 0) {
+                        var key = data.getValue(selectedItem.row,0);
+                        window.open('/member/profile?id=' + key, '_blank').focus();
+                    }
+                }
             }
 
         });

@@ -186,7 +186,7 @@ class MembersController extends Controller
         return ['success' => false, 'message' => 'Something went wrong!'];
     }
 
-    function  addToTeamView() {
+    function addToTeamView() {
         return view('member.add-to-team');
     }
 
