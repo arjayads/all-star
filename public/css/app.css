@@ -6298,6 +6298,7 @@ label,
 }
 
 .google-visualization-orgchart-node-red {
+    color: floralwhite;
     text-align: center;
     vertical-align: middle;
     font-family: arial,helvetica;
@@ -6307,7 +6308,27 @@ label,
     -webkit-border-radius: 5px;
     -webkit-box-shadow: rgba(0, 0, 0, 0.5) 3px 3px 3px;
     -moz-box-shadow: rgba(0, 0, 0, 0.5) 3px 3px 3px;
-    border-color: #FF9999;
-    background: -moz-linear-gradient(top,  #FFCCCC,  #FF9999);
-    background: -webkit-gradient(linear, left top, left bottom, from(#FFCCCC), to(#FF9999));
+    border-color: #FF0000;
+    background: -moz-linear-gradient(top,  #FF0000,  #B20000);
+    background: -webkit-gradient(linear, left top, left bottom, from(#FF0000), to(#B20000));
+}
+
+.google-visualization-orgchart-node-blue {
+    color: floralwhite;
+    text-align: center;
+    vertical-align: middle;
+    font-family: arial,helvetica;
+    cursor: pointer;
+    border: 2px solid #b5d9ea;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.5) 3px 3px 3px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.5) 3px 3px 3px;
+    border-color: #4D4DEE;
+    background: -moz-linear-gradient(top,  #4D4DEE,  #0000E6);
+    background: -webkit-gradient(linear, left top, left bottom, from(#4D4DEE), to(#0000E6))
+}
+
+.google-visualization-orgchart-nodesel {
+    color: #000000 !important;
 }
