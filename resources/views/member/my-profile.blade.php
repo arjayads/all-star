@@ -125,7 +125,7 @@
 
                     if (selectedItem && selectedItem.row > 0) {
                         var key = data.getValue(selectedItem.row,0);
-                        window.open('/member/profile?id=' + key, '_blank').focus();
+                        window.open('/member/profile?id=' + key, '_self').focus();
                     }
                 }
             }

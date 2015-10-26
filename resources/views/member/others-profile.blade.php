@@ -25,6 +25,8 @@
                                         <div class="pull-right"><button id="cancel" class="btn btn-success">Cancel request</button></div>
                                     @elseif (isset($available) && $available)
                                         <div class="pull-right"><button id="add" class="btn btn-default">Add</button></div>
+                                    @elseif (isset($myMember) && $myMember)
+                                        <div class="pull-right"><button id="remove" class="btn btn-danger">Remove from your team</button></div>
                                     @endif
                                 </div>
                             </div>
@@ -102,7 +104,7 @@
 
                     if (selectedItem && selectedItem.row > 0) {
                         var key = data.getValue(selectedItem.row,0);
-                        window.open('/member/profile?id=' + key, '_blank').focus();
+                        window.open('/member/profile?id=' + key, '_self').focus();
                     }
                 }
             }
@@ -124,6 +126,14 @@
 
     $('#cancel').on('click', function() {
         $.post( "/member/requestCancel", { userId: $userId, '_token': '{{csrf_token()}}'}).done(function( data ) {
+            if (data.success) {
+                window.location.reload();
+            }
+        });
+    });
+
+    $('#remove').on('click', function() {
+        $.post( "/member/removeTeamMember", { userId: $userId, '_token': '{{csrf_token()}}'}).done(function( data ) {
             if (data.success) {
                 window.location.reload();
             }

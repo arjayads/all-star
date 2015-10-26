@@ -44,7 +44,11 @@ class MembersController extends Controller
             if ($xu && count($xu) > 0) {
                 $data['available'] = true;
             }
-
+            // check if member is member of current user
+            $cU = User::where('parent_user_id', Auth::user()->id)->get();
+            if ($cU && count($cU) > 0) {
+                $data['myMember'] = true;
+            }
 
             return view('member.others-profile', $data);
         } else {
