@@ -17,7 +17,9 @@ Route::get('auth/logout', 'Auth\AuthController@getLogout');
 Route::get('/', 'VideosController@index');
 Route::get('/profile', 'MembersController@myProfile');
 
-Route::get('videos', 'VideosController@index');
+Route::group(['prefix' => 'videos', 'middleware' => 'auth'], function () {
+    Route::get('/', 'VideosController@index');
+});
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::group(['prefix' => 'videos'], function () {
@@ -43,6 +45,7 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth'], function () {
         Route::post('addToTeam', 'MembersController@addToTeam');
         Route::post('removeTeamMember', 'MembersController@removeTeamMember');
 });
+
 
 Route::resource('admin/videos', 'AdminController');
 

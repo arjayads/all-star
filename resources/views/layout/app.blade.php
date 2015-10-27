@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>All Star</title>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('/plugins/jquery-ui-1.11.4.custom/jquery-ui.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/plugins/jquery-ui-1.11.4.custom/jquery-ui.structure.min.css') }}" rel="stylesheet">
@@ -57,16 +58,17 @@
                                 <li><a href="{{ url('/admin/videos') }}">All Videos</a></li>
                                 <li><a href="{{ url('/admin/videos/create') }}">Upload Video</a></li>
                             @endif
+                                <li><a href="/videos">Videos</a></li>
 
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }}
-                                    <img src="{{ Auth::user()->avatar }}" class="avatar img-circle" width="26" height="26">
-                                    <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="/profile">Profile</a></li>
-                                    <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
-                                </ul>
-                            </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }}
+                                        <img src="{{ Auth::user()->avatar }}" class="avatar img-circle" width="26" height="26">
+                                        <span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="/profile">Profile</a></li>
+                                        <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
+                                    </ul>
+                                </li>
                         @endif
                     </ul>
                 </div>
