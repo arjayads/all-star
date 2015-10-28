@@ -20,6 +20,8 @@ Route::get('/profile', 'MembersController@myProfile');
 
 Route::group(['prefix' => 'videos', 'middleware' => 'auth'], function () {
     Route::get('/', 'VideosController@index');
+    Route::get('/cat/{id}', 'VideosController@byCategory');
+    Route::get('/prev/{id}', 'VideosController@preview');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
