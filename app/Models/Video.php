@@ -11,6 +11,7 @@ class Video extends Model
         'upload_filename',
         'original_filename',
         'mime_type',
-        'type'
+        'type',
+        'category_id'
     ];
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\FileUploader\FileUploaderPublisher;
+use App\Models\VideoCategories;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -24,8 +25,7 @@ class AdminController extends Controller
      */
     public function __construct(FileUploaderPublisher $uploader)
     {
-        $this->uploader = $uploader;    
-        $this->middleware('auth');
+        $this->uploader = $uploader;
     }
 
     /**
@@ -47,7 +47,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return view('admin.create');
+        $cats = VideoCategories::all()->lists('name','id');
+        return view('admin.create')->with('categories', $cats);
     }
 
     /**
