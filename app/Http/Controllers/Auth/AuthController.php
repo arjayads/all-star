@@ -27,7 +27,7 @@ class AuthController extends Controller implements AuthenticateUserListener
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
-    protected $redirectTo = '/videos';
+    protected $redirectTo = '/';
 
     /**
      * Create a new authentication controller instance.
