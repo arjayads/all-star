@@ -78,8 +78,9 @@ class AdminController extends Controller
     public function edit($id)
     {
         $video = Video::findOrFail($id);
+        $cats = VideoCategories::all()->lists('name','id');
 
-        return view('admin.edit', compact('video'));
+        return view('admin.edit', ['video' => $video, 'categories' => $cats]);
     }
 
     /**

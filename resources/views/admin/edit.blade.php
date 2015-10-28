@@ -23,19 +23,29 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="form-group ">
                         <label for="title">Video title:</label>
-                        <input class="form-control" name="title" type="text" id="title" value="{{$video->title}}">
+                        <input required="" class="form-control" name="title" type="text" id="title" value="{{$video->title}}">
                     </div>
 
                     <div class="form-group">
-                        <label for="type">Type:</label>
-                        <select class="form-control col-xs-3" id="type" name="type">
+                        <label for="category">Category:</label>
+                        <select required="" class="form-control col-xs-3" id="category" name="category_id">
+                            <option value="">Select category</option>
+                            @foreach ($categories as $key => $cat)
+                                <option {{$video->category_id == $key ? 'Selected' : ''}} value="{{$key}}">{{$cat}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type" style="padding-top: 10px;">Type:</label>
+                        <select required="" class="form-control col-xs-3" id="type" name="type">
                             <option value="Public" {{$video->type == 'Public' ? 'Selected' : ''}}>Public</option>
                             <option value="Private" {{$video->type == 'Private' ? 'Selected' : ''}}>Private</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="filename">Video:</label>
+                        <label for="filename" style="padding-top: 10px;">Video:</label>
                         <input name="video" type="file" id="filename">
                     </div>
 
