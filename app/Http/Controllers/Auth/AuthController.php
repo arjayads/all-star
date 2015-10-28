@@ -34,9 +34,10 @@ class AuthController extends Controller implements AuthenticateUserListener
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(AuthenticateUser $authenticateUser)
     {
         $this->middleware('guest', ['except' => 'getLogout']);
+        $this->authenticateUser = $authenticateUser;
     }
 
     /**
@@ -75,10 +76,13 @@ class AuthController extends Controller implements AuthenticateUserListener
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function login($provider, AuthenticateUser $authenticateUser, Request $request)
+    public function login(Request $request, $provider = null)
     {
+        if ($provider == null) {
+            return redirect('/');
+        }
         $hasCode = $request->has('code');
-        return $authenticateUser->execute($hasCode, $provider, $this);
+        return $this->authenticateUser->execute($hasCode, $provider, $this);
     }
 
     /**

@@ -19,6 +19,7 @@ class Videos extends Migration
             $table->string('original_filename');
             $table->enum('type', ['Public', 'Private']);
             $table->string('mime_type');
+            $table->unsignedInteger('category_id')->nullable();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });

@@ -12,6 +12,7 @@
 */
 
 Route::get('auth/login/{provider}', 'Auth\AuthController@login');
+Route::get('auth/login', 'Auth\AuthController@login');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
 Route::get('/', 'StaticPageController@index');
