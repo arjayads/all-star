@@ -9,6 +9,16 @@
                         @include('includes.left-menu-admin')
                     </div>
                     <div class="col-md-9">
+                        @if(Session::has('notif'))
+                            <div class="alert alert-info">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{Session::get('notif')}}
+                            </div>
+                        @endif
+
+                        <div class="row" style="padding-left: 30px;">
+                            <a href="/admin/videos/upload" class="btn btn-primary">Upload</a>
+                        </div>
                         @foreach($videos as $video)
                             <div class="col-md-4">
                                 <div><a href="/admin/videos/{{$video->id}}"><h5 for="{{$video->title}}"> {{$video->title}}</h5></a></div>
