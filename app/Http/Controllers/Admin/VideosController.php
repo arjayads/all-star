@@ -51,6 +51,22 @@ class VideosController extends Controller
         return redirect('admin/videos');
     }
 
+    public function destroy($id)
+    {
+        $v = Video::find($id);
+        if ($v) {
+            $res = $v->delete();
+            if ($res) {
+                return ['error' => false, 'message' => 'Video successfully deleted!'];
+            } else {
+                return ['error' => true, 'message' => 'Failed to delete!'];
+            }
+        } else {
+            return ['error' => true, 'message' => 'Video not available!'];
+        }
+    }
+
+
     public function show($id)
     {
         $vid = Video::findOrFail($id);

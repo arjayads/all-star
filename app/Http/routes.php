@@ -32,7 +32,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
         Route::get('/', 'Admin\VideosController@index');
         Route::post('store', 'Admin\VideosController@store');
         Route::post('update/{id}', 'AdminController@update');
-        Route::post('delete/{id}', 'AdminController@destroy');
+        Route::post('delete/{id}', 'Admin\VideosController@destroy');
     });
 });
 
