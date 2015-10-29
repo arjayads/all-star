@@ -25,10 +25,12 @@ Route::group(['prefix' => 'videos', 'middleware' => 'auth'], function () {
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
-    Route::get('/', 'AdminController@index');
+    Route::get('/', 'Admin\HomeController@index');
     Route::group(['prefix' => 'videos'], function () {
-        Route::post('update/{id}', 'AdminController@update');
-        Route::post('delete/{id}', 'AdminController@destroy');
+        Route::get('/', 'Admin\VideosController@index');
+        Route::get('/{id}', 'Admin\VideosController@show');
+//        Route::post('update/{id}', 'AdminController@update');
+//        Route::post('delete/{id}', 'AdminController@destroy');
     });
 });
 
@@ -51,5 +53,5 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth'], function () {
 });
 
 
-Route::resource('admin/videos', 'AdminController');
+//Route::resource('admin/videos', 'AdminController');
 
