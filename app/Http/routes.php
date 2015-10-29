@@ -27,11 +27,12 @@ Route::group(['prefix' => 'videos', 'middleware' => 'auth'], function () {
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/', 'Admin\HomeController@index');
     Route::group(['prefix' => 'videos'], function () {
+        Route::get('/{id}/edit', 'Admin\VideosController@edit');
         Route::get('/upload', 'Admin\VideosController@create');
         Route::get('/{id}', 'Admin\VideosController@show');
         Route::get('/', 'Admin\VideosController@index');
         Route::post('store', 'Admin\VideosController@store');
-        Route::post('update/{id}', 'AdminController@update');
+        Route::post('update/{id}', 'Admin\VideosController@update');
         Route::post('delete/{id}', 'Admin\VideosController@destroy');
     });
 });

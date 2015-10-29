@@ -46,7 +46,7 @@ class VideosController extends Controller
         $video= Video::create($params);
         $this->uploader->pushFile($vid, $video, $params['original_filename'], $params['upload_filename']);
 
-        $request->session()->flash("notif", "Videos successufully uploaded");
+        $request->session()->flash("notif", "Video successfully uploaded");
 
         return redirect('admin/videos');
     }
@@ -64,6 +64,40 @@ class VideosController extends Controller
         } else {
             return ['error' => true, 'message' => 'Video not available!'];
         }
+    }
+
+
+    public function edit($id)
+    {
+        $video = Video::findOrFail($id);
+        $cats = VideoCategories::all()->lists('name','id');
+
+        return view('admin.edit', ['video' => $video, 'categories' => $cats]);
+    }
+
+    public function update(Requests\CreateVideoRequest $request, $id)
+    {
+        $params = $request->except(['video', '_token']);
+        $newVideo = $request->file('video');
+
+        if ($newVideo) {
+            $params = $this->setVideoParams($params, $newVideo);
+        }
+        $existingVideo = Video::findOrFail($id);
+
+        if ($existingVideo) {
+            if ($newVideo) {
+                $formerFile = $existingVideo->upload_filename; //to be deleted
+            }
+            $existingVideo->update($params);
+
+            if ($newVideo) {
+                $this->uploader->pushFile($newVideo, $existingVideo, $params['original_filename'], $params['upload_filename'], $formerFile);
+            }
+        }
+        $request->session()->flash("notif", "Video successfully updated");
+
+        return redirect('admin/videos');
     }
 
 
