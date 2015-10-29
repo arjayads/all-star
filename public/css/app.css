@@ -6332,3 +6332,40 @@ label,
 .google-visualization-orgchart-nodesel {
     color: #000000 !important;
 }
+
+.bg-danger {
+    background-color: #e6544b !important;
+    color: #fff !important;
+}
+
+.bg-info {
+    background-color: #26a9cc !important;
+    color: #fff !important;
+}
+
+.bg-success {
+    background-color: #53a93e !important;
+    color: #fff !important;
+}
+
+.bg-transparent {
+    background-color: transparent !important;
+}
+.panel.panel-default {
+    border-color: rgba(44,44,44,0.1);
+}
+
+.panel-heading-bdr-danger {
+    border-color: #e6544b !important;
+}
+
+.panel-heading-bdr-info {
+     border-color: #26a9cc !important;
+ }
+.panel-heading-bdr-success {
+    border-color: #53a93e !important;
+}
+
+.text-white {
+    color: #fff !important;
+}
