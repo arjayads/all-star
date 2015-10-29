@@ -1,9 +1,9 @@
 @extends('layout.app')
 
 @section('content')
-    <div class="container-fluid  top-buffer">
+    <div class="container-fluid top-buffer">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-10 col-md-offset-1 no-padding">
                 <h3>Add team member</h3>
                 <hr/>
                 <div class="alert alert-info">

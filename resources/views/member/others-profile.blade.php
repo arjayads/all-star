@@ -6,7 +6,7 @@
 @section('content')
     <div class="container-fluid  top-buffer">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-10 col-md-offset-1 no-padding">
                 @if(isset($notFound))
                     <div class="alert alert-danger">
                         Member you are looking for is not available!

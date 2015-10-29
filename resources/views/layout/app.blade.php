@@ -28,7 +28,7 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-10 col-md-offset-1 no-padding">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Toggle Navigation</span>
@@ -45,7 +45,7 @@
                         @if (!Auth::guest())
                             <form class="navbar-form navbar-left" role="search">
                                 <div class="form-group">
-                                    <input id="search" type="text" class="form-control" placeholder="Search members">
+                                    <input id="search" type="text" class="form-control" placeholder="Search members" style="width: 370px">
                                 </div>
                             </form>
                         @endif
@@ -58,8 +58,6 @@
                                 <li><a href="{{ url('/admin/videos') }}">All Videos</a></li>
                                 <li><a href="{{ url('/admin/videos/create') }}">Upload Video</a></li>
                             @endif
-                                <li><a href="/videos">Videos</a></li>
-
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }}
                                         <img src="{{ Auth::user()->avatar }}" class="avatar img-circle" width="26" height="26">
