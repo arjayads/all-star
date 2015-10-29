@@ -12,15 +12,17 @@
                         <h4><b>{{$category->name}}</b> videos</h4>
                         @if($videos && count($videos) > 0)
                             @foreach($videos as $video)
-                                <div class="col-md-4">
-                                    <div><h5 for="{{$video->title}}"> {{$video->title}}</h5></div>
-                                    <a href="/videos/prev/{{$video->id}}">
-                                        <div align="center" class="embed-responsive embed-responsive-4by3">
-                                            <video controls class="embed-responsive-item">
-                                                <source src="/admin/videos/{{$video->id}}" type="{{$video->mime_type}}" type="video/*">
-                                            </video>
-                                        </div>
-                                    </a>
+                                <div class="col-md-4" style="padding: 5px;">
+                                    <div class="jumbotron" style="padding: 15px;">
+                                        <div><h5 for="{{$video->title}}"> {{$video->title}}</h5></div>
+                                        <a href="/videos/prev/{{$video->id}}">
+                                            <div align="center" class="embed-responsive embed-responsive-4by3">
+                                                <video controls class="embed-responsive-item">
+                                                    <source src="/admin/videos/{{$video->id}}" type="{{$video->mime_type}}" type="video/*">
+                                                </video>
+                                            </div>
+                                        </a>
+                                    </div>
                                 </div>
                             @endforeach
                         @else
