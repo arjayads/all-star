@@ -13,12 +13,12 @@ class UserTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'name'    => 'john doe',
-                'email'    => 'johndoe@tangkits.com',
-                'avatar'   => 'https://avatars.githubusercontent.com/u/1678728?v=3',
+                'name'    => 'Super Admin',
+                'email'    => 'admin@allstar.com',
+                'avatar'   => '',
                 'social_id' => rand(1000, 10000),
-                'provider' => 'github',
-                'password' => Hash::make('default')
+                'provider' => 'facebook',
+                'password' => Hash::make('admin')
             ],
             [
                 'name'    => 'john lennon',
