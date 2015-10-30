@@ -91,13 +91,14 @@
 
         var $myUserId = '{{$member->id}}';
         var $nyMame = '{{$member->name}}';
-        var $nyEmail = '{{$member->email}}';
+        var $myEmail = '{{$member->email}}';
 
         google.setOnLoadCallback(drawChart);
         function drawChart() {
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Name');
             data.addColumn('string', 'Upline');
+            data.addColumn('string', 'ToolTip');
 
 
             $.get( "/ajax/find/downlines?parentUserId="+$myUserId).done(function( d ) {
@@ -105,10 +106,10 @@
                     $('#chart_div').addClass('alert alert-info').text("No team members yet!");
                 } else {
                     var rows = [
-                        [{v:$myUserId, f:$nyMame + '<div class="member" style="font-style:italic">' + $nyEmail + '</div>'}, '']
+                        [{v:$myUserId, f:$nyMame + ' <div class="member" style="font-style:italic">' + '' + '</div>'}, '', $myEmail]
                     ];
                     for(var idx=0; idx<d.length; idx++) {
-                        var member = [{v: d[idx].id, f: d[idx].name + '<div class="' + (d[idx].social_id != '' ? 'member' : 'non-member') +'" style="font-style:italic">' +  d[idx].email +'</div>'}, $myUserId]
+                        var member = [{v: d[idx].id, f: d[idx].name + '<div class="' + (d[idx].social_id != '' ? 'member' : 'non-member') +'"></div>'}, $myUserId,  d[idx].email];
                         rows.push(member);
                     }
 
