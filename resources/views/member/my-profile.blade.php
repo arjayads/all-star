@@ -121,8 +121,8 @@
                     if (rows.length <= 2) {
                         $('.google-visualization-orgchart-table').css('max-width', "30%");
                     } else
-                    if (rows.length <= 3) {
-                        $('.google-visualization-orgchart-table').css('max-width', "50%");
+                    if (rows.length <= 4) {
+                        $('.google-visualization-orgchart-table').css('max-width', "70%");
                     } else {
                         $('.google-visualization-orgchart-table').css('max-width', "100%");
                     }
@@ -143,8 +143,6 @@
                 }
             });
         }
-
-
 
         $('.response').on('click', function(e) {
             e.preventDefault();
