@@ -6333,6 +6333,10 @@ label,
     color: #000000 !important;
 }
 
+.google-visualization-orgchart-node-medium {
+    font-size: 14px !important;
+}
+
 .bg-danger {
     background-color: #e6544b !important;
     color: #fff !important;
