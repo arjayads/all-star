@@ -15,5 +15,8 @@
         <a href="#" class="list-group-item">
             <span class="glyphicon glyphicon-blackboard"></span> Announcements
         </a>
+        <a href="/profile" class="list-group-item">
+            <span class="glyphicon glyphicon-user"></span> Profile
+        </a>
     </div>
 </div>
