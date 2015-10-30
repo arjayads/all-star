@@ -3,8 +3,17 @@
 namespace App\Repositories;
 
 use App\User;
+use Illuminate\Support\Facades\DB;
 
 class UserRepo {
+
+    function findDefaultUrl($userId)
+    {
+        $q = DB::table('users')
+            ->join('user_groups', 'users.id', '=', 'user_groups.user_id')
+            ->join('groups', 'user_groups.group_id', '=', 'groups.id');
+        return $q->where('user_groups.user_id', '=', $userId)->lists('default_url');
+    }
 
     /**
      * @param $userData
@@ -22,13 +31,25 @@ class UserRepo {
             return $authUser;
         }
 
-        return User::create([
+        $user = User::create([
             'email' => $userData->email,
             'name' => $userData->name,
             'social_id' => $userData->id,
             'avatar' => $userData->avatar,
             'provider' => $provider
         ]);
+
+        if ($user) {
+            DB::table('user_groups')->insert([
+                [
+                    'user_id' => $user->id,
+                    'group_id' => 2 // Member
+                ]
+            ]);
+        }
+
+
+        return $user;
     }
 
     public function findByParentUserId($parentUserId, array $cols = []) {

@@ -24,7 +24,7 @@ Route::group(['prefix' => 'videos', 'middleware' => 'auth'], function () {
     Route::get('/prev/{id}', 'VideosController@preview');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth2']], function () {
     Route::get('/', 'Admin\HomeController@index');
     Route::group(['prefix' => 'videos'], function () {
         Route::get('/{id}/edit', 'Admin\VideosController@edit');

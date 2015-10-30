@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\UserRepo;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -10,15 +11,17 @@ use Illuminate\Support\Facades\Auth;
 
 class StaticPageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct(UserRepo $userRepo)
     {
-        if(Auth::check()) {
-            return redirect('/videos');
+        $this->userRepo = $userRepo;
+    }
+
+    function index()
+    {
+        try {
+            $url = $this->userRepo->findDefaultUrl(Auth::user()->id);
+            return redirect($url[0]);
+        } catch (\Exception $e) {
         }
         return view('main');
     }
