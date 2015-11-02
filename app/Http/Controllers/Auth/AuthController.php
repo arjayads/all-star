@@ -85,6 +85,7 @@ class AuthController extends Controller implements AuthenticateUserListener
         return $this->authenticateUser->execute($hasCode, $provider, $this);
     }
 
+
     /**
      * @param $user
      * @return mixed

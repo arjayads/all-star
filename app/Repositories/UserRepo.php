@@ -59,4 +59,14 @@ class UserRepo {
         return User::where('parent_user_id', $parentUserId)->get();
     }
 
+
+    function findGroups($userId)
+    {
+        $q = DB::table('users')
+            ->join('user_groups', 'users.id', '=', 'user_groups.user_id')
+            ->join('groups', 'user_groups.group_id', '=', 'groups.id');
+        return $q->where('user_groups.user_id', '=', $userId)
+                ->select('groups.name')
+                ->lists('name');
+    }
 }

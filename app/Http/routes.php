@@ -15,6 +15,9 @@ Route::get('auth/login/{provider}', 'Auth\AuthController@login');
 Route::get('auth/login', 'Auth\AuthController@login');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
+Route::get('/login2', 'StaticPageController@login');
+Route::post('/login2', 'StaticPageController@login');
+
 Route::get('/', 'StaticPageController@index');
 Route::get('/profile', 'MembersController@myProfile');
 
@@ -24,7 +27,7 @@ Route::group(['prefix' => 'videos', 'middleware' => 'auth'], function () {
     Route::get('/prev/{id}', 'VideosController@preview');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth2']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth2:Admin']], function () {
     Route::get('/', 'Admin\HomeController@index');
     Route::group(['prefix' => 'videos'], function () {
         Route::get('/{id}/edit', 'Admin\VideosController@edit');

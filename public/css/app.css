@@ -6373,3 +6373,7 @@ label,
 .text-white {
     color: #fff !important;
 }
+
+.margin-bottom-10 {
+    margin-bottom: 10px;
+}

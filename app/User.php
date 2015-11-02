@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Repositories\UserRepo;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -36,4 +37,9 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    public function groups() {
+        $repo = new UserRepo();
+        return $repo->findGroups($this->id);
+    }
 }

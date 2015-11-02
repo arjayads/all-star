@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class Auth2Middleware
 {
@@ -18,14 +19,14 @@ class Auth2Middleware
     {
         $user = Auth::user();
 
-        if(count($roles) > 0) {
-            foreach($roles as $r) {
-                if (in_array($r, $user->groups())) {
-                    return $next($request);
-                }
-            }
+        $userRoles = $user->groups();
+        $defRoles = array_intersect($userRoles, $roles);
+
+        if(count($defRoles) > 0) {
+            return $next($request);
+        } else {
+            return redirect('login2');
         }
 
-        return redirect("/profile");
     }
 }

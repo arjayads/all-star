@@ -25,4 +25,9 @@ class StaticPageController extends Controller
         }
         return view('main');
     }
+
+    public function login()
+    {
+        return view('login');
+    }
 }
