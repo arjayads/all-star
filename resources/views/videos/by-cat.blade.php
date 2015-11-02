@@ -18,7 +18,7 @@
                                         <a href="/videos/prev/{{$video->id}}">
                                             <div align="center" class="embed-responsive embed-responsive-4by3">
                                                 <video controls class="embed-responsive-item">
-                                                    <source src="/admin/videos/{{$video->id}}" type="{{$video->mime_type}}" type="video/*">
+                                                    <source src="/videos/{{$video->id}}" type="{{$video->mime_type}}" type="video/*">
                                                 </video>
                                             </div>
                                         </a>

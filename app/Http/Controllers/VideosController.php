@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Video;
 use App\Http\Requests;
 use App\Models\VideoCategories;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\File;
 
 class VideosController extends Controller
 {
@@ -36,5 +38,14 @@ class VideosController extends Controller
             return view('videos.preview')->with('video', $video)->with('category', $category);
         }
         return redirect("/videos");
+    }
+
+    public function show($id)
+    {
+        $vid = Video::findOrFail($id);
+        $path = env('FILE_UPLOAD_PATH') . '/' . $vid->id . '~' . $vid->upload_filename;
+        $file = File::get($path);
+
+        return (new Response($file, 200))->header('Content-Type', File::mimeType($path));
     }
 }

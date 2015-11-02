@@ -12,7 +12,7 @@
                         <h4><a href="/videos">Training Videos</a> > <a href="/videos/cat/{{$category->id}}">{{$category->name}}</a> > {{$video->title}}</h4>
                         <div class="embed-responsive embed-responsive-4by3">
                             <video controls class="embed-responsive-item" style="height: 83% !important;">
-                                <source src="/admin/videos/{{$video->id}}" type="{{$video->mime_type}}">
+                                <source src="/videos/{{$video->id}}" type="{{$video->mime_type}}">
                             </video>
                         </div>
                     </div>
