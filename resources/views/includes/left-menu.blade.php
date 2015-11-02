@@ -1,7 +1,7 @@
 <div class="bs-example">
     <div class="list-group">
         @if(in_array('Admin', Auth::user()->groups()))
-            <a href="/admin" class="list-group-item {{Request::segment(2)==''?'active':''}}">
+            <a href="/admin" class="list-group-item {{Request::segment(1)=='admin' && Request::segment(2)==''?'active':''}}">
                 <span class="glyphicon glyphicon-home"></span> Home
             </a>
 

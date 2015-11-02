@@ -57,6 +57,3 @@ Route::group(['prefix' => 'member', 'middleware' => 'auth'], function () {
         Route::post('removeTeamMember', 'MembersController@removeTeamMember');
 });
 
-
-//Route::resource('admin/videos', 'AdminController');
-

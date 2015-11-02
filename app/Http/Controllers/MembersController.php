@@ -17,6 +17,8 @@ class MembersController extends Controller
     function __construct(AddRequestRepo $addRequestRepo, UserRepo $userRepo) {
         $this->addRequestRepo = $addRequestRepo;
         $this->userRepo = $userRepo;
+
+        $this->middleware('auth', ['only' => ['myProfile']]);
     }
 
     function find() {
