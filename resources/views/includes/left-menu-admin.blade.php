@@ -1,8 +1,10 @@
 <div class="bs-example">
     <div class="list-group">
-        <a href="/admin" class="list-group-item {{Request::segment(2)==''?'active':''}}">
-            <span class="glyphicon glyphicon-home"></span> Home
-        </a>
+        @if(in_array('admin', Auth::user()->groups()))
+            <a href="/admin" class="list-group-item {{Request::segment(2)==''?'active':''}}">
+                <span class="glyphicon glyphicon-home"></span> Home
+            </a>
+        @endif
         <a href="/admin/videos" class="list-group-item {{Request::segment(2)=='videos'?'active':''}}">
             <span class="glyphicon glyphicon-camera"></span> Training Videos
         </a>
