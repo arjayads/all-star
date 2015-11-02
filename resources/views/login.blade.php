@@ -18,7 +18,7 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="auth/login">
+                        <form method="POST" action="/auth/login">
                             {!! csrf_field() !!}
 
                             <div class="input-group margin-bottom-10">
