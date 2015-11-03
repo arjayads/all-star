@@ -13,7 +13,16 @@
                         <hr/>
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Basic Information</h3>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <h3 class="panel-title">Basic Information</h3>
+                                    </div>
+                                    <div class="col-md-3">
+                                        @if(in_array('Admin', Auth::user()->groups()))
+                                            <a class="pull-right bordered-a " href="/member/changePassowd">Change password</a>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                             <div class="panel-body">
                                 <p>
