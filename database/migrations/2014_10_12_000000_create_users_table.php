@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('type');
             $table->string('code');
             $table->text('avatar')->nullable();
-            $table->string('social_id')->index();
+            $table->string('social_id')->nullable()->index();
             $table->string('provider')->index();
             $table->string('email');
             $table->string('password', 60);

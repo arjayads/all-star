@@ -16,7 +16,7 @@
                                         <div class="panel-title text-white">Members</div>
                                     </div>
                                     <div class="panel-body">
-                                        <div style="text-align: center;font-size: 60px;" class="ng-binding">348,034</div>
+                                        <div style="text-align: center;font-size: 60px;" class="ng-binding">{{number_format($noOfMembers)}}</div>
                                     </div>
                                     <div class="panel-footer bg-transparent bd-none panel-heading-bdr-danger">
                                     </div>
@@ -28,7 +28,7 @@
                                         <div class="panel-title text-white">Videos</div>
                                     </div>
                                     <div class="panel-body">
-                                        <div style="text-align: center; font-size: 60px;" class="ng-binding">723</div>
+                                        <div style="text-align: center; font-size: 60px;" class="ng-binding">{{number_format($noOfVideos)}}</div>
                                     </div>
                                     <div class="panel-footer bg-transparent bd-none panel-heading-bdr-info">
                                     </div>
@@ -40,7 +40,7 @@
                                         <div class="panel-title text-white">Upcoming Events</div>
                                     </div>
                                     <div class="panel-body">
-                                        <div style="text-align: center; font-size: 60px;" class="ng-binding">3</div>
+                                        <div style="text-align: center; font-size: 60px;" class="ng-binding">{{number_format(0)}}</div>
                                     </div>
                                     <div class="panel-footer bg-transparent bd-none panel-heading-bdr-success">
                                     </div>

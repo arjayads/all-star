@@ -69,4 +69,8 @@ class UserRepo {
                 ->select('groups.name')
                 ->lists('name');
     }
+
+    function countMembers() {
+        return User::where('id', '>', 1)->whereRaw('social_id IS NOT NULL')->count();
+    }
 }

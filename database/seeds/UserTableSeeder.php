@@ -16,7 +16,7 @@ class UserTableSeeder extends Seeder
                 'name'    => 'Super Admin',
                 'email'    => 'admin@allstar.com',
                 'avatar'   => '',
-                'social_id' => rand(1000, 10000),
+                'social_id' => null,
                 'provider' => 'facebook',
                 'password' => Hash::make('admin')
             ],
