@@ -43,12 +43,18 @@ class HomeController extends Controller
         if ($validator->fails()) {
             return redirect('/admin/changePassword')->with('errors', $validator->errors()->all());
         } else {
+            $user = Auth::user();
             $credentials = [
-                'email' => Auth::user()->email,
+                'email' => $user->email,
                 'password' => $request->get('current_password')
             ];
             $valid = Auth::validate($credentials);
             if ($valid) {
+                $user->password = bcrypt($request->get('password'));
+                $user->save();
+
+                $request->session()->flash("notif", "Password successfully changed!");
+
                 return redirect('/profile');
             }
             return redirect('/admin/changePassword')->with('errors', ['Input correct current password']);

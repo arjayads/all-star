@@ -11,6 +11,12 @@
                     <div class="col-md-9">
                         <h3 style="margin-top: 0">My Profile</h3>
                         <hr/>
+                        @if(Session::has('notif'))
+                            <div class="alert alert-info">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{Session::get('notif')}}
+                            </div>
+                        @endif
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <div class="row">
