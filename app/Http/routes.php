@@ -29,6 +29,8 @@ Route::group(['prefix' => 'videos', 'middleware' => 'auth'], function () {
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth2:Admin']], function () {
     Route::get('/', 'Admin\HomeController@index');
+    Route::get('/changePassword', 'Admin\HomeController@changePasswordPage');
+    Route::post('/changePassword', 'Admin\HomeController@changePassword');
     Route::group(['prefix' => 'videos'], function () {
         Route::get('/{id}/edit', 'Admin\VideosController@edit');
         Route::get('/upload', 'Admin\VideosController@create');

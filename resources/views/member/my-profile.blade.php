@@ -19,7 +19,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         @if(in_array('Admin', Auth::user()->groups()))
-                                            <a class="pull-right bordered-a " href="/member/changePassowd">Change password</a>
+                                            <a class="pull-right bordered-a " href="/admin/changePassword">Change password</a>
                                         @endif
                                     </div>
                                 </div>
