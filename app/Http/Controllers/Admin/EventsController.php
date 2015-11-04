@@ -12,6 +12,10 @@ class EventsController extends Controller
 {
     public function index() {
         $events = Event::where('date', '>=', date("Y-m-d"))->orderBy('date', 'asc')->get();
-        return view('admin.events', ['events' => $events]);
+        return view('events.index', ['events' => $events]);
+    }
+
+    function add() {
+        return view('events.add');
     }
 }
