@@ -19,8 +19,29 @@
                         <div class="row" style="padding-left: 20px;">
                             <a href="/admin/events/add" class="btn btn-primary">Add Event</a>
                         </div>
-                        @foreach($events as $event)
-                        @endforeach
+                        <div class="margin-bottom-10"></div>
+                        @if(count($events) > 0)
+                            <table class="table table-bordered table-responsive table-striped">
+                                <thead>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Location</th>
+                                    <th width="40%">Description</th>
+                                </thead>
+                                <tbody>
+                                    @foreach($events as $event)
+                                    <tr>
+                                        <td>{{$event->title}}</td>
+                                        <td>{{(new DateTime($event->date))->format('M d, Y')}}</td>
+                                        <td>{{$event->location}}</td>
+                                        <td>{{$event->description}}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <div class="alert-info alert">No up coming events</div>
+                        @endif
                     </div>
                 </div>
             </div>
