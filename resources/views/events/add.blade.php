@@ -54,7 +54,7 @@
 
                                 <div class="form-group">
                                     <input class="btn btn-primary" type="submit" value="Add">
-                                    <input class="btn btn-default" type="reset" value="Clear">
+                                    <input id="reset" class="btn btn-default" type="reset" value="Reset">
                                 </div>
                             </form>
                         </div>
@@ -91,6 +91,10 @@
             $('.datepicker').datepicker('setDate', date);
             $('.datepicker').datepicker('update');
 
+
+            $('#reset').click(function(){
+                window.location.reload();
+            });
         });
     </script>
 @stop
