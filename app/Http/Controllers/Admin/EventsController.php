@@ -18,4 +18,21 @@ class EventsController extends Controller
     function add() {
         return view('events.add');
     }
+
+    public function store(Requests\CreateEventRequest $request)
+    {
+        $params = $request->except(['_token']);
+        $date = \DateTime::createFromFormat('m/d/Y', $params['date']);
+        $params['date'] = $date->format('Y-m-d');
+
+        $video= Event::create($params);
+        if ($video) {
+            $request->session()->flash("notif", "Event successfully added");
+            return redirect('/admin/events');
+        }
+
+        return  redirect()->back()->withInput($request->all());
+
+    }
+
 }
