@@ -40,6 +40,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth2:Admin']], function ()
         Route::post('update/{id}', 'Admin\VideosController@update');
         Route::post('delete/{id}', 'Admin\VideosController@destroy');
     });
+
+    Route::group(['prefix' => 'events'], function () {
+        Route::get('/', 'Admin\EventsController@index');
+    });
 });
 
 Route::group(['prefix' => 'ajax', 'middleware' => 'auth'], function () {
