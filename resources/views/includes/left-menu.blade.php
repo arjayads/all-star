@@ -9,8 +9,8 @@
                 <span class="glyphicon glyphicon-camera"></span> Training Videos
             </a>
 
-            <a href="/admin/events" class="list-group-item">
-                <span class="glyphicon glyphicon-film"></span> Events  {{Request::segment(2)=='events'?'active':''}}
+            <a href="/admin/events" class="list-group-item {{Request::segment(2)=='events'?'active':''}}">
+                <span class="glyphicon glyphicon-film"></span> Events
             </a>
         @else
             <a href="/videos" class="list-group-item {{Request::segment(1)=='videos'?'active':''}}">

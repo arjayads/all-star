@@ -10,6 +10,6 @@ use App\Http\Controllers\Controller;
 class EventsController extends Controller
 {
     public function index() {
-        dd('Events index');
+        return view('admin.events', ['events' => []]);
     }
 }
