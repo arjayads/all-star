@@ -97,6 +97,8 @@
         $(function() {
 
             var oldDate = "{{ Input::old('date') ?: $event->date }}";
+            var images = '<?php echo json_encode($images) ?>';
+            images = $.parseJSON(images);
 
             $('.datepicker').datepicker({
                 todayBtn: "linked",

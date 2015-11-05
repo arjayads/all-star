@@ -77,6 +77,7 @@ class EventsController extends Controller
             $images = DB::table('files')
                 ->join('event_files', 'files.id', '=', 'event_files.file_id')
                 ->where('event_files.event_id', $event->id)
+                ->select(['files.id', 'original_filename'])
                 ->get();
             return view('events.edit', ['event' => $event, 'images' => $images]);
         }
