@@ -54,7 +54,7 @@
 
                                 @if(count($images))
                                     <div class="form-group ">
-                                        <label for="description">Images:</label><br/>
+                                        <label for="description">Current Images:</label><br/>
                                         <ul style="padding-top: 6px; white-space: nowrap;" class="list-unstyled">
                                             @foreach($images as $image)
                                                 <div class="col-md-4" style="padding-left: 0; margin-top: 10px;">
@@ -64,7 +64,7 @@
                                                              style="margin-bottom: 5px !important; background-size: cover; background-image: url('/admin/events/image/{{$event->id}}/{{$image->id}}')">
                                                         </div>
                                                     </a>
-                                                    <div><label><a class="remove-image" href="">Remove</a></label></div>
+                                                    <div class="remove-image" data-imageid="{{$image->id}}" ><label><a href="">Remove</a></label></div>
                                                 </div>
                                             @endforeach
                                         </ul>
@@ -130,6 +130,22 @@
 
             $('.remove-image').click(function(e){
                 e.preventDefault();
+
+                var imageid = $(this).data('imageid');
+
+                // remove from list
+                for(var x=0; x<images.length; x++) {
+                    if (images[x].id == imageid) {
+
+                        var pdiv = $(this).parent('div');
+                        pdiv.fadeOut(500,function(){
+                            pdiv.remove();
+                        });
+
+                        images.splice(x, 1);
+                        return;
+                    }
+                }
             });
         });
     </script>
