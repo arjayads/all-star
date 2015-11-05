@@ -65,17 +65,13 @@
                                     @endif
                                 </div>
                             </div>
-
-                                {{--<img style="width: 50%;"--}}
-                                     {{--src="/admin/events/image/{{$image->id}}"--}}
-                                     {{--alt="{{$image->original_filename}}"/>--}}
                             <hr/>
                             <div class="row">
                                 <div class="col-md-8">
                                 </div>
                                 <div class="col-md-4 text-right">
                                     <a href="/admin/events/{{$event->id}}/edit" style="cursor: pointer">Edit</a> |
-                                    <a style="cursor: pointer">Delete</a>
+                                    <a style="cursor: pointer" class="delete" data-title="{!! $event->title !!}" data-id="{!! $event->id !!}">Delete</a>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +87,25 @@
 @section('js')
     <script>
         $(function() {
+            $('.delete').on('click', function(e) {
+                e.preventDefault();
 
+                var $data =  $(this).data();
+
+                var res = confirm("You are about to delete event: " + $data.title + '. Do you want to continue?');
+                if (res) {
+
+                    $.post("/admin/events/delete/" + $data.id, { '_token': '{{csrf_token()}}' }, function(data){
+                        if (data.error) {
+                            alert(data.message);
+                        } else {
+                            window.location = '/admin/events';
+                        }
+                    }).fail(function() {
+                        alert( "Something went wrong!" );
+                    });
+                }
+            });
         });
     </script>
 @stop

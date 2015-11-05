@@ -112,6 +112,23 @@ class EventsController extends Controller
         return redirect('admin/events');
     }
 
+    public function destroy(Request $request, $id)
+    {
+        $v = Event::find($id);
+        if ($v) {
+            $res = $v->delete();
+            if ($res) {
+                $request->session()->flash("notif", "Event successfully deleted");
+                return ['error' => false];
+            } else {
+                return ['error' => true, 'message' => 'Failed to delete event!'];
+            }
+        } else {
+            $request->session()->flash("notif", "Event not available!");
+            return ['error' => true];
+        }
+    }
+
     private function handleAttachedImages($images, $eventId) {
 
         $filePath = env('FILE_UPLOAD_PATH');
