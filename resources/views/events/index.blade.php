@@ -31,7 +31,7 @@
                                 <tbody>
                                     @foreach($events as $event)
                                     <tr>
-                                        <td>{{$event->title}}</td>
+                                        <td><a href="/admin/events/{{$event->id}}">{{$event->title}}</a></td>
                                         <td>{{(new DateTime($event->date))->format('M d, Y')}}</td>
                                         <td>{{$event->location}}</td>
                                         <td>{{$event->description}}</td>
@@ -54,25 +54,6 @@
 @section('js')
     <script>
         $(function() {
-            $('.delete').on('click', function(e) {
-                e.preventDefault();
-
-                var $data =  $(this).data();
-
-                var res = confirm("You are about to delete a video: " + $data.title + '. Do you want to continue?');
-                if (res) {
-
-                    $.post("/admin/videos/delete/" + $data.id, { '_token': '{{csrf_token()}}' }, function(data){
-                        if (data.error) {
-                            alert(data.message);
-                        } else {
-                            window.location.reload();
-                        }
-                    }).fail(function() {
-                        alert( "Something went wrong!" );
-                    });
-                }
-            });
         });
     </script>
 @stop

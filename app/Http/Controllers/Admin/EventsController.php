@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use \Illuminate\Http\Response;
 
 class EventsController extends Controller
 {
@@ -42,7 +43,7 @@ class EventsController extends Controller
                         $f->new_filename = md5($image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
                         $f->mime_type = $image->getClientMimeType();
                         $f->save();
-                        
+
                         DB::table('event_files')->insert([
                             [
                                 'event_id' => $event->id,
@@ -69,4 +70,24 @@ class EventsController extends Controller
 
     }
 
+    public function show($id)
+    {
+        $event = Event::findOrFail($id);
+        $images = DB::table('files')
+            ->join('event_files', 'files.id', '=', 'event_files.file_id')
+            ->where('event_files.event_id', $event->id)
+            ->get();
+ 
+        return view('events.detail', ['event' => $event, 'images' => $images]);
+    }
+
+
+    public function image($id)
+    {
+        $image = File::findOrFail($id);
+        $path = env('FILE_UPLOAD_PATH') . '/' . $image->id . '~' . $image->new_filename;
+        $file = \Illuminate\Support\Facades\File::get($path);
+
+        return (new Response($file, 200))->header('Content-Type', \Illuminate\Support\Facades\File::mimeType($path));
+    }
 }

@@ -100,7 +100,6 @@ class VideosController extends Controller
         return redirect('admin/videos');
     }
 
-
     public function show($id)
     {
         $vid = Video::findOrFail($id);
