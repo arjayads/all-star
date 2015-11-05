@@ -57,16 +57,15 @@
                                         <label for="description">Images:</label><br/>
                                         <ul style="padding-top: 6px; white-space: nowrap;" class="list-unstyled">
                                             @foreach($images as $image)
-                                                <li style="display: inline">
-                                                    <a title="{{$image->original_filename}}"
-                                                       href="/admin/events/image/{{$image->id}}"
-                                                       target="_blank">
-                                                        <img style="width: 30%;"
-                                                             src="/admin/events/image/{{$image->id}}"
-                                                             alt="{{$image->original_filename}}"/></a>
-
+                                                <div class="col-md-4" style="padding-left: 0; margin-top: 10px;">
+                                                    <a href="/admin/events/image/{{$event->id}}/{{$image->id}}">
+                                                        <div title="{{$image->original_filename}}"
+                                                             class="jumbotron embed-responsive embed-responsive-4by3"
+                                                             style="margin-bottom: 5px !important; background-size: cover; background-image: url('/admin/events/image/{{$event->id}}/{{$image->id}}')">
+                                                        </div>
+                                                    </a>
                                                     <div><label><a class="remove-image" href="">Remove</a></label></div>
-                                                </li>
+                                                </div>
                                             @endforeach
                                         </ul>
                                     </div>
