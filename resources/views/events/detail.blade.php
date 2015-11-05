@@ -26,7 +26,7 @@
                                     <label class="input-label"><b>Date</b></label>
                                 </div>
                                 <div class="col-md-9">
-                                    <label class="input-label">{{$event->date}}</label>
+                                    <label class="input-label">{{(new DateTime($event->date))->format('M d, Y')}}</label>
 
                                 </div>
                             </div>
