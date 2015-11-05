@@ -20,8 +20,8 @@ class CreateEventFilesTable extends Migration
             $table->unsignedInteger('event_id');
             $table->unsignedInteger('file_id');
 
-            $table->foreign('event_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('file_id')->references('id')->on('groups')->onDelete('restrict');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->foreign('file_id')->references('id')->on('files')->onDelete('restrict');
         });
     }
 

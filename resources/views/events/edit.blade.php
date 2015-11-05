@@ -52,8 +52,28 @@
                                               id="description" name="description">{{ Input::old('description') ?: $event->description }}</textarea>
                                 </div>
 
+                                @if(count($images))
+                                    <div class="form-group ">
+                                        <label for="description">Images:</label><br/>
+                                        <ul style="padding-top: 6px; white-space: nowrap;" class="list-unstyled">
+                                            @foreach($images as $image)
+                                                <li style="display: inline">
+                                                    <a title="{{$image->original_filename}}"
+                                                       href="/admin/events/image/{{$image->id}}"
+                                                       target="_blank">
+                                                        <img style="width: 30%;"
+                                                             src="/admin/events/image/{{$image->id}}"
+                                                             alt="{{$image->original_filename}}"/></a>
+
+                                                    <div><label><a class="remove-image" href="">Remove</a></label></div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
                                 <div class="form-group ">
-                                    <label for="description">Attache images: <span class="red">Images larger than 5 mb will not be saved</span></label><br/>
+                                    <label for="description">Add images: <span class="red">Images larger than 5 mb will not be saved</span></label><br/>
                                     <input type="file" id="file" name="files[]" multiple="multiple" accept="image/*" />
                                 </div>
 
@@ -104,6 +124,11 @@
 
             $('#reset').click(function(){
                 window.location.reload();
+            });
+
+
+            $('.remove-image').click(function(e){
+                e.preventDefault();
             });
         });
     </script>

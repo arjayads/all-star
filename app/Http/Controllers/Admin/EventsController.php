@@ -24,9 +24,6 @@ class EventsController extends Controller
 
     public function store(Requests\CreateEventRequest $request)
     {
-        $filePath = env('FILE_UPLOAD_PATH');
-        $limit = 5 * 1024 * 1024; // 5MB
-
         $params = $request->except(['_token']);
         $date = \DateTime::createFromFormat('m/d/Y', $params['date']);
         $params['date'] = $date->format('Y-m-d');
@@ -36,31 +33,8 @@ class EventsController extends Controller
             $hasAttachment = $request->hasFile('files');
             if ($hasAttachment) {
                 $images = $request->file('files');
-                foreach($images as $image) {
-                    if ($image->getClientSize() <= $limit) {
-                        $f = new File();
-                        $f->original_filename = $image->getClientOriginalName();
-                        $f->new_filename = md5($image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
-                        $f->mime_type = $image->getClientMimeType();
-                        $f->save();
+                $this->handleAttachedImages($images, $event->id);
 
-                        DB::table('event_files')->insert([
-                            [
-                                'event_id' => $event->id,
-                                'file_id' => $f->id
-                            ]
-                        ]);
-
-                        // handle upload files
-                        try {
-                            $finalFn = $event->id . '~' . $f->new_filename;
-                            \Illuminate\Support\Facades\File::delete($filePath . '/' . $finalFn);
-                            $image->move($filePath, $finalFn);
-                        } catch (\Exception $x) {
-                            throw new \RuntimeException($x);
-                        }
-                    }
-                }
             }
             $request->session()->flash("notif", "Event successfully added");
             return redirect('/admin/events');
@@ -92,10 +66,20 @@ class EventsController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $event = Event::findOrFail($id);
-        return view('events.edit', ['event' => $event]);
+        $event = Event::find($id);
+        if ($event) {
+            $images = DB::table('files')
+                ->join('event_files', 'files.id', '=', 'event_files.file_id')
+                ->where('event_files.event_id', $event->id)
+                ->get();
+            return view('events.edit', ['event' => $event, 'images' => $images]);
+        }
+
+        $request->session()->flash("notif", "The requested event is not available");
+
+        return redirect('admin/events');
     }
 
 
@@ -105,13 +89,53 @@ class EventsController extends Controller
         $date = \DateTime::createFromFormat('m/d/Y', $params['date']);
         $params['date'] = $date->format('Y-m-d');
 
-        $existingEvent = Event::findOrFail($id);
+        $existingEvent = Event::find($id);
 
         if ($existingEvent) {
             $existingEvent->update($params);
-        }
-        $request->session()->flash("notif", "Event successfully updated");
 
+            $hasAttachment = $request->hasFile('files');
+            if ($hasAttachment) {
+                $images = $request->file('files');
+                $this->handleAttachedImages($images, $existingEvent->id);
+            }
+
+            $request->session()->flash("notif", "Event successfully updated");
+        } else {
+            $request->session()->flash("notif", "The requested event is not available");
+        }
         return redirect('admin/events');
+    }
+
+    private function handleAttachedImages($images, $eventId) {
+
+        $filePath = env('FILE_UPLOAD_PATH');
+        $limit = 5 * 1024 * 1024; // 5MB
+
+        foreach($images as $image) {
+            if ($image->getClientSize() <= $limit) {
+                $f = new File();
+                $f->original_filename = $image->getClientOriginalName();
+                $f->new_filename = md5($image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
+                $f->mime_type = $image->getClientMimeType();
+                $f->save();
+
+                DB::table('event_files')->insert([
+                    [
+                        'event_id' => $eventId,
+                        'file_id' => $f->id
+                    ]
+                ]);
+
+                // handle upload files
+                try {
+                    $finalFn = $eventId . '~' . $f->new_filename;
+                    \Illuminate\Support\Facades\File::delete($filePath . '/' . $finalFn);
+                    $image->move($filePath, $finalFn);
+                } catch (\Exception $x) {
+                    throw new \RuntimeException($x);
+                }
+            }
+        }
     }
 }

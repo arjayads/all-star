@@ -53,7 +53,7 @@
                                 </div>
 
                                 <div class="form-group ">
-                                    <label for="description">Attache images: <span class="red">Images larger than 5 mb will not be saved</span></label><br/>
+                                    <label for="description">Add images: <span class="red">Images larger than 5 mb will not be saved</span></label><br/>
                                     <input type="file" id="file" name="files[]" multiple="multiple" accept="image/*" />
                                 </div>
 
