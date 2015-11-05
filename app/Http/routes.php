@@ -43,6 +43,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth2:Admin']], function ()
 
     Route::group(['prefix' => 'events'], function () {
         Route::get('/', 'Admin\EventsController@index');
+        Route::get('/{id}/edit', 'Admin\EventsController@edit');
         Route::get('/{id}', 'Admin\EventsController@show');
         Route::get('/add', 'Admin\EventsController@add');
         Route::get('/image/{id}', 'Admin\EventsController@image');

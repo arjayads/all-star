@@ -90,4 +90,11 @@ class EventsController extends Controller
 
         return (new Response($file, 200))->header('Content-Type', \Illuminate\Support\Facades\File::mimeType($path));
     }
+
+
+    public function edit($id)
+    {
+        $event = Event::findOrFail($id);
+        return view('events.edit', ['event' => $event]);
+    }
 }

@@ -66,7 +66,7 @@
                                 <div class="col-md-8">
                                 </div>
                                 <div class="col-md-4 text-right">
-                                    <a style="cursor: pointer">Edit</a> |
+                                    <a href="/admin/events/{{$event->id}}/edit" style="cursor: pointer">Edit</a> |
                                     <a style="cursor: pointer">Delete</a>
                                 </div>
                             </div>
