@@ -50,7 +50,7 @@
                                         <ul style="padding-top: 6px; white-space: nowrap;" class="list-unstyled">
                                             @foreach($images as $image)
                                                 <li style="display: inline">
-                                                    <a title="{{$image->original_filename}}" href="/admin/events/image/{{$image->id}}" target="_blank"><img style="width: 50%;"
+                                                    <a title="{{$image->original_filename}}" href="/admin/events/image/{{$image->id}}"><img style="width: 50%;"
                                                          src="/admin/events/image/{{$image->id}}"
                                                          alt="{{$image->original_filename}}"/></a></li>
                                             @endforeach
