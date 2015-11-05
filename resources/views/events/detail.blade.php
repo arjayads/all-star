@@ -46,21 +46,27 @@
                                     <label class="input-label"><b>Images</b></label>
                                 </div>
                                 <div class="col-md-10">
+
                                     @if(count($images))
-                                        <ul style="padding-top: 6px; white-space: nowrap;" class="list-unstyled">
                                             @foreach($images as $image)
-                                                <li style="display: inline">
-                                                    <a title="{{$image->original_filename}}" href="/admin/events/image/{{$image->id}}"><img style="width: 50%;"
-                                                         src="/admin/events/image/{{$image->id}}"
-                                                         alt="{{$image->original_filename}}"/></a></li>
+                                            <div class="col-md-4" style="padding-left: 0;">
+                                                <a title="{{$image->original_filename}}"
+                                                   href="/admin/events/image/{{$image->id}}">
+                                                    <div title="{{$image->original_filename}}" class="jumbotron embed-responsive embed-responsive-4by3" style="background-image: url('/admin/events/image/{{$image->id}}')">
+
+                                                    </div>
+                                                </a>
+                                            </div>
                                             @endforeach
-                                        </ul>
                                     @else
                                         <label class="input-label">No attached images</label>
                                     @endif
                                 </div>
                             </div>
 
+                                {{--<img style="width: 50%;"--}}
+                                     {{--src="/admin/events/image/{{$image->id}}"--}}
+                                     {{--alt="{{$image->original_filename}}"/>--}}
                             <hr/>
                             <div class="row">
                                 <div class="col-md-8">

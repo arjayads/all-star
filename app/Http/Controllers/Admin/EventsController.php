@@ -34,7 +34,6 @@ class EventsController extends Controller
             if ($hasAttachment) {
                 $images = $request->file('files');
                 $this->handleAttachedImages($images, $event->id);
-
             }
             $request->session()->flash("notif", "Event successfully added");
             return redirect('/admin/events');
@@ -130,7 +129,6 @@ class EventsController extends Controller
                 // handle upload files
                 try {
                     $finalFn = $eventId . '~' . $f->new_filename;
-                    \Illuminate\Support\Facades\File::delete($filePath . '/' . $finalFn);
                     $image->move($filePath, $finalFn);
                 } catch (\Exception $x) {
                     throw new \RuntimeException($x);
