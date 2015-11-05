@@ -77,7 +77,7 @@ class EventsController extends Controller
             ->join('event_files', 'files.id', '=', 'event_files.file_id')
             ->where('event_files.event_id', $event->id)
             ->get();
- 
+
         return view('events.detail', ['event' => $event, 'images' => $images]);
     }
 
