@@ -55,13 +55,18 @@ class EventsController extends Controller
     }
 
 
-    public function image($id)
+    public function image(Request $request, $eventId, $image)
     {
-        $image = File::findOrFail($id);
-        $path = env('FILE_UPLOAD_PATH') . '/' . $image->id . '~' . $image->new_filename;
-        $file = \Illuminate\Support\Facades\File::get($path);
+        $image = File::find($image);
+        if ($image) {
 
-        return (new Response($file, 200))->header('Content-Type', \Illuminate\Support\Facades\File::mimeType($path));
+            $path = env('FILE_UPLOAD_PATH') . '/' . $eventId . '~' . $image->new_filename;
+            $file = \Illuminate\Support\Facades\File::get($path);
+
+            return (new Response($file, 200))->header('Content-Type', \Illuminate\Support\Facades\File::mimeType($path));
+        }
+        $request->session()->flash("notif", "The requested image is not available");
+        return redirect('admin/events');
     }
 
 
