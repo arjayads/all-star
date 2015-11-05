@@ -52,6 +52,11 @@
                                               id="description" name="description">{{ Input::old('description') }}</textarea>
                                 </div>
 
+                                <div class="form-group ">
+                                    <label for="description">Attache images: <span class="red">Images larger than 5 mb will not be saved</span></label><br/>
+                                    <input type="file" id="file" name="files[]" multiple="multiple" accept="image/*" />
+                                </div>
+
                                 <div class="form-group">
                                     <input class="btn btn-primary" type="submit" value="Add">
                                     <input id="reset" class="btn btn-default" type="reset" value="Reset">
