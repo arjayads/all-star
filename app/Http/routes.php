@@ -48,6 +48,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth2:Admin']], function ()
         Route::get('/add', 'Admin\EventsController@add');
         Route::get('/image/{id}', 'Admin\EventsController@image');
         Route::post('store', 'Admin\EventsController@store');
+        Route::post('update/{id}', 'Admin\EventsController@update');
     });
 });
 

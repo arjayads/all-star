@@ -24,32 +24,32 @@
                                 </div>
                             @endif
 
-                            <form method="POST" enctype="multipart/form-data" action="/admin/events/store">
+                            <form method="POST" enctype="multipart/form-data" action="/admin/events/update/{{$event->id}}}">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                 <div class="form-group">
                                     <label for="date">Date:</label><br/>
                                     <input required="" class="datepicker"
                                            type="text"  placeholder="Enter event date"
-                                           value="{{ Input::old('date') }}"
+                                           value="{{ Input::old('date')}}"
                                            class="input-sm form-control" id="date" name="date">
                                 </div>
                                 <div class="form-group ">
                                     <label for="title">Event title:</label>
                                     <input required="" class="form-control"
-                                           value="{{ Input::old('title') }}"
+                                           value="{{ Input::old('title')  ?: $event->title }}"
                                            name="title" type="text" id="title">
                                 </div>
                                 <div class="form-group ">
                                     <label for="location">Location:</label>
                                     <input required="" class="form-control"
-                                           value="{{ Input::old('location') }}"
+                                           value="{{ Input::old('location') ?: $event->location }}"
                                            name="location" type="text" id="location">
                                 </div>
                                 <div class="form-group ">
                                     <label for="description">Description:</label><br/>
                                     <textarea required="" rows="5" style="width: 100%"
-                                              id="description" name="description">{{ Input::old('description') }}</textarea>
+                                              id="description" name="description">{{ Input::old('description') ?: $event->description }}</textarea>
                                 </div>
 
                                 <div class="form-group ">
@@ -58,7 +58,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <input class="btn btn-primary" type="submit" value="Add">
+                                    <input class="btn btn-primary" type="submit" value="Update">
                                     <input id="reset" class="btn btn-default" type="reset" value="Reset">
                                 </div>
                             </form>
@@ -77,7 +77,7 @@
     <script>
         $(function() {
 
-            var oldDate = "{{ Input::old('date') }}";
+            var oldDate = "{{ Input::old('date') ?: $event->date }}";
 
             $('.datepicker').datepicker({
                 todayBtn: "linked",
@@ -91,7 +91,12 @@
             var date = new Date();
             if (oldDate != '') {
                 var d = oldDate.split("/");
-                date = new Date(d[2],d[0]-1,d[1]); // it works
+                if (d.length > 1) {
+                    date = new Date(d[2],d[0]-1,d[1]); // it works
+                } else {
+                    d = oldDate.split("-"); // for mysql format date
+                    date = new Date(d[0], d[1]-1, d[2]); // it works
+                }
             }
             $('.datepicker').datepicker('setDate', date);
             $('.datepicker').datepicker('update');

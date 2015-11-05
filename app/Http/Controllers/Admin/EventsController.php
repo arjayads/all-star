@@ -97,4 +97,21 @@ class EventsController extends Controller
         $event = Event::findOrFail($id);
         return view('events.edit', ['event' => $event]);
     }
+
+
+    public function update(Requests\CreateEventRequest $request, $id)
+    {
+        $params = $request->except(['_token']);
+        $date = \DateTime::createFromFormat('m/d/Y', $params['date']);
+        $params['date'] = $date->format('Y-m-d');
+
+        $existingEvent = Event::findOrFail($id);
+
+        if ($existingEvent) {
+            $existingEvent->update($params);
+        }
+        $request->session()->flash("notif", "Event successfully updated");
+
+        return redirect('admin/events');
+    }
 }
