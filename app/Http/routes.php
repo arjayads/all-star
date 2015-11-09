@@ -29,7 +29,8 @@ Route::group(['prefix' => 'videos', 'middleware' => 'auth'], function () {
 
 Route::group(['prefix' => 'events', 'middleware' => 'auth'], function () {
     Route::get('/', 'EventsController@index');
-    Route::get('/{id}', 'EventsController@show');
+    Route::get('/{id}/images', 'EventsController@images');
+    Route::get('/image/{eventId}/{imageId}', 'EventsController@image');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth2:Admin']], function () {
