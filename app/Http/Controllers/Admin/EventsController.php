@@ -10,6 +10,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use \Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class EventsController extends Controller
 {
@@ -50,14 +51,15 @@ class EventsController extends Controller
             ->join('event_files', 'files.id', '=', 'event_files.file_id')
             ->where('event_files.event_id', $event->id)
             ->get();
- 
+
         return view('events.detail', ['event' => $event, 'images' => $images]);
     }
 
 
-    public function image(Request $request, $eventId, $image)
+    public function image(Request $request, $eventId, $imageId)
     {
-        $image = File::find($image);
+        $image = File::find($imageId);
+
         if ($image) {
             try {
 
@@ -127,6 +129,16 @@ class EventsController extends Controller
                     ->join('event_files', 'files.id', '=', 'event_files.file_id')
                     ->where('event_files.event_id', $id)
                     ->get();
+
+                if (count($images) > 0) {
+                    foreach($images as $image) {
+                        try {
+                            \Illuminate\Support\Facades\File::delete($this->imgPath($id, $image->new_filename));
+                        }catch (\Exception $e) {
+                            Log::info($e->getMessage());
+                        }
+                    }
+                }
 
                 $request->session()->flash("notif", "Event successfully deleted");
                 return ['error' => false];
