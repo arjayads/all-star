@@ -50,7 +50,7 @@ class EventsController extends Controller
             ->join('event_files', 'files.id', '=', 'event_files.file_id')
             ->where('event_files.event_id', $event->id)
             ->get();
-
+ 
         return view('events.detail', ['event' => $event, 'images' => $images]);
     }
 
@@ -59,11 +59,15 @@ class EventsController extends Controller
     {
         $image = File::find($image);
         if ($image) {
+            try {
 
-            $path = env('FILE_UPLOAD_PATH') . '/' . $eventId . '~' . $image->new_filename;
-            $file = \Illuminate\Support\Facades\File::get($path);
+                $path = $this->imgPath($eventId, $image->new_filename);
+                $file = \Illuminate\Support\Facades\File::get($path);
 
-            return (new Response($file, 200))->header('Content-Type', \Illuminate\Support\Facades\File::mimeType($path));
+                return (new Response($file, 200))->header('Content-Type', \Illuminate\Support\Facades\File::mimeType($path));
+            }catch (\Exception $e) {
+                return new \RuntimeException($e);
+            }
         }
         $request->session()->flash("notif", "The requested image is not available");
         return redirect('admin/events');
@@ -118,6 +122,12 @@ class EventsController extends Controller
         if ($v) {
             $res = $v->delete();
             if ($res) {
+                // delete also the files
+                $images = DB::table('files')
+                    ->join('event_files', 'files.id', '=', 'event_files.file_id')
+                    ->where('event_files.event_id', $id)
+                    ->get();
+
                 $request->session()->flash("notif", "Event successfully deleted");
                 return ['error' => false];
             } else {
@@ -151,12 +161,15 @@ class EventsController extends Controller
 
                 // handle upload files
                 try {
-                    $finalFn = $eventId . '~' . $f->new_filename;
+                    $finalFn = $this->imgPath($eventId, $f->new_filename);
                     $image->move($filePath, $finalFn);
                 } catch (\Exception $x) {
                     throw new \RuntimeException($x);
                 }
             }
         }
+    }
+    private function imgPath($eventId, $filename) {
+        return env('FILE_UPLOAD_PATH') . '/' . $eventId . '~' . $filename;
     }
 }
