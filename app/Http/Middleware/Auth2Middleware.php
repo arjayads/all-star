@@ -30,11 +30,12 @@ class Auth2Middleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
+     * @param $role
      * @return mixed
      */
-    public function handle($request, Closure $next, ...$roles)
+    public function handle($request, Closure $next, $role)
     {
         if ($this->auth->guest()) {
             if ($request->ajax()) {
@@ -44,11 +45,9 @@ class Auth2Middleware
             }
         } else {
             $user = Auth::user();
-
             $userRoles = $user->groups();
-            $defRoles = array_intersect($userRoles, $roles);
 
-            if(count($defRoles) > 0) {
+            if(in_array($role, $userRoles)) {
                 return $next($request);
             } else {
                 return redirect('/auth/login');
