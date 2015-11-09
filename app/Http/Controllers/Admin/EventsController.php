@@ -105,6 +105,27 @@ class EventsController extends Controller
         if ($existingEvent) {
             $existingEvent->update($params);
 
+            // managed removed images
+            if (isset($params['rem_files'])) {
+                $remainingImgIds = $params['rem_files'];
+                foreach($remainingImgIds as $fileId) {
+                    $imgFile = File::find($fileId);
+                    if ($imgFile) {
+                        try {
+                            // delete from db
+                            $imgFile->delete();
+                            // delete from local storage
+                            \Illuminate\Support\Facades\File::delete($this->imgPath($existingEvent->id, $imgFile->new_filename));
+                            // unbind from event
+                            DB::table('event_files')->where('event_id', $existingEvent->id)->where('file_id', $fileId)->delete();
+
+                        }catch (\Exception $e) {
+                            Log::info($e->getMessage());
+                        }
+                    }
+                }
+            }
+
             $hasAttachment = $request->hasFile('files');
             if ($hasAttachment) {
                 $images = $request->file('files');

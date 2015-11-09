@@ -24,7 +24,7 @@
                                 </div>
                             @endif
 
-                            <form method="POST" enctype="multipart/form-data" action="/admin/events/update/{{$event->id}}}">
+                            <form id="form" method="POST" enctype="multipart/form-data" action="/admin/events/update/{{$event->id}}">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                 <div class="form-group">
@@ -97,6 +97,7 @@
         $(function() {
 
             var oldDate = "{{ Input::old('date') ?: $event->date }}";
+            var imagesRemoved = [];
             var images = '<?php echo json_encode($images) ?>';
             images = $.parseJSON(images);
 
@@ -142,10 +143,25 @@
                             pdiv.remove();
                         });
 
+                        imagesRemoved.push(images[x]);
                         images.splice(x, 1);
                         return;
                     }
                 }
+            });
+
+            $( "#form" ).submit(function( e ) {
+                if (imagesRemoved.length > 0) {
+                    imagesRemoved.forEach(function(image) {
+                    // append removed images
+                    var el = $('<input />').attr('type', 'hidden')
+                              .attr('name', "rem_files[]")
+                              .attr('value', image.id);
+                        el.appendTo($('#form'));
+                    });
+                }
+
+                return true;
             });
         });
     </script>
