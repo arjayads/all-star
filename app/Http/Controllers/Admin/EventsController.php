@@ -16,11 +16,11 @@ class EventsController extends Controller
 {
     public function index() {
         $events = Event::where('date', '>=', date("Y-m-d"))->orderBy('date', 'asc')->get();
-        return view('events.index', ['events' => $events]);
+        return view('events.admin.index', ['events' => $events]);
     }
 
     function add() {
-        return view('events.add');
+        return view('events.admin.add');
     }
 
     public function store(Requests\CreateEventRequest $request)
@@ -52,9 +52,8 @@ class EventsController extends Controller
             ->where('event_files.event_id', $event->id)
             ->get();
 
-        return view('events.detail', ['event' => $event, 'images' => $images]);
+        return view('events.admin.detail', ['event' => $event, 'images' => $images]);
     }
-
 
     public function image(Request $request, $eventId, $imageId)
     {
@@ -75,7 +74,6 @@ class EventsController extends Controller
         return redirect('admin/events');
     }
 
-
     public function edit(Request $request, $id)
     {
         $event = Event::find($id);
@@ -85,14 +83,13 @@ class EventsController extends Controller
                 ->where('event_files.event_id', $event->id)
                 ->select(['files.id', 'original_filename'])
                 ->get();
-            return view('events.edit', ['event' => $event, 'images' => $images]);
+            return view('events.admin.edit', ['event' => $event, 'images' => $images]);
         }
 
         $request->session()->flash("notif", "The requested event is not available");
 
         return redirect('admin/events');
     }
-
 
     public function update(Requests\CreateEventRequest $request, $id)
     {

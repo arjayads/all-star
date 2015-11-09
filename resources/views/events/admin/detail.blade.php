@@ -6,7 +6,7 @@
             <div class="col-md-10 col-md-offset-1 no-padding">
                 <div class="row">
                     <div class="col-md-3">
-                        @include('includes.left-menu')
+                        @include('......includes.left-menu')
                     </div>
                     <div class="col-md-9">
                         <div class="alert-info alert"><h4 style="margin: 0"><b>Event:</b> {{$event->title}}</h4></div>

@@ -27,6 +27,11 @@ Route::group(['prefix' => 'videos', 'middleware' => 'auth'], function () {
     Route::get('/prev/{id}', 'VideosController@preview');
 });
 
+Route::group(['prefix' => 'events', 'middleware' => 'auth'], function () {
+    Route::get('/', 'EventsController@index');
+    Route::get('/{id}', 'EventsController@show');
+});
+
 Route::group(['prefix' => 'admin', 'middleware' => ['auth2:Admin']], function () {
     Route::get('/', 'Admin\HomeController@index');
     Route::get('/changePassword', 'Admin\HomeController@changePasswordPage');
