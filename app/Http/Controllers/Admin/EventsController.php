@@ -122,18 +122,23 @@ class EventsController extends Controller
     {
         $v = Event::find($id);
         if ($v) {
+            // retrieve image detail prior to deletion
+            $images = DB::table('files')
+                ->join('event_files', 'files.id', '=', 'event_files.file_id')
+                ->where('event_files.event_id', $id)
+                ->get();
+
             $res = $v->delete();
             if ($res) {
-                // delete also the files
-                $images = DB::table('files')
-                    ->join('event_files', 'files.id', '=', 'event_files.file_id')
-                    ->where('event_files.event_id', $id)
-                    ->get();
-
+                // delete also the images from db and local storage
                 if (count($images) > 0) {
                     foreach($images as $image) {
                         try {
-                            \Illuminate\Support\Facades\File::delete($this->imgPath($id, $image->new_filename));
+                            $imgFile = File::find($image->file_id);
+                            if ($imgFile) {
+                                $imgFile->delete();
+                                \Illuminate\Support\Facades\File::delete($this->imgPath($id, $image->new_filename));
+                            }
                         }catch (\Exception $e) {
                             Log::info($e->getMessage());
                         }
