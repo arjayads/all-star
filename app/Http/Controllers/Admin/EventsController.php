@@ -176,10 +176,8 @@ class EventsController extends Controller
             if ($image->getClientSize() <= $limit) {
                 $f = new File();
                 $f->original_filename = $image->getClientOriginalName();
+                $f->new_filename = md5($eventId . $image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
                 $f->mime_type = $image->getClientMimeType();
-                $f->save();
-
-                $f->new_filename = md5($f . $image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
                 $f->save();
 
                 DB::table('event_files')->insert([
