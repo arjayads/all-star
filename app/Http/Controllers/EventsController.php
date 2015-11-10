@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MyHelper;
 use App\Models\Event;
 use App\Models\File;
 use Illuminate\Http\Request;
@@ -32,22 +33,11 @@ class EventsController extends Controller
 
     public function image($eventId, $imageId)
     {
-        $image = File::find($imageId);
-
-        if ($image) {
-            try {
-
-                $path = $this->imgPath($eventId, $image->new_filename);
-                $file = \Illuminate\Support\Facades\File::get($path);
-
-                return response($file, 200)->header('Content-Type', $image->mime_type);
-            }catch (\Exception $e) {
-                return new \RuntimeException($e);
-            }
-        }
+        return MyHelper::getEventImageAsResponse($eventId, $imageId);
     }
 
-    private function imgPath($eventId, $filename) {
-        return env('FILE_UPLOAD_PATH') . '/' . $eventId . '~' . $filename;
+    public function imageThumb($eventId, $imageId)
+    {
+        return MyHelper::getEventImageAsResponse($eventId, $imageId, 240);
     }
 }

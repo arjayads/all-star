@@ -31,6 +31,7 @@ Route::group(['prefix' => 'events', 'middleware' => 'auth'], function () {
     Route::get('/', 'EventsController@index');
     Route::get('/{id}/images', 'EventsController@images');
     Route::get('/image/{eventId}/{imageId}', 'EventsController@image');
+    Route::get('/image/{eventId}/{imageId}/thumb', 'EventsController@imageThumb');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth2:Admin']], function () {
