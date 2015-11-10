@@ -61,7 +61,7 @@
                                                     <a href="/admin/events/image/{{$event->id}}/{{$image->id}}">
                                                         <div title="{{$image->original_filename}}"
                                                              class="jumbotron embed-responsive embed-responsive-4by3"
-                                                             style="margin-bottom: 5px !important; background-size: cover; background-image: url('/admin/events/image/{{$event->id}}/{{$image->id}}')">
+                                                             style="margin-bottom: 5px !important; background-size: cover; background-image: url('/admin/events/image/{{$event->id}}/{{$image->id}}/thumb')">
                                                         </div>
                                                     </a>
                                                     <div class="remove-image" data-imageid="{{$image->id}}" ><label><a href="">Remove</a></label></div>

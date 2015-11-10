@@ -54,7 +54,7 @@
                                                    href="/admin/events/image/{{$event->id}}/{{$image->file_id}}">
                                                     <div title="{{$image->original_filename}}"
                                                          class="jumbotron embed-responsive embed-responsive-4by3"
-                                                         style="background-size: cover; background-image: url('/admin/events/image/{{$event->id}}/{{$image->file_id}}')">
+                                                         style="background-size: cover; background-image: url('/admin/events/image/{{$event->id}}/{{$image->file_id}}/thumb')">
 
                                                     </div>
                                                 </a>

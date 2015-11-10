@@ -62,6 +62,11 @@ class EventsController extends Controller
         return MyHelper::getEventImageAsResponse($eventId, $imageId);
     }
 
+    public function imageThumb($eventId, $imageId)
+    {
+        return MyHelper::getEventImageAsResponse($eventId, $imageId, 240);
+    }
+
     public function edit(Request $request, $id)
     {
         $event = Event::find($id);
