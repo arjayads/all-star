@@ -40,7 +40,7 @@ class EventsController extends Controller
                 $path = $this->imgPath($eventId, $image->new_filename);
                 $file = \Illuminate\Support\Facades\File::get($path);
 
-                return (new Response($file, 200))->header('Content-Type', \Illuminate\Support\Facades\File::mimeType($path));
+                return response($file, 200)->header('Content-Type', $image->mime_type);
             }catch (\Exception $e) {
                 return new \RuntimeException($e);
             }

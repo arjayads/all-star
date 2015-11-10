@@ -147,7 +147,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         \App\Providers\FileUploadServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class
+        Laravel\Socialite\SocialiteServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
     ],
 
     /*
@@ -200,6 +201,7 @@ return [
         'Form'      => Illuminate\Html\FormFacade::class,
 
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 
 ];

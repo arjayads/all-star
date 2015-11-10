@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\MyFileHelper;
+use App\Helpers\MyHelper;
 use App\Models\Event;
 use App\Models\File;
 use Illuminate\Http\Request;
@@ -9,8 +11,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use \Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Intervention\Image\Facades\Image;
 
 class EventsController extends Controller
 {
@@ -55,23 +57,9 @@ class EventsController extends Controller
         return view('events.admin.detail', ['event' => $event, 'images' => $images]);
     }
 
-    public function image(Request $request, $eventId, $imageId)
+    public function image($eventId, $imageId)
     {
-        $image = File::find($imageId);
-
-        if ($image) {
-            try {
-
-                $path = $this->imgPath($eventId, $image->new_filename);
-                $file = \Illuminate\Support\Facades\File::get($path);
-
-                return (new Response($file, 200))->header('Content-Type', \Illuminate\Support\Facades\File::mimeType($path));
-            }catch (\Exception $e) {
-                return new \RuntimeException($e);
-            }
-        }
-        $request->session()->flash("notif", "The requested image is not available");
-        return redirect('admin/events');
+        return MyHelper::getEventImageAsResponse($eventId, $imageId);
     }
 
     public function edit(Request $request, $id)
@@ -112,7 +100,7 @@ class EventsController extends Controller
                             // delete from db
                             $imgFile->delete();
                             // delete from local storage
-                            \Illuminate\Support\Facades\File::delete($this->imgPath($existingEvent->id, $imgFile->new_filename));
+                            \Illuminate\Support\Facades\File::delete(MyHelper::getEventImageFromStorage($existingEvent->id, $imgFile->new_filename));
                             // unbind from event
                             DB::table('event_files')->where('event_id', $existingEvent->id)->where('file_id', $fileId)->delete();
 
@@ -155,7 +143,7 @@ class EventsController extends Controller
                             $imgFile = File::find($image->file_id);
                             if ($imgFile) {
                                 $imgFile->delete();
-                                \Illuminate\Support\Facades\File::delete($this->imgPath($id, $image->new_filename));
+                                \Illuminate\Support\Facades\File::delete(MyHelper::getEventImageFromStorage($id, $imgFile->new_filename));
                             }
                         }catch (\Exception $e) {
                             Log::info($e->getMessage());
@@ -196,15 +184,12 @@ class EventsController extends Controller
 
                 // handle upload files
                 try {
-                    $finalFn = $this->imgPath($eventId, $f->new_filename);
+                    $finalFn = MyHelper::getEventImageFromStorage($eventId, $f->new_filename);
                     $image->move($filePath, $finalFn);
                 } catch (\Exception $x) {
                     throw new \RuntimeException($x);
                 }
             }
         }
-    }
-    private function imgPath($eventId, $filename) {
-        return env('FILE_UPLOAD_PATH') . '/' . $eventId . '~' . $filename;
     }
 }
