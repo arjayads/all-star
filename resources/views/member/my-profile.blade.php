@@ -124,7 +124,7 @@
                         [{v:$myUserId, f:$nyMame + ' <div class="member" style="font-style:italic">' + '' + '</div>'}, '', $myEmail]
                     ];
                     for(var idx=0; idx<d.length; idx++) {
-                        var member = [{v: d[idx].id, f: d[idx].name + '<div class="' + (d[idx].social_id != '' ? 'member' : 'non-member') +'"></div>'}, $myUserId,  d[idx].email];
+                        var member = [{v: d[idx].id+"", f: d[idx].name + '<div class="' + (d[idx].social_id != null ? 'member' : 'non-member') +'"></div>'}, $myUserId,  d[idx].email];
                         rows.push(member);
                     }
 
