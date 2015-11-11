@@ -59,6 +59,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth2:Admin']], function ()
         Route::post('update/{id}', 'Admin\EventsController@update');
         Route::post('delete/{id}', 'Admin\EventsController@destroy');
     });
+
+    Route::group(['prefix' => 'calendar'], function () {
+        Route::get('/', 'Admin\CalendarController@index');
+        Route::get('/add', 'Admin\CalendarController@add');
+        Route::get('/{id}/edit', 'Admin\CalendarController@edit');
+        Route::get('/{id}', 'Admin\CalendarController@show');
+        Route::post('store', 'Admin\CalendarController@store');
+        Route::post('update/{id}', 'Admin\CalendarController@update');
+        Route::post('delete/{id}', 'Admin\CalendarController@destroy');
+    });
 });
 
 Route::group(['prefix' => 'ajax', 'middleware' => 'auth'], function () {
