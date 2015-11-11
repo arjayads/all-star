@@ -17,7 +17,7 @@
                         @endif
 
                         <div class="row" style="padding-left: 20px;">
-                            <a href="/admin/events/add" class="btn btn-primary">Add Event</a>
+                            <a href="/admin/calendar/add" class="btn btn-primary">Setup</a>
                         </div>
                         <div class="margin-bottom-10"></div>
                         @if(count($events) > 0)
@@ -40,7 +40,7 @@
                                 </tbody>
                             </table>
                         @else
-                            <div class="alert-info alert">No up coming events</div>
+                            <div class="alert-info alert">Setup your Calendar</div>
                         @endif
                     </div>
                 </div>

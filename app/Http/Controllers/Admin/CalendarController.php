@@ -17,11 +17,11 @@ class CalendarController extends Controller
 {
     public function index() {
         $events = Event::where('date', '>=', date("Y-m-d"))->orderBy('date', 'asc')->get();
-        return view('events.admin.index', ['events' => $events]);
+        return view('calendar.admin.index', ['events' => $events]);
     }
 
     function add() {
-        return view('events.admin.add');
+        return view('calendar.admin.add');
     }
 
     public function store(Requests\CreateEventRequest $request)

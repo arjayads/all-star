@@ -1,7 +1,12 @@
 @extends('layout.app')
 
 @section('css')
-    <link href="/plugins/datepicker/datepicker3.css" rel="stylesheet">
+    <link href="/plugins/zabuto/zabuto_calendar.min.css" rel="stylesheet">
+    <style>
+        .modal-backdrop {
+            z-index: 0 !important;
+        }
+    </style>
 @stop
 @section('content')
     <div class="container-fluid  top-buffer">
@@ -12,8 +17,8 @@
                         @include('includes.left-menu')
                     </div>
                     <div class="col-md-9">
-                        <div class="col-md-7">
-                            <h4>Add new event</h4>
+                        <div class="col-md-12">
+                            <h4>Setup Calendar</h4>
                             @if($errors->any())
                                 <div class="alert-danger alert">
                                     <ul>
@@ -23,83 +28,73 @@
                                     </ul>
                                 </div>
                             @endif
-
-                            <form method="POST" enctype="multipart/form-data" action="/admin/events/store">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                                <div class="form-group">
-                                    <label for="date">Date:</label><br/>
-                                    <input required="" class="datepicker"
-                                           type="text"  placeholder="Enter event date"
-                                           value="{{ Input::old('date') }}"
-                                           class="input-sm form-control" id="date" name="date">
-                                </div>
-                                <div class="form-group ">
-                                    <label for="title">Event title:</label>
-                                    <input required="" class="form-control"
-                                           value="{{ Input::old('title') }}"
-                                           name="title" type="text" id="title">
-                                </div>
-                                <div class="form-group ">
-                                    <label for="location">Location:</label>
-                                    <input required="" class="form-control"
-                                           value="{{ Input::old('location') }}"
-                                           name="location" type="text" id="location">
-                                </div>
-                                <div class="form-group ">
-                                    <label for="description">Description:</label><br/>
-                                    <textarea required="" rows="5" style="width: 100%"
-                                              id="description" name="description">{{ Input::old('description') }}</textarea>
-                                </div>
-
-                                <div class="form-group ">
-                                    <label for="description">Add images: <span class="red">Images larger than 5 mb will not be saved</span></label><br/>
-                                    <input type="file" id="file" name="files[]" multiple="multiple" accept="image/*" />
-                                </div>
-
-                                <div class="form-group">
-                                    <input class="btn btn-primary" type="submit" value="Add">
-                                    <input id="reset" class="btn btn-default" type="reset" value="Reset">
-                                </div>
-                            </form>
+                            <div id="my-calendar"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Modal -->
+        <div id="cal-modal" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="cal-modal-title"></h4>
+              </div>
+              <form id="form" method="POST" enctype="multipart/form-data" action="/admin/calendar/add">
+                <div class="modal-body">
+                   <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                   <div class="form-group ">
+                       <label for="title">Title:</label>
+                       <input required="" class="form-control"
+                              value=""
+                              name="title" type="text" id="title">
+                   </div>
+
+                   <div class="form-group ">
+                       <label for="description">Description:</label><br/>
+                       <textarea required="" rows="5" style="width: 100%" id="description" name="description"></textarea>
+                   </div>
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input class="btn btn-primary" type="submit" value="Save">
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
     </div>
-
-
 @stop
 
 @section('js')
-    <script type="text/javascript" src="/plugins/datepicker/datepicker.js"></script>
+    <script type="text/javascript" src="/plugins/zabuto/zabuto_calendar.min.js"></script>
     <script>
         $(function() {
 
-            var oldDate = "{{ Input::old('date') }}";
+             $("#my-calendar").zabuto_calendar({
+                 cell_border: true,
+                 today: true,
+                 weekstartson: 0,
+                 action: function () {
+                     return dateClicked(this.id);
+                 }
+             });
 
-            $('.datepicker').datepicker({
-                todayBtn: "linked",
-                keyboardNavigation: false,
-                forceParse: false,
-                calendarWeeks: true,
-                autoclose: true,
-                format: "mm/dd/yyyy"
-            });
+            function dateClicked(id) {
+                var d = $("#" + id).data("date");
+                var date = new Date(d);
 
-            var date = new Date();
-            if (oldDate != '') {
-                var d = oldDate.split("/");
-                date = new Date(d[2],d[0]-1,d[1]); // it works
+                $('#cal-modal-title').text($.datepicker.formatDate("MM d, yy", date));
+
+                $("#cal-modal").modal("show");
+                return true;
             }
-            $('.datepicker').datepicker('setDate', date);
-            $('.datepicker').datepicker('update');
-
-
-            $('#reset').click(function(){
-                window.location.reload();
-            });
         });
     </script>
 @stop
