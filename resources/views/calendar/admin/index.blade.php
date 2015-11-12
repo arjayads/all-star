@@ -89,6 +89,9 @@
                  action: function () {
                      return dateClicked(this.id);
                  },
+                 action_nav: function () {
+                     $('#entries').html('');
+                 },
                  ajax: {
                      url: "/admin/calendar/data"
                  }
