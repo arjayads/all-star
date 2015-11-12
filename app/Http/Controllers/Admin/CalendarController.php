@@ -26,11 +26,10 @@ class CalendarController extends Controller
 
         $cal= Calendar::create($params);
         if ($cal) {
-            $request->session()->flash("notif", "Calendar entry successfully added");
-            return redirect('/admin/calendar');
+            return ['error' => false, 'message' => "Calendar entry successfully added"];
         }
 
-        return  redirect()->back()->withInput($request->all());
+        return ['error' => true, 'message' => "Something went wrong!"];
 
     }
 
