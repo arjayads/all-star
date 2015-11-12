@@ -21,7 +21,12 @@ class CalendarController extends Controller
         $year = Input::get('year');
         $month = Input::get('month');
 
-        return Calendar::where('year', $year)->where('month', $month)->select(['id', 'date', 'title', 'description'])->get()->toArray();
+        return Calendar::where('year', $year)->where('month', $month)->select(['date', 'title'])->get()->toArray();
+    }
+
+    public function get() {
+        $date = Input::get('date');
+        return Calendar::where('date', $date)->get()->toArray();
     }
 
     public function store(Request $request)

@@ -41,6 +41,7 @@
               <form id="form" method="POST" action="/admin/calendar/store">
                 <div class="modal-body">
                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                   <input type="hidden" id="calId" name="calId" value="">
                    <input type="hidden" id="date" name="date" value="">
 
                    <div class="form-group ">
@@ -97,7 +98,12 @@
                 $('#cal-modal-title').text($.datepicker.formatDate("MM d, yy", date));
                 $('#date').val(d);
 
+                $.get("/admin/calendar/get?date="+d, function(data) {
+
+                });
+
                 $("#cal-modal").modal("show");
+
                 return true;
             }
 
@@ -108,7 +114,8 @@
                     '_token': '{{csrf_token()}}',
                     'title': $('#title').val(),
                     'description': $('#description').val(),
-                    'date': $('#date').val()
+                    'date': $('#date').val(),
+                    'calId': $('#calId').val()
                 }
 
                 $.post("/admin/calendar/store", postData, function(data) {

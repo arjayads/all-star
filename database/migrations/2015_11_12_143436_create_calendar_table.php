@@ -19,7 +19,7 @@ class CreateCalendarTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('description');
-            $table->date('date');
+            $table->date('date')->index();
             $table->integer('month')->index();
             $table->integer('year')->index();
 
