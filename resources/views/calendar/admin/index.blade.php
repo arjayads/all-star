@@ -25,6 +25,9 @@
                             </div>
                             <div id="my-calendar"></div>
                         </div>
+                        <div class="col-md-12" id="entries">
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -93,18 +96,30 @@
 
             function dateClicked(id) {
                 var d = $("#" + id).data("date");
+                $.get("/admin/calendar/entries?date="+d, function(data) {
+                    $('#entries').html(data);
+                });
+                return true;
+
+                /*
+                $("#cal-modal").modal("show");
+
+                return true;
+
+                var d = $("#" + id).data("date");
                 var date = new Date(d);
 
                 $('#cal-modal-title').text($.datepicker.formatDate("MM d, yy", date));
                 $('#date').val(d);
 
-                $.get("/admin/calendar/get?date="+d, function(data) {
-
+                $.get("/admin/calendar/entries?date="+d, function(data) {
+                    $('#entries').html(data);
                 });
+                return true;
 
                 $("#cal-modal").modal("show");
 
-                return true;
+                return true;*/
             }
 
             $( "#form" ).submit(function( e ) {

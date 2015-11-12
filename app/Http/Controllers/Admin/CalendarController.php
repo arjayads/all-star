@@ -29,6 +29,12 @@ class CalendarController extends Controller
         return Calendar::where('date', $date)->get()->toArray();
     }
 
+    public function entries() {
+        $date = Input::get('date');
+        $entries = Calendar::where('date', $date)->get();
+        return view('calendar.admin.entries', ['entries' => $entries]);
+    }
+
     public function store(Request $request)
     {
         $params = $request->except(['_token']);
