@@ -20,6 +20,8 @@ class CreateCalendarTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->date('date');
+            $table->integer('month')->index();
+            $table->integer('year')->index();
 
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

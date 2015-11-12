@@ -8,12 +8,20 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 use Validator;
 
 class CalendarController extends Controller
 {
     public function index() {
         return view('calendar.admin.index');
+    }
+
+    public function data() {
+        $year = Input::get('year');
+        $month = Input::get('month');
+
+        return Calendar::where('year', $year)->where('month', $month)->select(['id', 'date', 'title', 'description'])->get()->toArray();
     }
 
     public function store(Request $request)
@@ -28,6 +36,10 @@ class CalendarController extends Controller
         if ($v->fails()) {
             return ['error' => true, 'messages' => (array)$v->errors()->getMessages()];
         } else {
+            $dateElements = explode('-', $params['date']);
+            $params['year'] = $dateElements[0];
+            $params['month'] = $dateElements[1];
+
             $cal= Calendar::create($params);
             if ($cal) {
                 return ['error' => false, 'message' => "Calendar entry successfully added"];

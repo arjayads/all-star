@@ -9,6 +9,8 @@ class Calendar extends Model
     protected $fillable = [
         'title',
         'description',
-        'date'
+        'date',
+        'year',
+        'month'
     ];
 }

@@ -72,15 +72,21 @@
     <script type="text/javascript" src="/plugins/zabuto/zabuto_calendar.min.js"></script>
     <script>
         $(function() {
+            var today = '{{\Carbon\Carbon::today()}}';
+            var month = '{{\Carbon\Carbon::now()->month}}';
+            var year = '{{\Carbon\Carbon::now()->year}}';
+
 
              $("#my-calendar").zabuto_calendar({
                  cell_border: true,
-                 today: true,
                  weekstartson: 0,
-                 month: '{{\Carbon\Carbon::now()->month}}',
-                 year: '{{\Carbon\Carbon::now()->year}}',
+                 month: month,
+                 year: year,
                  action: function () {
                      return dateClicked(this.id);
+                 },
+                 ajax: {
+                     url: "/admin/calendar/data"
                  }
              });
 
