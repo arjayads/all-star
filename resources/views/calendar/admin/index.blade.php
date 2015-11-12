@@ -77,6 +77,8 @@
                  cell_border: true,
                  today: true,
                  weekstartson: 0,
+                 month: '{{\Carbon\Carbon::now()->month}}',
+                 year: '{{\Carbon\Carbon::now()->year}}',
                  action: function () {
                      return dateClicked(this.id);
                  }
@@ -118,7 +120,7 @@
                                     }
                                 }
                                 el += '</ul>';
-                                
+
                                 $('#notif span').html(el);
                             } catch (e) {
                                 console.log(e);
