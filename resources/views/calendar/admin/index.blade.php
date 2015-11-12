@@ -103,10 +103,27 @@
                     'date': $('#date').val()
                 }
 
-                $.post("/admin/calendar/store", postData, function(data){
+                $.post("/admin/calendar/store", postData, function(data) {
+
                     $('#notif span').text(data.message);
                     if (data.error) {
                         $('#notif').removeClass().addClass('alert alert-danger');
+
+                        if (data.hasOwnProperty('messages')) {
+                            try {
+                                var el = '<ul>';
+                                for (var property in data.messages) {
+                                    if (data.messages.hasOwnProperty(property)) {
+                                        el = el + '<li>' + data.messages[property] + '</li>';
+                                    }
+                                }
+                                el += '</ul>';
+                                
+                                $('#notif span').html(el);
+                            } catch (e) {
+                                console.log(e);
+                            }
+                        }
                     } else {
                         $('#notif').removeClass().addClass('alert alert-success');
                         $('#notif').fadeOut(15000,function() {
@@ -118,18 +135,6 @@
                         $('#description').val('');
                     }
                 }).fail(function(data, a) {
-                    if (a == 'error') {
-                        try {
-                            for (var property in data) {
-                                if (data.hasOwnProperty(property)) {
-                                    console.log(data[property]);
-                                }
-                            }
-                        } catch (e) {
-                            console.log(e);
-                        }
-                    }
-
                     $('#notif').removeClass().addClass('alert alert-danger');
                     $('#notif span').text('Something went wrong!');
                 });

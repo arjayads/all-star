@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\MyFileHelper;
-use App\Helpers\MyHelper;
 use App\Models\Calendar;
 use App\Models\Event;
-use App\Models\File;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Validator;
 
 class CalendarController extends Controller
 {
@@ -20,21 +16,28 @@ class CalendarController extends Controller
         return view('calendar.admin.index');
     }
 
-    public function store(Requests\SetupCalendarRequest $request)
+    public function store(Request $request)
     {
         $params = $request->except(['_token']);
+        $v = Validator::make($params, [
+            'title' => 'required|min:3|max:255',
+            'description'  => 'required|min:10',
+            'date'  => 'required'
+        ]);
 
-        $cal= Calendar::create($params);
-        if ($cal) {
-            return ['error' => false, 'message' => "Calendar entry successfully added"];
+        if ($v->fails()) {
+            return ['error' => true, 'messages' => (array)$v->errors()->getMessages()];
+        } else {
+            $cal= Calendar::create($params);
+            if ($cal) {
+                return ['error' => false, 'message' => "Calendar entry successfully added"];
+            }
         }
-
-        return ['error' => true, 'message' => "Something went wrong!"];
-
     }
 
     public function update(Requests\CreateEventRequest $request, $id)
     {
+
         $params = $request->except(['_token']);
         $existingEvent = Event::find($id);
 
