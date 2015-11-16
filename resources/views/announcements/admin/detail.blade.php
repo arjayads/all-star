@@ -42,10 +42,10 @@
                                             @foreach($images as $image)
                                             <div class="col-md-4" style="padding-left: 0;">
                                                 <a title="{{$image->original_filename}}"
-                                                   href="/admin/events/image/{{$announcement->id}}/{{$image->file_id}}">
+                                                   href="/announcements/image/{{$announcement->id}}/{{$image->file_id}}">
                                                     <div title="{{$image->original_filename}}"
                                                          class="jumbotron embed-responsive embed-responsive-4by3"
-                                                         style="background-size: cover; background-image: url('/admin/events/image/{{$announcement->id}}/{{$image->file_id}}/thumb')">
+                                                         style="background-size: cover; background-image: url('/announcements/image/{{$announcement->id}}/{{$image->file_id}}/thumb')">
 
                                                     </div>
                                                 </a>

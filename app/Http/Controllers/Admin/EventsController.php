@@ -81,7 +81,7 @@ class EventsController extends Controller
 
         $request->session()->flash("notif", "The requested event is not available");
 
-        return redirect('admin/events');
+        return redirect('events');
     }
 
     public function update(Requests\CreateEventRequest $request, $id)
@@ -126,7 +126,7 @@ class EventsController extends Controller
         } else {
             $request->session()->flash("notif", "The requested event is not available");
         }
-        return redirect('admin/events');
+        return redirect('events');
     }
 
     public function destroy(Request $request, $id)

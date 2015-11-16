@@ -70,7 +70,7 @@
                                 <div class="col-md-8">
                                 </div>
                                 <div class="col-md-4 text-right">
-                                    <a href="/admin/events/{{$event->id}}/edit" style="cursor: pointer">Edit</a> |
+                                    <a href="/events/{{$event->id}}/edit" style="cursor: pointer">Edit</a> |
                                     <a style="cursor: pointer" class="delete" data-title="{!! $event->title !!}" data-id="{!! $event->id !!}">Delete</a>
                                 </div>
                             </div>
@@ -95,11 +95,11 @@
                 var res = confirm("You are about to delete event: " + $data.title + '. Do you want to continue?');
                 if (res) {
 
-                    $.post("/admin/events/delete/" + $data.id, { '_token': '{{csrf_token()}}' }, function(data){
+                    $.post("/events/delete/" + $data.id, { '_token': '{{csrf_token()}}' }, function(data){
                         if (data.error) {
                             alert(data.message);
                         } else {
-                            window.location = '/admin/events';
+                            window.location = '/events';
                         }
                     }).fail(function() {
                         alert( "Something went wrong!" );

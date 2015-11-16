@@ -93,13 +93,13 @@
                      $('#entries').html('');
                  },
                  ajax: {
-                     url: "/admin/calendar/data"
+                     url: "/calendar/data"
                  }
              });
 
             function dateClicked(id) {
                 var d = $("#" + id).data("date");
-                $.get("/admin/calendar/entries?date="+d, function(data) {
+                $.get("/calendar/entries?date="+d, function(data) {
                     $('#entries').html(data);
                 });
                 return true;
@@ -136,7 +136,7 @@
                     'calId': $('#calId').val()
                 }
 
-                $.post("/admin/calendar/store", postData, function(data) {
+                $.post("/calendar/store", postData, function(data) {
 
                     $('#notif span').text(data.message);
                     if (data.error) {
