@@ -33,11 +33,11 @@ class EventsController extends Controller
 
     public function image($eventId, $imageId)
     {
-        return MyHelper::getEventImageAsResponse($eventId, $imageId);
+        return MyHelper::getImageAsResponse($eventId, $imageId);
     }
 
     public function imageThumb($eventId, $imageId)
     {
-        return MyHelper::getEventImageAsResponse($eventId, $imageId, 240);
+        return MyHelper::getImageAsResponse($eventId, $imageId, 240);
     }
 }

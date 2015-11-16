@@ -5,17 +5,17 @@ use Intervention\Image\Facades\Image;
 
 class MyHelper {
 
-    static function getEventImageFromStorage($eventId, $filename) {
+    static function getImageFromStorage($id, $filename) {
         return env('FILE_UPLOAD_PATH') . '/' . $eventId . '~' . $filename;
     }
 
-    static function getEventImageAsResponse($eventId, $imageId , $size = 0)
+    static function getImageAsResponse($id, $imageId , $size = 0)
     {
         $file = File::find($imageId);
 
         if ($file) {
             try {
-                $path = self::getEventImageFromStorage($eventId, $file->new_filename);
+                $path = self::getImageFromStorage($eventId, $file->new_filename);
                 $img = Image::make($path);
 
                 if ($size > 0) {

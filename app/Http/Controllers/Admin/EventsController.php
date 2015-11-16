@@ -59,12 +59,12 @@ class EventsController extends Controller
 
     public function image($eventId, $imageId)
     {
-        return MyHelper::getEventImageAsResponse($eventId, $imageId);
+        return MyHelper::getImageAsResponse($eventId, $imageId);
     }
 
     public function imageThumb($eventId, $imageId)
     {
-        return MyHelper::getEventImageAsResponse($eventId, $imageId, 240);
+        return MyHelper::getImageAsResponse($eventId, $imageId, 240);
     }
 
     public function edit(Request $request, $id)
@@ -105,7 +105,7 @@ class EventsController extends Controller
                             // delete from db
                             $imgFile->delete();
                             // delete from local storage
-                            \Illuminate\Support\Facades\File::delete(MyHelper::getEventImageFromStorage($existingEvent->id, $imgFile->new_filename));
+                            \Illuminate\Support\Facades\File::delete(MyHelper::getImageFromStorage($existingEvent->id, $imgFile->new_filename));
                             // unbind from event
                             DB::table('event_files')->where('event_id', $existingEvent->id)->where('file_id', $fileId)->delete();
 
@@ -148,7 +148,7 @@ class EventsController extends Controller
                             $imgFile = File::find($image->file_id);
                             if ($imgFile) {
                                 $imgFile->delete();
-                                \Illuminate\Support\Facades\File::delete(MyHelper::getEventImageFromStorage($id, $imgFile->new_filename));
+                                \Illuminate\Support\Facades\File::delete(MyHelper::getImageFromStorage($id, $imgFile->new_filename));
                             }
                         }catch (\Exception $e) {
                             Log::info($e->getMessage());
@@ -189,7 +189,7 @@ class EventsController extends Controller
 
                 // handle upload files
                 try {
-                    $finalFn = MyHelper::getEventImageFromStorage($eventId, $f->new_filename);
+                    $finalFn = MyHelper::getImageFromStorage($eventId, $f->new_filename);
                     $image->move($filePath, $finalFn);
                 } catch (\Exception $x) {
                     throw new \RuntimeException($x);

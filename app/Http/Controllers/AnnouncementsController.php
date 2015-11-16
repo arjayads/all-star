@@ -33,11 +33,11 @@ class AnnouncementsController extends Controller
 
     public function image($announcementId, $imageId)
     {
-        return MyHelper::getAnnouncementImageAsResponse($announcementId, $imageId);
+        return MyHelper::getImageAsResponse($announcementId, $imageId);
     }
 
     public function imageThumb($announcementId, $imageId)
     {
-        return MyHelper::getAnnouncementImageAsResponse($announcementId, $imageId, 240);
+        return MyHelper::getImageAsResponse($announcementId, $imageId, 240);
     }
 }

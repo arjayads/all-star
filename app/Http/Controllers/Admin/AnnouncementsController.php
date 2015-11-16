@@ -57,12 +57,12 @@ class AnnouncementsController extends Controller
 
     public function image($announcementId, $imageId)
     {
-        return MyHelper::getAnnouncementImageAsResponse($announcementId, $imageId);
+        return MyHelper::getImageAsResponse($announcementId, $imageId);
     }
 
     public function imageThumb($announcementId, $imageId)
     {
-        return MyHelper::getAnnouncementImageAsResponse($announcementId, $imageId, 240);
+        return MyHelper::getImageAsResponse($announcementId, $imageId, 240);
     }
 
     public function edit(Request $request, $id)
@@ -101,7 +101,7 @@ class AnnouncementsController extends Controller
                             // delete from db
                             $imgFile->delete();
                             // delete from local storage
-                            \Illuminate\Support\Facades\File::delete(MyHelper::getAnnouncementImageFromStorage($existingAnnouncement->id, $imgFile->new_filename));
+                            \Illuminate\Support\Facades\File::delete(MyHelper::getImageFromStorage($existingAnnouncement->id, $imgFile->new_filename));
                             // unbind from announcement
                             DB::table('announcement_files')->where('announcement_id', $existingAnnouncement->id)->where('file_id', $fileId)->delete();
 
@@ -144,7 +144,7 @@ class AnnouncementsController extends Controller
                             $imgFile = File::find($image->file_id);
                             if ($imgFile) {
                                 $imgFile->delete();
-                                \Illuminate\Support\Facades\File::delete(MyHelper::getAnnouncementImageFromStorage($id, $imgFile->new_filename));
+                                \Illuminate\Support\Facades\File::delete(MyHelper::getImageFromStorage($id, $imgFile->new_filename));
                             }
                         }catch (\Exception $e) {
                             Log::info($e->getMessage());
@@ -185,7 +185,7 @@ class AnnouncementsController extends Controller
 
                 // handle upload files
                 try {
-                    $finalFn = MyHelper::getAnnouncementImageFromStorage($announcementId, $f->new_filename);
+                    $finalFn = MyHelper::getImageFromStorage($announcementId, $f->new_filename);
                     $image->move($filePath, $finalFn);
                 } catch (\Exception $x) {
                     throw new \RuntimeException($x);
