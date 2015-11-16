@@ -40,7 +40,7 @@
                                         <div class="panel-title text-white">Upcoming Events</div>
                                     </div>
                                     <div class="panel-body">
-                                        <div style="text-align: center; font-size: 60px;" class="ng-binding">{{number_format(0)}}</div>
+                                        <div style="text-align: center; font-size: 60px;" class="ng-binding">{{number_format($noOfEvents)}}</div>
                                     </div>
                                     <div class="panel-footer bg-transparent bd-none panel-heading-bdr-success">
                                     </div>

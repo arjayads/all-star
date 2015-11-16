@@ -34,6 +34,40 @@ Route::group(['prefix' => 'events', 'middleware' => 'auth'], function () {
     Route::get('/image/{eventId}/{imageId}/thumb', 'EventsController@imageThumb');
 });
 
+Route::group(['prefix' => 'events', 'middleware' => 'auth'], function () {
+    Route::get('/', 'Admin\EventsController@index');
+    Route::get('/add', 'Admin\EventsController@add');
+    Route::get('/{id}/edit', 'Admin\EventsController@edit');
+    Route::get('/{id}', 'Admin\EventsController@show');
+    Route::get('/image/{eventId}/{imageId}/thumb', 'Admin\EventsController@imageThumb');
+    Route::get('/image/{eventId}/{imageId}', 'Admin\EventsController@image');
+    Route::post('store', 'Admin\EventsController@store');
+    Route::post('update/{id}', 'Admin\EventsController@update');
+    Route::post('delete/{id}', 'Admin\EventsController@destroy');
+});
+
+Route::group(['prefix' => 'announcements', 'middleware' => 'auth'], function () {
+    Route::get('/', 'Admin\AnnouncementsController@index');
+    Route::get('/add', 'Admin\AnnouncementsController@add');
+    Route::get('/{id}/edit', 'Admin\AnnouncementsController@edit');
+    Route::get('/{id}', 'Admin\AnnouncementsController@show');
+    Route::get('/image/{eventId}/{imageId}/thumb', 'Admin\AnnouncementsController@imageThumb');
+    Route::get('/image/{eventId}/{imageId}', 'Admin\AnnouncementsController@image');
+    Route::post('store', 'Admin\AnnouncementsController@store');
+    Route::post('update/{id}', 'Admin\AnnouncementsController@update');
+    Route::post('delete/{id}', 'Admin\AnnouncementsController@destroy');
+});
+
+Route::group(['prefix' => 'calendar', 'middleware' => 'auth'], function () {
+    Route::get('/', 'Admin\CalendarController@index');
+    Route::get('/data', 'Admin\CalendarController@data');
+    Route::get('/entries', 'Admin\CalendarController@entries');
+    Route::get('/get', 'Admin\CalendarController@get');
+    Route::post('store', 'Admin\CalendarController@store');
+    Route::post('update/{id}', 'Admin\CalendarController@update');
+    Route::post('delete/{id}', 'Admin\CalendarController@destroy');
+});
+
 Route::group(['prefix' => 'admin', 'middleware' => ['auth2:Admin']], function () {
     Route::get('/', 'Admin\HomeController@index');
     Route::get('/changePassword', 'Admin\HomeController@changePasswordPage');
@@ -46,28 +80,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth2:Admin']], function ()
         Route::post('store', 'Admin\VideosController@store');
         Route::post('update/{id}', 'Admin\VideosController@update');
         Route::post('delete/{id}', 'Admin\VideosController@destroy');
-    });
-
-    Route::group(['prefix' => 'events'], function () {
-        Route::get('/', 'Admin\EventsController@index');
-        Route::get('/add', 'Admin\EventsController@add');
-        Route::get('/{id}/edit', 'Admin\EventsController@edit');
-        Route::get('/{id}', 'Admin\EventsController@show');
-        Route::get('/image/{eventId}/{imageId}/thumb', 'Admin\EventsController@imageThumb');
-        Route::get('/image/{eventId}/{imageId}', 'Admin\EventsController@image');
-        Route::post('store', 'Admin\EventsController@store');
-        Route::post('update/{id}', 'Admin\EventsController@update');
-        Route::post('delete/{id}', 'Admin\EventsController@destroy');
-    });
-
-    Route::group(['prefix' => 'calendar'], function () {
-        Route::get('/', 'Admin\CalendarController@index');
-        Route::get('/data', 'Admin\CalendarController@data');
-        Route::get('/entries', 'Admin\CalendarController@entries');
-        Route::get('/get', 'Admin\CalendarController@get');
-        Route::post('store', 'Admin\CalendarController@store');
-        Route::post('update/{id}', 'Admin\CalendarController@update');
-        Route::post('delete/{id}', 'Admin\CalendarController@destroy');
     });
 });
 

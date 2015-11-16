@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Video;
+use App\Models\Event;
 use App\Repositories\UserRepo;
 use App\User;
 use Illuminate\Http\Request;
@@ -22,10 +23,11 @@ class HomeController extends Controller
 
     public function index()
     {
-        $vcnt = Video::count();
-        $mcnt = $this->userRepo->countMembers();
+        $videoCount     = Video::count();
+        $memberCount    = $this->userRepo->countMembers();
+        $eventCount     = Event::count();
 
-        return view('admin.index', ['noOfVideos' => $vcnt, 'noOfMembers' => $mcnt]);
+        return view('admin.index', ['noOfVideos' => $videoCount, 'noOfMembers' => $memberCount, 'noOfEvents' => $eventCount]);
     }
 
     public function changePasswordPage() {

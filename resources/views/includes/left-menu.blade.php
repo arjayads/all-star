@@ -9,12 +9,12 @@
                 <span class="glyphicon glyphicon-camera"></span> Training Videos
             </a>
 
-            <a href="/admin/events" class="list-group-item {{Request::segment(2)=='events'?'active':''}}">
+            <a href="/events" class="list-group-item {{Request::segment(2)=='events'?'active':''}}">
                 <span class="glyphicon glyphicon-film"></span> Events
             </a>
 
 
-            <a href="/admin/calendar" class="list-group-item {{Request::segment(2)=='calendar'?'active':''}}">
+            <a href="/calendar" class="list-group-item {{Request::segment(2)=='calendar'?'active':''}}">
                 <span class="glyphicon glyphicon-calendar"></span> Calendar
             </a>
         @else
@@ -31,7 +31,7 @@
             </a>
         @endif
 
-        <a href="#" class="list-group-item">
+        <a href="/announcements" class="list-group-item">
             <span class="glyphicon glyphicon-blackboard"></span> Announcements
         </a>
         <a href="/profile" class="list-group-item {{Request::segment(1)=='profile'?'active':''}}">
