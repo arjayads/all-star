@@ -6,7 +6,7 @@ use Intervention\Image\Facades\Image;
 class MyHelper {
 
     static function getImageFromStorage($id, $filename) {
-        return env('FILE_UPLOAD_PATH') . '/' . $eventId . '~' . $filename;
+        return env('FILE_UPLOAD_PATH') . '/' . $id . '~' . $filename;
     }
 
     static function getImageAsResponse($id, $imageId , $size = 0)
@@ -15,7 +15,7 @@ class MyHelper {
 
         if ($file) {
             try {
-                $path = self::getImageFromStorage($eventId, $file->new_filename);
+                $path = self::getImageFromStorage($id, $file->new_filename);
                 $img = Image::make($path);
 
                 if ($size > 0) {
