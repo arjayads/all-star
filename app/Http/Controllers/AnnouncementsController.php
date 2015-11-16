@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Log;
 
 class AnnouncementsController extends Controller
 {
-    public function index() {
-        $announcements = Event::where('date', '>=', date("Y-m-d"))->orderBy('date', 'asc')->get();
+     public function index() {
+        $announcements = Announcement::where('date', '>=', date("Y-m-d"))->orderBy('date', 'asc')->get();
         return view('announcements.index', ['announcements' => $announcements]);
     }
 
@@ -33,11 +33,11 @@ class AnnouncementsController extends Controller
 
     public function image($announcementId, $imageId)
     {
-        return MyHelper::getEventAnnouncementImageAsResponse($announcementId, $imageId);
+        return MyHelper::getAnnouncementImageAsResponse($announcementId, $imageId);
     }
 
     public function imageThumb($announcementId, $imageId)
     {
-        return MyHelper::getEventAnnouncementImageAsResponse($announcementId, $imageId, 240);
+        return MyHelper::getAnnouncementImageAsResponse($announcementId, $imageId, 240);
     }
 }

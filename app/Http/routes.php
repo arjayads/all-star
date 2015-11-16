@@ -47,6 +47,13 @@ Route::group(['prefix' => 'events', 'middleware' => 'auth'], function () {
 });
 
 Route::group(['prefix' => 'announcements', 'middleware' => 'auth'], function () {
+    Route::get('/', 'AnnouncementsController@index');
+    Route::get('/{id}/images', 'AnnouncementsController@images');
+    Route::get('/image/{announcementId}/{imageId}', 'AnnouncementsController@image');
+    Route::get('/image/{announcementId}/{imageId}/thumb', 'AnnouncementsController@imageThumb');
+});
+
+Route::group(['prefix' => 'announcements', 'middleware' => 'auth'], function () {
     Route::get('/', 'Admin\AnnouncementsController@index');
     Route::get('/add', 'Admin\AnnouncementsController@add');
     Route::get('/{id}/edit', 'Admin\AnnouncementsController@edit');

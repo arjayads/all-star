@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\MyFileHelper;
 use App\Helpers\MyHelper;
-use App\Models\Event;
+use App\Models\Announcement;
 use App\Models\File;
 use Illuminate\Http\Request;
 
@@ -17,29 +17,27 @@ use Intervention\Image\Facades\Image;
 class AnnouncementsController extends Controller
 {
     public function index() {
-        $Announcements = Event::where('date', '>=', date("Y-m-d"))->orderBy('date', 'asc')->get();
-        return view('Announcements.admin.index', ['Announcements' => $Announcements]);
+        $announcements = Announcement::where('created_at', '>=', date("Y-m-d"))->orderBy('created_at', 'asc')->get();
+        return view('announcements.admin.index', ['announcements' => $announcements]);
     }
 
     function add() {
-        return view('Announcements.admin.add');
+        return view('announcements.admin.add');
     }
 
-    public function store(Requests\CreateEventRequest $request)
+    public function store(Requests\CreateAnnouncementRequest $request)
     {
         $params = $request->except(['_token']);
-        $date = \DateTime::createFromFormat('m/d/Y', $params['date']);
-        $params['date'] = $date->format('Y-m-d');
-
-        $event= Event::create($params);
-        if ($event) {
+        
+        $announcement = Announcement::create($params);
+        if ($announcement) {
             $hasAttachment = $request->hasFile('files');
             if ($hasAttachment) {
                 $images = $request->file('files');
-                $this->handleAttachedImages($images, $event->id);
+                $this->handleAttachedImages($images, $announcement->id);
             }
-            $request->session()->flash("notif", "Event successfully added");
-            return redirect('/admin/Announcements');
+            $request->session()->flash("notif", "Announcement successfully added");
+            return redirect('/announcements');
         }
 
         return  redirect()->back()->withInput($request->all());
@@ -48,52 +46,50 @@ class AnnouncementsController extends Controller
 
     public function show($id)
     {
-        $event = Event::findOrFail($id);
+        $announcement = Announcement::findOrFail($id);
         $images = DB::table('files')
-            ->join('event_files', 'files.id', '=', 'event_files.file_id')
-            ->where('event_files.event_id', $event->id)
+            ->join('announcement_files', 'files.id', '=', 'announcement_files.file_id')
+            ->where('announcement_files.announcement_id', $announcement->id)
             ->get();
 
-        return view('Announcements.admin.detail', ['event' => $event, 'images' => $images]);
+        return view('announcements.admin.detail', ['announcement' => $announcement, 'images' => $images]);
     }
 
-    public function image($eventId, $imageId)
+    public function image($announcementId, $imageId)
     {
-        return MyHelper::getEventImageAsResponse($eventId, $imageId);
+        return MyHelper::getAnnouncementImageAsResponse($announcementId, $imageId);
     }
 
-    public function imageThumb($eventId, $imageId)
+    public function imageThumb($announcementId, $imageId)
     {
-        return MyHelper::getEventImageAsResponse($eventId, $imageId, 240);
+        return MyHelper::getAnnouncementImageAsResponse($announcementId, $imageId, 240);
     }
 
     public function edit(Request $request, $id)
     {
-        $event = Event::find($id);
-        if ($event) {
+        $announcement = Announcement::find($id);
+        if ($announcement) {
             $images = DB::table('files')
-                ->join('event_files', 'files.id', '=', 'event_files.file_id')
-                ->where('event_files.event_id', $event->id)
+                ->join('announcement_files', 'files.id', '=', 'announcement_files.file_id')
+                ->where('announcement_files.announcement_id', $announcement->id)
                 ->select(['files.id', 'original_filename'])
                 ->get();
-            return view('Announcements.admin.edit', ['event' => $event, 'images' => $images]);
+            return view('announcements.admin.edit', ['announcement' => $announcement, 'images' => $images]);
         }
 
-        $request->session()->flash("notif", "The requested event is not available");
+        $request->session()->flash("notif", "The requested announcement is not available");
 
-        return redirect('admin/Announcements');
+        return redirect('/announcements');
     }
 
-    public function update(Requests\CreateEventRequest $request, $id)
+    public function update(Requests\CreateAnnouncementRequest $request, $id)
     {
         $params = $request->except(['_token']);
-        $date = \DateTime::createFromFormat('m/d/Y', $params['date']);
-        $params['date'] = $date->format('Y-m-d');
 
-        $existingEvent = Event::find($id);
+        $existingAnnouncement = Announcement::find($id);
 
-        if ($existingEvent) {
-            $existingEvent->update($params);
+        if ($existingAnnouncement) {
+            $existingAnnouncement->update($params);
 
             // managed removed images
             if (isset($params['rem_files'])) {
@@ -105,9 +101,9 @@ class AnnouncementsController extends Controller
                             // delete from db
                             $imgFile->delete();
                             // delete from local storage
-                            \Illuminate\Support\Facades\File::delete(MyHelper::getEventImageFromStorage($existingEvent->id, $imgFile->new_filename));
-                            // unbind from event
-                            DB::table('event_files')->where('event_id', $existingEvent->id)->where('file_id', $fileId)->delete();
+                            \Illuminate\Support\Facades\File::delete(MyHelper::getAnnouncementImageFromStorage($existingAnnouncement->id, $imgFile->new_filename));
+                            // unbind from announcement
+                            DB::table('announcement_files')->where('announcement_id', $existingAnnouncement->id)->where('file_id', $fileId)->delete();
 
                         }catch (\Exception $e) {
                             Log::info($e->getMessage());
@@ -119,24 +115,24 @@ class AnnouncementsController extends Controller
             $hasAttachment = $request->hasFile('files');
             if ($hasAttachment) {
                 $images = $request->file('files');
-                $this->handleAttachedImages($images, $existingEvent->id);
+                $this->handleAttachedImages($images, $existingAnnouncement->id);
             }
 
-            $request->session()->flash("notif", "Event successfully updated");
+            $request->session()->flash("notif", "Announcement successfully updated");
         } else {
-            $request->session()->flash("notif", "The requested event is not available");
+            $request->session()->flash("notif", "The requested announcement is not available");
         }
-        return redirect('admin/Announcements');
+        return redirect('/announcements');
     }
 
     public function destroy(Request $request, $id)
     {
-        $v = Event::find($id);
+        $v = Announcement::find($id);
         if ($v) {
             // retrieve image detail prior to deletion
             $images = DB::table('files')
-                ->join('event_files', 'files.id', '=', 'event_files.file_id')
-                ->where('event_files.event_id', $id)
+                ->join('announcement_files', 'files.id', '=', 'announcement_files.file_id')
+                ->where('announcement_files.announcement_id', $id)
                 ->get();
 
             $res = $v->delete();
@@ -148,7 +144,7 @@ class AnnouncementsController extends Controller
                             $imgFile = File::find($image->file_id);
                             if ($imgFile) {
                                 $imgFile->delete();
-                                \Illuminate\Support\Facades\File::delete(MyHelper::getEventImageFromStorage($id, $imgFile->new_filename));
+                                \Illuminate\Support\Facades\File::delete(MyHelper::getAnnouncementImageFromStorage($id, $imgFile->new_filename));
                             }
                         }catch (\Exception $e) {
                             Log::info($e->getMessage());
@@ -156,18 +152,18 @@ class AnnouncementsController extends Controller
                     }
                 }
 
-                $request->session()->flash("notif", "Event successfully deleted");
+                $request->session()->flash("notif", "Announcement successfully deleted");
                 return ['error' => false];
             } else {
-                return ['error' => true, 'message' => 'Failed to delete event!'];
+                return ['error' => true, 'message' => 'Failed to delete announcement!'];
             }
         } else {
-            $request->session()->flash("notif", "Event not available!");
+            $request->session()->flash("notif", "announcement not available!");
             return ['error' => true];
         }
     }
 
-    private function handleAttachedImages($images, $eventId) {
+    private function handleAttachedImages($images, $announcementId) {
 
         $filePath = env('FILE_UPLOAD_PATH');
         $limit = 5 * 1024 * 1024; // 5MB
@@ -176,20 +172,20 @@ class AnnouncementsController extends Controller
             if ($image->getClientSize() <= $limit) {
                 $f = new File();
                 $f->original_filename = $image->getClientOriginalName();
-                $f->new_filename = md5($eventId . $image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
+                $f->new_filename = md5($announcementId . $image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
                 $f->mime_type = $image->getClientMimeType();
                 $f->save();
 
-                DB::table('event_files')->insert([
+                DB::table('announcement_files')->insert([
                     [
-                        'event_id' => $eventId,
+                        'announcement_id' => $announcementId,
                         'file_id' => $f->id
                     ]
                 ]);
 
                 // handle upload files
                 try {
-                    $finalFn = MyHelper::getEventImageFromStorage($eventId, $f->new_filename);
+                    $finalFn = MyHelper::getAnnouncementImageFromStorage($announcementId, $f->new_filename);
                     $image->move($filePath, $finalFn);
                 } catch (\Exception $x) {
                     throw new \RuntimeException($x);

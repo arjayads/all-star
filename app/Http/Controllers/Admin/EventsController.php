@@ -39,7 +39,7 @@ class EventsController extends Controller
                 $this->handleAttachedImages($images, $event->id);
             }
             $request->session()->flash("notif", "Event successfully added");
-            return redirect('/admin/events');
+            return redirect('/events');
         }
 
         return  redirect()->back()->withInput($request->all());

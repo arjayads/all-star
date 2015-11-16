@@ -15,11 +15,8 @@ class CreateAnnouncementsTable extends Migration
         Schema::create('announcements', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->increments('id');
-            $table->string('title');
+            $table->increments('id');            
             $table->text('description');
-            $table->string('location');
-            $table->date('date');
 
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

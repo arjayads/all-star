@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class CreateEventRequest extends Request
+class CreateAnnouncementRequest extends Request
 
 {
     /**
@@ -25,10 +25,7 @@ class CreateEventRequest extends Request
     public function rules()
     {
         $rules = [
-            'title' => 'required|min:3|max:255',
-            'description'  => 'required|min:10',
-            'location'  => 'required|min:3',
-            'date'  => 'required',
+            'description'  => 'required|min:10',            
         ];
 
         return $rules;

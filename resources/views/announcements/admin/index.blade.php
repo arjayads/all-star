@@ -17,30 +17,26 @@
                         @endif
 
                         <div class="row" style="padding-left: 20px;">
-                            <a href="/events/add" class="btn btn-primary">Add Event</a>
+                            <a href="/announcements/add" class="btn btn-primary">Add Announcements</a>
                         </div>
                         <div class="margin-bottom-10"></div>
-                        @if(count($events) > 0)
+                        @if(count($announcements) > 0)
                             <table class="table table-bordered table-responsive table-striped">
                                 <thead>
-                                    <th>Title</th>
                                     <th>Date</th>
-                                    <th>Location</th>
                                     <th width="40%">Description</th>
                                 </thead>
                                 <tbody>
-                                    @foreach($events as $event)
+                                    @foreach($announcements as $announcement)
                                     <tr>
-                                        <td><a href="/events/{{$event->id}}">{{$event->title}}</a></td>
-                                        <td>{{(new DateTime($event->date))->format('M d, Y')}}</td>
-                                        <td>{{$event->location}}</td>
-                                        <td>{{$event->description}}</td>
+                                        <td><a href="/announcements/{{$announcement->id}}">{{$announcement->description}}</a></td>
+                                        <td>{{(new DateTime($announcement->date))->format('M d, Y')}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         @else
-                            <div class="alert-info alert">No up coming events</div>
+                            <div class="alert-info alert">No up coming announcements</div>
                         @endif
                     </div>
                 </div>

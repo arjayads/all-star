@@ -24,7 +24,7 @@
                                 </div>
                             @endif
 
-                            <form method="POST" enctype="multipart/form-data" action="/admin/events/store">
+                            <form method="POST" enctype="multipart/form-data" action="/events/store">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                 <div class="form-group">

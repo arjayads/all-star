@@ -13,7 +13,7 @@
                     </div>
                     <div class="col-md-9">
                         <div class="col-md-7">
-                            <h4>Add new event</h4>
+                            <h4>Announcements</h4>
                             @if($errors->any())
                                 <div class="alert-danger alert">
                                     <ul>
@@ -24,30 +24,11 @@
                                 </div>
                             @endif
 
-                            <form method="POST" enctype="multipart/form-data" action="/admin/events/store">
+                            <form method="POST" enctype="multipart/form-data" action="/announcements/store">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                                <div class="form-group">
-                                    <label for="date">Date:</label><br/>
-                                    <input required="" class="datepicker"
-                                           type="text"  placeholder="Enter event date"
-                                           value="{{ Input::old('date') }}"
-                                           class="input-sm form-control" id="date" name="date">
-                                </div>
+                               
                                 <div class="form-group ">
-                                    <label for="title">Event title:</label>
-                                    <input required="" class="form-control"
-                                           value="{{ Input::old('title') }}"
-                                           name="title" type="text" id="title">
-                                </div>
-                                <div class="form-group ">
-                                    <label for="location">Location:</label>
-                                    <input required="" class="form-control"
-                                           value="{{ Input::old('location') }}"
-                                           name="location" type="text" id="location">
-                                </div>
-                                <div class="form-group ">
-                                    <label for="description">Description:</label><br/>
                                     <textarea required="" rows="5" style="width: 100%"
                                               id="description" name="description">{{ Input::old('description') }}</textarea>
                                 </div>

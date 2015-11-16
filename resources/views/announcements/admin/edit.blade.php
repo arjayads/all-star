@@ -13,7 +13,7 @@
                     </div>
                     <div class="col-md-9">
                         <div class="col-md-7">
-                            <h4>Edit: {{$event->title}}</h4>
+                            <h4>Edit: {{$announcement->title}}</h4>
                             @if($errors->any())
                                 <div class="alert-danger alert">
                                     <ul>
@@ -24,32 +24,14 @@
                                 </div>
                             @endif
 
-                            <form id="form" method="POST" enctype="multipart/form-data" action="/admin/events/update/{{$event->id}}">
+                            <form id="form" method="POST" enctype="multipart/form-data" action="/announcements/update/{{$announcement->id}}">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                                <div class="form-group">
-                                    <label for="date">Date:</label><br/>
-                                    <input required="" class="datepicker"
-                                           type="text"  placeholder="Enter event date"
-                                           value="{{ Input::old('date')}}"
-                                           class="input-sm form-control" id="date" name="date">
-                                </div>
-                                <div class="form-group ">
-                                    <label for="title">Event title:</label>
-                                    <input required="" class="form-control"
-                                           value="{{ Input::old('title')  ?: $event->title }}"
-                                           name="title" type="text" id="title">
-                                </div>
-                                <div class="form-group ">
-                                    <label for="location">Location:</label>
-                                    <input required="" class="form-control"
-                                           value="{{ Input::old('location') ?: $event->location }}"
-                                           name="location" type="text" id="location">
-                                </div>
+                               
                                 <div class="form-group ">
                                     <label for="description">Description:</label><br/>
                                     <textarea required="" rows="5" style="width: 100%"
-                                              id="description" name="description">{{ Input::old('description') ?: $event->description }}</textarea>
+                                              id="description" name="description">{{ Input::old('description') ?: $announcement->description }}</textarea>
                                 </div>
 
                                 @if(count($images))
@@ -58,10 +40,10 @@
                                         <ul style="padding-top: 6px; white-space: nowrap;" class="list-unstyled">
                                             @foreach($images as $image)
                                                 <div class="col-md-4" style="padding-left: 0; margin-top: 10px;">
-                                                    <a href="/admin/events/image/{{$event->id}}/{{$image->id}}">
+                                                    <a href="/admin/events/image/{{$announcement->id}}/{{$image->id}}">
                                                         <div title="{{$image->original_filename}}"
                                                              class="jumbotron embed-responsive embed-responsive-4by3"
-                                                             style="margin-bottom: 5px !important; background-size: cover; background-image: url('/admin/events/image/{{$event->id}}/{{$image->id}}/thumb')">
+                                                             style="margin-bottom: 5px !important; background-size: cover; background-image: url('/admin/events/image/{{$announcement->id}}/{{$image->id}}/thumb')">
                                                         </div>
                                                     </a>
                                                     <div class="remove-image" data-imageid="{{$image->id}}" ><label><a href="">Remove</a></label></div>
@@ -96,7 +78,7 @@
     <script>
         $(function() {
 
-            var oldDate = "{{ Input::old('date') ?: $event->date }}";
+            var oldDate = "{{ Input::old('date') ?: $announcement->date }}";
             var imagesRemoved = [];
             var images = '<?php echo json_encode($images) ?>';
             images = $.parseJSON(images);
