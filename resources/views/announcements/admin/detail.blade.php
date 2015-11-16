@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col-md-4 text-right">
                                     <a href="/announcements/{{$announcement->id}}/edit" style="cursor: pointer">Edit</a> |
-                                    <a style="cursor: pointer" class="delete" data-id="{!! $announcement->id !!}">Delete</a>
+                                    <a style="cursor: pointer" class="delete" data-title="{!! $announcement->description !!}" data-id="{!! $announcement->id !!}">Delete</a>
                                 </div>
                             </div>
                         </div>
