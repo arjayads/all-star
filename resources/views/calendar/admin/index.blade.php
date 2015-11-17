@@ -133,6 +133,7 @@
                       $.each(data.entries, function(val, row){
                             el += '<div class="form-group "><label>Date : '+row.date+ ' </label></div>';
                             el += '<div class="form-group "><label>Title :'+row.title+'</label></div>';
+                            el += '<div class="form-group "><label>Creator :'+row.name+'</label></div>';
                             el += '<div class="form-group "><label>'+row.description+'</label></div>';
                             if(row.user_id == $("#user_id").val()){
                               el += '<div class="form-group "><label><a href="#" class="delete" data-id="'+row.id+'">Delete</a></label></div>';
@@ -141,6 +142,7 @@
                                 
 
                         });
+                      el += '<div class="form-group "><label><a href="" class="add-schedule">Add Schedule</a></label></div>';
                       el += '</div>';
                       $("#view-entries").html(el);
                       $("#view-cal-modal").modal("show");                      
@@ -148,7 +150,12 @@
                 });
             }
 
-           
+            $( "#view-entries" ).delegate( ".add-schedule", "click", function(e) {
+              e.preventDefault();
+              $("#view-cal-modal").modal("hide");  
+              $("#cal-modal").modal("show");
+            });
+
             $( "#view-entries" ).delegate( ".delete", "click", function(e) {
                 e.preventDefault();
 

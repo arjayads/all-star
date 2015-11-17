@@ -37,7 +37,10 @@ class CalendarController extends Controller
 
         $request->session()->put('date', $date);
 
-        $entries = Calendar::where('date', $date)->get()->toArray();
+        $entries = Calendar::join('users', 'users.id', '=', 'calendars.user_id')            
+                            ->where('date', $date)
+                            ->select('calendars.*', 'users.name')
+                            ->get()->toArray();
         if(count($entries) > 0){
             return array('status' => 1, 'entries' => $entries);
         }
