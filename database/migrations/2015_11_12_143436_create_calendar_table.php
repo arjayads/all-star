@@ -17,6 +17,7 @@ class CreateCalendarTable extends Migration
             $table->engine = 'InnoDB';
 
             $table->increments('id');
+            $table->integer('user_id');
             $table->string('title');
             $table->text('description');
             $table->date('date')->index();

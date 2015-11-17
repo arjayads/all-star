@@ -41,17 +41,18 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="cal-modal-title"></h4>
               </div>
-              <form id="form" method="POST" action="/admin/calendar/store">
+              <form id="form" method="POST" action="/calendar/store">
                 <div class="modal-body">
                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                    <input type="hidden" id="calId" name="calId" value="">
                    <input type="hidden" id="date" name="date" value="">
+                   <input type="hidden" id="user_id" name="user_id" value="{{ Auth::user()->id }}">
+                   
 
                    <div class="form-group ">
                        <label for="title">Title:</label>
-                       <input required="" class="form-control"
-                              value=""
-                              name="title" type="text" id="title">
+                       <input required="" class="form-control" value="" name="title" type="text" id="title">
+                       <input required="" class="form-control" value="" name="date" type="hidden" id="date">
                    </div>
 
                    <div class="form-group ">
@@ -64,6 +65,28 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <input class="btn btn-primary" type="submit" value="Save">
                   </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div id="view-cal-modal" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="cal-modal-title"></h4>
+              </div>
+              <form id="form" method="POST" action="/calendar/store">
+                <div class="modal-body" id="view-entries">
+                   
+                   
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>                    
+                </div>
               </form>
             </div>
           </div>
@@ -99,31 +122,52 @@
 
             function dateClicked(id) {
                 var d = $("#" + id).data("date");
+                $("#date").val(d);
                 $.get("/calendar/entries?date="+d, function(data) {
-                    $('#entries').html(data);
+                    if(data.status == 0)
+                    {                        
+                      $("#cal-modal").modal("show");
+                    }else{
+                      
+                      var el = '<div>';
+                      $.each(data.entries, function(val, row){
+                            el += '<div class="form-group "><label>Date : '+row.date+ ' </label></div>';
+                            el += '<div class="form-group "><label>Title :'+row.title+'</label></div>';
+                            el += '<div class="form-group "><label>'+row.description+'</label></div>';
+                            if(row.user_id == $("#user_id").val()){
+                              el += '<div class="form-group "><label><a href="#" class="delete" data-id="'+row.id+'">Delete</a></label></div>';
+                            }
+                            el += '<div class="form-group "><hr /></div>';
+                                
+
+                        });
+                      el += '</div>';
+                      $("#view-entries").html(el);
+                      $("#view-cal-modal").modal("show");                      
+                    }
                 });
-                return true;
-
-                /*
-                $("#cal-modal").modal("show");
-
-                return true;
-
-                var d = $("#" + id).data("date");
-                var date = new Date(d);
-
-                $('#cal-modal-title').text($.datepicker.formatDate("MM d, yy", date));
-                $('#date').val(d);
-
-                $.get("/admin/calendar/entries?date="+d, function(data) {
-                    $('#entries').html(data);
-                });
-                return true;
-
-                $("#cal-modal").modal("show");
-
-                return true;*/
             }
+
+           
+            $( "#view-entries" ).delegate( ".delete", "click", function(e) {
+                e.preventDefault();
+
+                var $data =  $(this).data();
+
+                var res = confirm("You are about to delete schedule: " + '. Do you want to continue?');
+                if (res) {
+
+                    $.post("/calendar/delete/" + $data.id, { '_token': '{{csrf_token()}}' }, function(data){
+                        if (data.error) {
+                            alert(data.message);
+                        } else {
+                            window.location = '/calendar';
+                        }
+                    }).fail(function() {
+                        alert( "Something went wrong!" );
+                    });
+                }
+            });
 
             $( "#form" ).submit(function( e ) {
                 e.preventDefault();

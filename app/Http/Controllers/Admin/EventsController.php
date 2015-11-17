@@ -7,7 +7,8 @@ use App\Helpers\MyHelper;
 use App\Models\Event;
 use App\Models\File;
 use Illuminate\Http\Request;
-
+use App\User;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +31,7 @@ class EventsController extends Controller
         $params = $request->except(['_token']);
         $date = \DateTime::createFromFormat('m/d/Y', $params['date']);
         $params['date'] = $date->format('Y-m-d');
+        $params['user_id'] = Auth::user()->id;
 
         $event= Event::create($params);
         if ($event) {
@@ -139,7 +141,9 @@ class EventsController extends Controller
                 ->where('event_files.event_id', $id)
                 ->get();
 
-            $res = $v->delete();
+            $res = Event::where("id", $id)
+                ->where('user_id', Auth::user()->id)
+                ->delete();
             if ($res) {
                 // delete also the images from db and local storage
                 if (count($images) > 0) {

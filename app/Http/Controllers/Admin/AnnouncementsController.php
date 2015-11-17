@@ -7,6 +7,8 @@ use App\Helpers\MyHelper;
 use App\Models\Announcement;
 use App\Models\File;
 use Illuminate\Http\Request;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -28,7 +30,7 @@ class AnnouncementsController extends Controller
     public function store(Requests\CreateAnnouncementRequest $request)
     {
         $params = $request->except(['_token']);
-        
+        $params['user_id'] = Auth::user()->id;
         $announcement = Announcement::create($params);
         if ($announcement) {
             $hasAttachment = $request->hasFile('files');
@@ -135,7 +137,9 @@ class AnnouncementsController extends Controller
                 ->where('announcement_files.announcement_id', $id)
                 ->get();
 
-            $res = $v->delete();
+            $res = Announcement::where("id", $id)
+                ->where('user_id', Auth::user()->id)
+                ->delete();
             if ($res) {
                 // delete also the images from db and local storage
                 if (count($images) > 0) {

@@ -66,14 +66,15 @@
                                 </div>
                             </div>
                             <hr/>
+                            @if(Auth::id() == $event->user_id)
                             <div class="row">
-                                <div class="col-md-8">
-                                </div>
+                                <div class="col-md-8"></div>
                                 <div class="col-md-4 text-right">
                                     <a href="/events/{{$event->id}}/edit" style="cursor: pointer">Edit</a> |
                                     <a style="cursor: pointer" class="delete" data-title="{!! $event->title !!}" data-id="{!! $event->id !!}">Delete</a>
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>

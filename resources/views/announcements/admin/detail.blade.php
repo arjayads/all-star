@@ -57,14 +57,15 @@
                                 </div>
                             </div>
                             <hr/>
+                            @if(Auth::id() == $announcement->user_id)
                             <div class="row">
-                                <div class="col-md-8">
-                                </div>
+                                <div class="col-md-8"></div>
                                 <div class="col-md-4 text-right">
                                     <a href="/announcements/{{$announcement->id}}/edit" style="cursor: pointer">Edit</a> |
                                     <a style="cursor: pointer" class="delete" data-title="{!! $announcement->description !!}" data-id="{!! $announcement->id !!}">Delete</a>
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -83,7 +84,7 @@
 
                 var $data =  $(this).data();
 
-                var res = confirm("You are about to delete event: " + $data.title + '. Do you want to continue?');
+                var res = confirm("You are about to delete announcement: " + $data.title + '. Do you want to continue?');
                 if (res) {
 
                     $.post("/announcements/delete/" + $data.id, { '_token': '{{csrf_token()}}' }, function(data){
